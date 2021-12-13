@@ -26,13 +26,13 @@ import _ from 'lodash'
 // import { namespace } from 'store/dist/store.legacy'
 import deepEqual from "../utils/deepEqual"
 
-const subject = new Subject()
+// const subject = new Subject()
 
-export const pubsub = {
-    publish: (name, message) => subject.next(name, message),
-    clearMessages: () => subject.next(),
-    getMessage: () => subject.asObservable(),
-}
+// export const pubsub = {
+//     publish: (name, message) => subject.next(name, message),
+//     clearMessages: () => subject.next(),
+//     getMessage: () => subject.asObservable(),
+// }
 
 const useStateWithPromise = (initialState) => {
     const [state, setState] = useState(initialState)
@@ -98,13 +98,13 @@ export const ControlledComponentsV2 = (props) => {
         // subscription(props)
     }
 
-    const subscription = pubsub.getMessage().subscribe((data) => {
-        // console.log(`${props.name}, ControlledTextInput, message was published with this data: "${data}"`);
+    // const subscription = pubsub.getMessage().subscribe((data) => {
+    //     // console.log(`${props.name}, ControlledTextInput, message was published with this data: "${data}"`);
 
-        if (props.name === 'textbox-0') {
-            setFields(data)
-        }
-    })
+    //     if (props.name === 'textbox-0') {
+    //         setFields(data)
+    //     }
+    // })
 
     return props.render({ onChange, value: field.value, field, error, index: props.index })
 }
