@@ -7,9 +7,7 @@ import {
     useFieldArray
 } from "../useFieldArray"
 import {
-    FormProvider
-} from "../FormProvider"
-import {
+    FormProvider,
     useFormContext
 } from "../useFormContext"
 import {
