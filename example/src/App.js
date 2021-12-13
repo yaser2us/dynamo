@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { ExampleComponent } from 'dynamo'
+import { DynoBuilder } from 'dynamo'
 import 'dynamo/dist/index.css'
 
 const App = () => {
-  return <ExampleComponent text=" 😄😄😄😄😄😄😄" />
+  return <DynoBuilder text=" 😄😄😄😄😄😄😄" />
 }
 
 export default App

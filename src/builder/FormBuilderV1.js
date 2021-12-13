@@ -974,22 +974,20 @@ const FormBuilderV1 = React.forwardRef(({ items,
 
     console.log('renderCount', renderCount++)
     return (
-        <>
-            {(data &&
-                renderForm(
-                    data,
-                    updateReference,
-                    myComponents,
-                    getValues,
-                    { ...errors },
-                    ControlledComponents,
-                    newComponents,
-                    manageCallback,
-                    undefined,
-                    sharedItems,
-                    setValue
-                ))}
-        </>
+        (data &&
+            renderForm(
+                data,
+                updateReference,
+                myComponents,
+                getValues,
+                { ...errors },
+                ControlledComponents,
+                newComponents,
+                manageCallback,
+                undefined,
+                sharedItems,
+                setValue
+            ))
         ||
         null
     )
