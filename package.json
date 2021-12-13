@@ -25,7 +25,8 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": "^16.8.6 || ^17.0.0",
+    "react-native": ">=0.60.0"
   },
   "devDependencies": {
     "microbundle-crl": "^0.13.10",
