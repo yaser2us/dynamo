@@ -20,7 +20,14 @@ import 'dynamo/dist/index.css'
 
 class Example extends Component {
   render() {
-    return <DynoBuilder />
+    return  <DynoBuilder
+                ref={myFormInfo}
+                items={items}
+                components={myComponents}
+                newComponents={componentRender}
+                validationResolver={validationResolver}
+                manageCallback={manageCallback}
+            />
   }
 }
 ```
