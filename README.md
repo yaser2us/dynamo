@@ -20,6 +20,14 @@ To experience smoother frontend development, *dynamo* was created to build flexi
 
 *dynamo*, less-code development with high flexibility
 
+## Features
+- [x] Dynamic UI  :tada:
+- [x] Business Logic & UI changes on fly  :tada:
+- [x] Smooth Backend Integration :tada:
+- [x] Absolutely one clean codebase :tada:
+- [x] Multiple platforms (Web/Mobile) :tada:
+- [x] more coming
+
 
 ## Install
 First step is to install *dynamo* into your project. 
