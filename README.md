@@ -1,6 +1,6 @@
 # dynamo
 
-> the joy of development ;)
+> the joy of development :star_struck:	
 
 having smooth frontend development, dynamo was created to build flexible dynamic 
 
@@ -13,7 +13,7 @@ As long as this library still is **private**, you need to run full path installa
 ```bash
 npm install --save https://github.com/yaser2us/dynamo
 ```
-soon it will be accessable from Maybank Github repository ;)
+soon it will be accessable from Maybank Github repository :wink:	
 
 ## Data Structure 
 dynamo is all about data structure. 
@@ -79,12 +79,17 @@ Once the data structure ready (the array of elements we discuss above), we need 
   };
 ```
 
-**Note:** extra props will be added to your component runtime by dynamo. 
+**Note:** extra props will be added to your component runtime by dynamo.
+
 **Suggestion** we suggest to bind component without any container. later we have section to inject container for all components and types.
+
 *More details can be found at How to make existing component ready for dynamo.*
 
+
 ## Rendering Callback
-dynamo gives us freedom to manage element rendering. For example, like below, we can introduce function to customize rendering. From legacy version of dynamo, we had to pass dictionary, however we can pass rendering function to have more customization such as injecting **Container**.
+dynamo gives us freedom to manage element rendering. For example, like below, we can introduce function to customize rendering. 
+
+From legacy version of dynamo, we had to pass dictionary, however we can pass rendering function to have more customization such as injecting **Container**.
 
 ```jsx
 const renderComponent = (type, propsItems) => {
@@ -110,7 +115,32 @@ const renderContainer = children =>
     </div>
 ```
 
-***wollaa
+***wow! we are almost there*** :wink:	
+
+## Managed Callbacks
+dynamo gives us oppurtunities to call any callback functions from inside the element such as button. Other form generators, they generate elements only and submit button is needed to be implemented seperatly.
+
+In dynamo, also you can apply same approach, however, button can be part of element array. Threfore we need to pass callback function such as below example.
+
+```jsx
+ const managedCallback = async () => {
+    //Get dynamo (form) values
+    const formData = await myForm.current.getValues();
+
+    //false means error is there
+    //otherwise the data object returns
+    if (!formData) return null;
+
+    //just sample store data in component
+    setData(formData);
+
+    console.log('this is result from dynamo ;)', formData);
+    return true;
+  };
+```
+
+## Done
+we are done. now just run the project. We suggest to try below example to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
 
 ## Simple scenario Example 
 50% of requirements can be implemented by this example.
