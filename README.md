@@ -13,7 +13,8 @@ As long as this library still is **private**, you need to run full path installa
 ```bash
 npm install --save https://github.com/yaser2us/dynamo
 ```
-soon it will be accessable from Maybank Github repository :wink:	
+
+**Note**: Soon it will be accessable from Maybank Github repository :wink:	
 
 ## Data Structure 
 dynamo is all about data structure. 
@@ -66,7 +67,9 @@ We have freedom to design our data object to render as form or page. It is an ar
 ```
 
 ## Components & Types
-Once the data structure ready (the array of elements we discuss above), we need to bind our existing components into a dictionary of types. dynamo uses dictionary to find and use each component for rendering.
+Once the data structure ready (the array of elements we discuss above), we need to bind our existing components into a dictionary of types. 
+
+*dynamo* uses dictionary to find and use each component for rendering.
 
 ```jsx
  const componentsDictionary = {
@@ -106,7 +109,7 @@ const renderComponent = (type, propsItems) => {
 };
 ```
 
-here, we create extra function to render container, just to have cleaner code ;)
+Here, we create extra function to render container, just to have cleaner code ;)
 
 ```jsx
 const renderContainer = children =>
@@ -118,7 +121,9 @@ const renderContainer = children =>
 ***wow! we are almost there*** :wink:	
 
 ## Managed Callbacks
-*dynamo* can call any callback functions from inside the element for better code structure, clean code and best practice. Other form generators, they generate elements only and submit button is needed to be implemented seperatly.
+*dynamo* can call any callback functions from inside the element for better code structure, clean code and best practice. 
+
+Other form generators, they generate elements only, submit button is needed to be implemented seperatly as static code.
 
 In *dynamo*, also you can apply same approach, however, button can be part of element array. Threfore we need to pass callback function such as below example.
 
@@ -140,7 +145,7 @@ In *dynamo*, also you can apply same approach, however, button can be part of el
 ```
 
 ## Done
-we are done. now just run the project. We suggest to try below example to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
+We are done. now just run the project. We suggest to try below example to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
 
 ## APIs
 
