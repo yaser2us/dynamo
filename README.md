@@ -2,9 +2,14 @@
 
 > the joy of development :star_struck:	
 
-having smooth frontend development, *dynamo* was created to build flexible dynamic 
+To experience smoother frontend development, *dynamo* was created to build flexible dynamic 
 
 [![NPM](https://img.shields.io/npm/v/dynamo.svg)](https://www.npmjs.com/package/dynamo) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+## Goal
+
+*dynamo*, less-code development with high flexibility
+
 
 ## Install
 First step is to install *dynamo* into your project. 
@@ -121,11 +126,11 @@ const renderContainer = children =>
 ***wow! we are almost there*** :wink:	
 
 ## Managed Callbacks
-*dynamo* can call any callback functions from inside the element for better code structure, clean code and best practice. 
+*dynamo* can call any callback functions inside the element for seperating logic from presentation container, clean code and best practice. 
 
 Other form generators, they generate elements only, submit button is needed to be implemented seperatly as static code.
 
-In *dynamo*, also you can apply same approach, however, button can be part of element array. Threfore we need to pass callback function such as below example.
+In *dynamo*, also you can apply same approach, however, button can be part of element array. Therefore we need to pass callback function such as below example.
 
 ```jsx
  const managedCallback = async () => {
@@ -318,6 +323,10 @@ function App() {
 
 export default App;
 ```
+
+## Contributors
+
+Thanks goes to all wonderful people, M2U, SME and enginerring team.
 
 ## License
 
