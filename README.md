@@ -22,7 +22,7 @@ npm install --save https://github.com/yaser2us/dynamo
 **Note**: Soon it will be accessable from Maybank Github repository :wink:	
 
 ## Data Structure 
-dynamo is all about data structure. 
+*dynamo* is all about data structure. 
 
 The data structure generates any kind of data entry form (Payment/Transfer/Login) or display form such as listing (Transaction History/Accounts page).
 We have freedom to design our data object to render as form or page. It is an array of elements. Each element represents a component in screen by **type**. 
