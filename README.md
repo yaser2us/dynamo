@@ -145,11 +145,11 @@ we are done. now just run the project. We suggest to try below example to kickst
 ## APIs
 
 || type | Required | Description | Documentation Status |
-| ------------- | ------------- |-----------| ------------- | ------------- |------------- |
+| ------------- | ------------- |-----------| ------------- | ------------- |
 |ref|refrence|✓|bind reference to dynamo to call internal commands such as get values|✓|
 |items|array|✓	|array of object|✓	|
-|components|function|✓	|rendering element finction|✓	|
-|managedCallback|async function|✓	|access to private function from inside common component||
+|components|Function|✓	|rendering element finction|✓	|
+|managedCallback|Async Function|✓	|access to private function from inside common component||
 
 
 ## Quickstart 
