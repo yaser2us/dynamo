@@ -16,7 +16,9 @@ npm install --save https://github.com/yaser2us/dynamo
 soon it will be accessable from Maybank Github repository ;)
 
 ## Data Structure 
-dynamo is all about data structure. The data structure generates any kind of data entry form (Payment/Transfer/Login) or display form such as listing (Transaction History/Accounts page).
+dynamo is all about data structure. 
+
+The data structure generates any kind of data entry form (Payment/Transfer/Login) or display form such as listing (Transaction History/Accounts page).
 We have freedom to design our data object to render as form or page. It is an array of elements. Each element represents a component in screen by **type**. 
 
 *Example:* text as textbox, checkbox, button or custom name such as note, confirmationButtons or charts.
@@ -63,10 +65,25 @@ We have freedom to design our data object to render as form or page. It is an ar
 ...
 ```
 
+## Components & Types
+Once the data structure ready (the array of elements we discuss above), we need to bind our existing components into a dictionary of types. dynamo uses dictionary to find and use each component for rendering.
+
+```jsx
+ const newComponents = {
+    text: (props) => <Text {...props} />,
+    checkbox: (props => <Checkbox {...props} />),
+    switch: (props => <Switch {...props} />),
+    select: (props => <Dropdown {...props} />),
+    date: (props => <DatePick {...props} />),
+    button: (props) => <Button {...props} />
+  };
+```
+
+**Note:** extra props will be added to your component runtime. More details can be found at How to make existing component ready for dynamo.
 
 
 
-## Usage
+## Simple scenario Example (50% of requirements can be implemented by this example) 
 
 ```jsx
 import React, { useRef, useState } from 'react'
