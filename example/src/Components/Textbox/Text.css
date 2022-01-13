@@ -1,0 +1,19 @@
+.text:focus ,.text  {
+    border-radius: 15px;
+    border: 1px solid #c7c7c7;
+    height: 2.3rem;
+    /* width: 16.8rem; */
+    outline: none;
+    padding-left: 1rem;
+    color: #0e1b42;
+    font-size: 16px;
+    font-family: "rubik",sans-serif;
+    font-weight:400;
+    letter-spacing: 0.11px;
+  }
+
+  .description {
+    padding-left: 1rem;
+    padding-top: 0.3rem;
+    color: #878787
+  }

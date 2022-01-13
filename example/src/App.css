@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.field{
+    /* height: 504px; */
+    background: rgb(255, 255, 255);
+    box-shadow: 0px 5px 10px 0px rgba(112, 136, 210, 0.1);
+    border-radius: 20px;
+    border: none;
+    width: 25vw;
+    margin: auto;
+    }

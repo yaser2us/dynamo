@@ -1,0 +1,24 @@
+
+.button {
+  background-color: rgb(255, 221, 0);
+  border: solid 1px rgb(255, 221, 0);
+  border-radius: 8px;
+  height: 38px;
+  width: 112px;
+  font-family: "Rubik", sans-serif;
+  color: rgb(14, 27, 66);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: rgb(255, 221, 0);
+  border: solid 1px rgb(255, 221, 0);
+  opacity: 0.5;
+  cursor: pointer;
+}

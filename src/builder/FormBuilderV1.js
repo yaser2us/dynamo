@@ -25,6 +25,7 @@ import _ from 'lodash'
 // import { JsonEditor } from 'jsoneditor-react/es'
 // import { namespace } from 'store/dist/store.legacy'
 import deepEqual from "../utils/deepEqual"
+import { defaultValidationResolver } from "../utils/defaultValidationResolver"
 
 // const subject = new Subject()
 
@@ -152,8 +153,8 @@ const renderForm = (
     getValue,
     errors,
     ControlledComponents,
-    newComponents,
-    manageCallback,
+    components,
+    managedCallback,
     parentName,
     sharedItems,
     setValue
@@ -193,8 +194,8 @@ const renderForm = (
                     getValue,
                     errors,
                     ControlledComponents,
-                    newComponents,
-                    manageCallback,
+                    components,
+                    managedCallback,
                     item?.items && name || undefined,
                     sharedItems,
                     setValue
@@ -284,12 +285,12 @@ const renderForm = (
                                                         name={`${name}.${index}.${element.name}`}
                                                         control={control}
                                                         render={({ field }) => {
-                                                            const Component = newComponents(element.type, {
+                                                            const Component = components(element.type, {
                                                                 field,
                                                                 item: element,
                                                                 name: `${name}.${index}.${element.name}`,
                                                                 indx,
-                                                                manageCallback,
+                                                                managedCallback,
                                                                 child,
                                                                 useFieldArray
                                                             })
@@ -320,12 +321,12 @@ const renderForm = (
 
                         }
 
-                        const Component = newComponents(item.type, {
+                        const Component = components(item.type, {
                             field,
                             item,
                             name,
                             index,
-                            manageCallback,
+                            managedCallback,
                             child,
                             useFieldArray,
                             error: errors,
@@ -357,8 +358,8 @@ const RenderForm = (
     getValue,
     errors,
     ControlledComponents,
-    newComponents,
-    manageCallback,
+    components,
+    managedCallback,
     parentName,
     control,
     setValue
@@ -384,8 +385,8 @@ const RenderForm = (
                     getValue,
                     errors,
                     ControlledComponents,
-                    newComponents,
-                    manageCallback,
+                    components,
+                    managedCallback,
                     item?.items && name || undefined,
                     control,
                     setValue
@@ -483,12 +484,12 @@ const RenderForm = (
                         //     </>
                         // )
 
-                        const Component = newComponents(item.type, {
+                        const Component = components(item.type, {
                             field,
                             item,
                             name,
                             index,
-                            manageCallback
+                            managedCallback
                         })
                         // console.log(Component, 'ControlledComponentsV2 renderrrrrrrrrr <3>', field.name)
                         return Component
@@ -496,7 +497,7 @@ const RenderForm = (
 
                 />
                 // <ControlledComponents
-                //     manageCallback={manageCallback}
+                //     managedCallback={managedCallback}
                 //     updateReference={updateReference}
                 //     // key={item.name}
                 //     name={name}
@@ -505,8 +506,8 @@ const RenderForm = (
                 //     formName={'formName'}
                 //     index={index}
                 //     child={child}
-                //     render={({ onUpdate, value, fields, field, error, index, child, manageCallback }) => {
-                //         const Component = newComponents(item.type, {
+                //     render={({ onUpdate, value, fields, field, error, index, child, managedCallback }) => {
+                //         const Component = components(item.type, {
                 //             onUpdate,
                 //             value,
                 //             fields,
@@ -516,7 +517,7 @@ const RenderForm = (
                 //             errors,
                 //             item,
                 //             index,
-                //             manageCallback
+                //             managedCallback
                 //         })
                 //         console.log(Component, 'ControlledComponentsV2 renderrrrrrrrrr <3>', error, field.name)
                 //         // return Component
@@ -732,10 +733,10 @@ const convertArrayToObjectPOC = (array, key, value, isParent, original) => {
 
 let renderCount = 0
 const FormBuilderV1 = React.forwardRef(({ items,
-    validationResolver,
+    validationResolver = defaultValidationResolver,
     ControlledComponents,
-    newComponents,
-    manageCallback,
+    components,
+    managedCallback,
     defaultValues = {} }, ref) => {
 
     console.log(defaultValues, "defaultValues")
@@ -982,8 +983,8 @@ const FormBuilderV1 = React.forwardRef(({ items,
                 getValues,
                 { ...errors },
                 ControlledComponents,
-                newComponents,
-                manageCallback,
+                components,
+                managedCallback,
                 undefined,
                 sharedItems,
                 setValue

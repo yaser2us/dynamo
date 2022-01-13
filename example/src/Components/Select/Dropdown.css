@@ -1,0 +1,44 @@
+.form-select {
+  margin-top: 1rem;
+  border-radius: 15px;
+  width: 290px;
+  height: 38px;
+  padding-left: 1rem;
+  outline: none;
+  color: #0e1b42;
+  font-family: "Rubik", sans-serif;
+  font-weight: normal;
+  letter-spacing: 0.11px;
+  font-size: 16px;
+}
+
+.form-select:focus {
+  border: 1px solid rgb(1, 204, 206);
+}
+
+.form-select:focus > option {
+  color: #0e1b42;
+  font-family: "Rubik", sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: 0.09px;
+  line-height: 31px;
+  box-shadow: 0px 5px 15px 0px rgba(68, 68, 79, 0.1);
+  border-radius: 10px;
+  outline: none;
+}
+
+.form-select .option:hover {
+  color: #01ccce;
+  background-color: transparent;
+}
+
+.form-select:focus > option:checked { 
+    color: #01ccce;
+    font-weight: 500;
+    background-color: transparent;
+}
+.form-select:focus > option:hover { 
+    color: #01ccce;
+    background-color: red;
+}

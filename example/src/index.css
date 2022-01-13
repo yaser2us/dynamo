@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+
+html{
+    background-color: #f1f1f5;
+}
+
 body {
   margin: 0;
   padding: 0;

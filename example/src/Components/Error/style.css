@@ -1,0 +1,11 @@
+.description {
+    padding-left: 1rem;
+    padding-top: 0.3rem;
+    color: #878787
+  }
+
+.error {
+    padding-left: 1rem;
+    padding-top: 0.3rem;
+    color: #ff5555
+  }
