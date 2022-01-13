@@ -15,12 +15,19 @@ npm install --save dynamo
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'dynamo'
+import DynoBuilder from 'dynamo'
 import 'dynamo/dist/index.css'
 
 class Example extends Component {
   render() {
-    return <MyComponent />
+    return  <DynoBuilder
+                ref={myFormInfo}
+                items={items}
+                components={myComponents}
+                newComponents={componentRender}
+                validationResolver={validationResolver}
+                manageCallback={manageCallback}
+            />
   }
 }
 ```
