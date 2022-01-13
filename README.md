@@ -2,13 +2,23 @@
 
 > the joy of development ;)
 
+having smooth frontend development, dynamo was created to build flexible dynamic 
+
 [![NPM](https://img.shields.io/npm/v/dynamo.svg)](https://www.npmjs.com/package/dynamo) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
+First step is to install dynamo into your project. 
+As long as this library still is **private**, you need to run full path installation such as below:
 
 ```bash
-npm install --save dynamo
+npm install --save https://github.com/yaser2us/dynamo
 ```
+soon it will be accessable from Maybank Github repository ;)
+
+## Data Structure 
+dynamo is all about data structure. We have freedom to design our data object to render as form or page. It is an array of elements. Each element represents a component in screen by **type**. 
+
+Example: text as textbox, checkbox or button.
 
 ## Usage
 
