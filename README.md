@@ -69,7 +69,7 @@ We have freedom to design our data object to render as form or page. It is an ar
 Once the data structure ready (the array of elements we discuss above), we need to bind our existing components into a dictionary of types. dynamo uses dictionary to find and use each component for rendering.
 
 ```jsx
- const newComponents = {
+ const componentsDictionary = {
     text: (props) => <Text {...props} />,
     checkbox: (props => <Checkbox {...props} />),
     switch: (props => <Switch {...props} />),
@@ -79,11 +79,41 @@ Once the data structure ready (the array of elements we discuss above), we need 
   };
 ```
 
-**Note:** extra props will be added to your component runtime. More details can be found at How to make existing component ready for dynamo.
+**Note:** extra props will be added to your component runtime by dynamo. 
+**Suggestion** we suggest to bind component without any container. later we have section to inject container for all components and types.
+*More details can be found at How to make existing component ready for dynamo.*
 
+## Rendering Callback
+dynamo gives us freedom to manage element rendering. For example, like below, we can introduce function to customize rendering. From legacy version of dynamo, we had to pass dictionary, however we can pass rendering function to have more customization such as injecting **Container**.
 
+```jsx
+const renderComponent = (type, propsItems) => {
 
-## Simple scenario Example (50% of requirements can be implemented by this example) 
+    // find the respective type from dictionary
+    const selectedComponent = componentsDictionary && componentsDictionary[type];
+    
+    // to ensure it is not undefined
+    // prevent rendering error
+    if (selectedComponent === undefined) return null;
+    
+    // return component with container together
+    return renderContainer(selectedComponent({ ...propsItems }))
+};
+```
+
+here, we create extra function to render container, just to have cleaner code ;)
+
+```jsx
+const renderContainer = children =>
+    <div className="inputContainer">
+      {children}
+    </div>
+```
+
+***wollaa
+
+## Simple scenario Example 
+50% of requirements can be implemented by this example.
 
 ```jsx
 import React, { useRef, useState } from 'react'
