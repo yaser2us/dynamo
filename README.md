@@ -12,7 +12,7 @@
 
 > the joy of development :star_struck:	
 
-To experience smoother frontend development, *dynamo* was created to build flexible dynamic 
+To experience smoother frontend development, *dynamo* was created to build flexible dynamic user interface.
 
 [![NPM](https://img.shields.io/npm/v/dynamo.svg)](https://www.npmjs.com/package/dynamo) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -333,6 +333,15 @@ function App() {
 
 export default App;
 ```
+## Projects
+- [x] SME App (Beta Version)  :tada:
+- [x] Maybank2u (Legacy Version)  :tada:
+- [ ] SME Web (MY, SG) upcoming  :tada:
+
+## TODO
+- [ ] Complex scenario documentation
+- [ ] Scenario based Video
+- [ ] adding more features
 
 ## Contributors
 
