@@ -19,7 +19,7 @@ soon it will be accessable from Maybank Github repository ;)
 dynamo is all about data structure. The data structure generates any kind of data entry form (Payment/Transfer/Login) or display form such as listing (Transaction History/Accounts page).
 We have freedom to design our data object to render as form or page. It is an array of elements. Each element represents a component in screen by **type**. 
 
-*Example:* text as textbox, checkbox or button.
+*Example:* text as textbox, checkbox, button or custom name such as note, confirmationButtons or charts.
 
 **Note**: we can define any name as type. There is no limitation to introduce types.
 
@@ -33,7 +33,9 @@ We have freedom to design our data object to render as form or page. It is an ar
       "visible": true,
       "placeholder": "saving",
       "description": "IBFT sameday, GIRO tomorrow",
-      "rule": { "required": "please select payment type." },
+      "rule": { 
+          "required": "please select payment type." 
+      },
       "options": [
         {
           "label": "IBFT",
