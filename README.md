@@ -2,12 +2,12 @@
 
 > the joy of development :star_struck:	
 
-having smooth frontend development, dynamo was created to build flexible dynamic 
+having smooth frontend development, *dynamo* was created to build flexible dynamic 
 
 [![NPM](https://img.shields.io/npm/v/dynamo.svg)](https://www.npmjs.com/package/dynamo) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
-First step is to install dynamo into your project. 
+First step is to install *dynamo* into your project. 
 As long as this library still is **private**, you need to run full path installation such as below:
 
 ```bash
@@ -87,7 +87,7 @@ Once the data structure ready (the array of elements we discuss above), we need 
 
 
 ## Rendering Callback
-dynamo gives us freedom to manage element rendering. For example, like below, we can introduce function to customize rendering. 
+*dynamo* gives us freedom to manage element rendering. For example, like below, we can introduce function to customize rendering. 
 
 From legacy version of dynamo, we had to pass dictionary, however we can pass rendering function to have more customization such as injecting **Container**.
 
@@ -118,9 +118,9 @@ const renderContainer = children =>
 ***wow! we are almost there*** :wink:	
 
 ## Managed Callbacks
-dynamo gives us oppurtunities to call any callback functions from inside the element such as button. Other form generators, they generate elements only and submit button is needed to be implemented seperatly.
+*dynamo* can call any callback functions from inside the element for better code structure, clean code and best practice. Other form generators, they generate elements only and submit button is needed to be implemented seperatly.
 
-In dynamo, also you can apply same approach, however, button can be part of element array. Threfore we need to pass callback function such as below example.
+In *dynamo*, also you can apply same approach, however, button can be part of element array. Threfore we need to pass callback function such as below example.
 
 ```jsx
  const managedCallback = async () => {
