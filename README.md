@@ -326,7 +326,7 @@ export default App;
 
 ## Contributors
 
-Thanks goes to all wonderful people, M2U, SME and enginerring team.
+Thanks goes to all wonderful people, M2U, SME and enginerring teams.
 
 ## License
 
