@@ -26,7 +26,7 @@ To experience smoother frontend development, *dynamo* was created to build flexi
 - [x] Smooth Backend Integration :tada:
 - [x] Absolutely one clean codebase :tada:
 - [x] Multiple platforms (Web/Mobile) :tada:
-- [x] more coming
+- [x] More coming
 
 
 ## Install
@@ -349,7 +349,7 @@ export default App;
 ## TODO
 - [ ] Complex scenario documentation
 - [ ] Scenario based Video
-- [ ] adding more features
+- [ ] Adding more features
 
 ## Contributors
 
