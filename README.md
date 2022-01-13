@@ -79,9 +79,9 @@ Once the data structure ready (the array of elements we discuss above), we need 
   };
 ```
 
-**Note:** extra props will be added to your component runtime by dynamo.
+**Note:** extra props will be added to your component runtime by *dynamo*.
 
-**Suggestion** we suggest to bind component without any container. later we have section to inject container for all components and types.
+**Suggestion**: we suggest to bind component without any container. later we have section to inject container for all components and types.
 
 *More details can be found at How to make existing component ready for dynamo.*
 
@@ -89,7 +89,7 @@ Once the data structure ready (the array of elements we discuss above), we need 
 ## Rendering Callback
 *dynamo* gives us freedom to manage element rendering. For example, like below, we can introduce function to customize rendering. 
 
-From legacy version of dynamo, we had to pass dictionary, however we can pass rendering function to have more customization such as injecting **Container**.
+From legacy version of *dynamo*, we had to pass dictionary, however we can pass rendering function to have more customization such as injecting **Container**.
 
 ```jsx
 const renderComponent = (type, propsItems) => {
@@ -145,6 +145,7 @@ we are done. now just run the project. We suggest to try below example to kickst
 ## APIs
 
 || type | Required | Description | Documentation Status |
+| ------------- | ------------- |-----------| ------------- | ------------- |------------- |
 |ref|refrence|✓|bind reference to dynamo to call internal commands such as get values|✓|
 |items|array|✓	|array of object|✓	|
 |components|function|✓	|rendering element finction|✓	|
