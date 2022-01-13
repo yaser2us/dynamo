@@ -1,3 +1,13 @@
+<div align="center">
+    <p align="center">
+        <a href="https://react-hook-form.com" title="dynamo, power of low-code development">
+            <img src="https://github.com/yaser2us/dynamo/blob/main/assets/intro.gif" alt="dynamo" />
+        </a>
+    </p>
+</div>
+
+<p align="center">Performant, flexible and extensible engine for web & mobile user interface, dynamo, power of low-code development</p>
+
 # dynamo
 
 > the joy of development :star_struck:	
