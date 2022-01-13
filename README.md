@@ -142,7 +142,16 @@ In *dynamo*, also you can apply same approach, however, button can be part of el
 ## Done
 we are done. now just run the project. We suggest to try below example to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
 
-## Simple scenario Example 
+## APIs
+
+|| type | Required | Description | Documentation Status |
+|ref|refrence|✓|bind reference to dynamo to call internal commands such as get values|✓|
+|items|array|✓	|array of object|✓	|
+|components|function|✓	|rendering element finction|✓	|
+|managedCallback|async function|✓	|access to private function from inside common component||
+
+
+## Quickstart 
 50% of requirements can be implemented by this example.
 
 ```jsx
