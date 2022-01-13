@@ -16,9 +16,53 @@ npm install --save https://github.com/yaser2us/dynamo
 soon it will be accessable from Maybank Github repository ;)
 
 ## Data Structure 
-dynamo is all about data structure. We have freedom to design our data object to render as form or page. It is an array of elements. Each element represents a component in screen by **type**. 
+dynamo is all about data structure. The data structure generates any kind of data entry form (Payment/Transfer/Login) or display form such as listing (Transaction History/Accounts page).
+We have freedom to design our data object to render as form or page. It is an array of elements. Each element represents a component in screen by **type**. 
 
-Example: text as textbox, checkbox or button.
+*Example:* text as textbox, checkbox or button.
+
+**Note**: we can define any name as type. There is no limitation to introduce types.
+
+```json
+[
+    {
+      "type": "select",
+      "name": "paymentType",
+      "label": "Payment Type",
+      "value": "",
+      "visible": true,
+      "placeholder": "saving",
+      "description": "IBFT sameday, GIRO tomorrow",
+      "rule": { "required": "please select payment type." },
+      "options": [
+        {
+          "label": "IBFT",
+          "value": "IBFT"
+        },
+        {
+          "label": "GIRO",
+          "value": "GIRO"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "amount",
+      "label": "Amount MYR",
+      "value": "",
+      "placeholder": "0.0 RM",
+      "description": "The min amount is always 0.01 MYR",
+      "visible": true,
+      "rule": {
+        "required": "amount is required.",
+        "min": { "value": 0.01, "message": "min payment amount is 0.01 MYR" }
+      },
+    },
+...
+```
+
+
+
 
 ## Usage
 
