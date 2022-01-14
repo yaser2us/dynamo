@@ -109,7 +109,7 @@ Once the data structure ready (the array of elements we discuss above), we need 
 
 **Suggestion**: we suggest to bind component without any container. later we have section to inject container for all components and types.
 
-*More details can be found at How to make existing component ready for dynamo.*
+*More details can be found at <a href="#:star_struck:	How to make existing component ready for *dynamo*">How to make existing component ready for dynamo.*</a>
 
 
 ## Step 3 - Rendering Callback
@@ -168,7 +168,7 @@ In *dynamo*, also you can apply same approach, however, button can be part of el
 ```
 
 ## Done 🎉🎉🎉🎉🎉
-We are done. now just run the project. We suggest to try below example to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
+We are done. now just run the project. We suggest to try <a href="#Quickstart"> Quickstart example </> to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
 
 ## :star_struck:	How to make existing component ready for *dynamo*
 *dynamo* needs component ready to bind to its rendering engine. To do so, *dynamo* inject necessary props *runtime*. All props are listed here such as:
