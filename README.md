@@ -176,7 +176,7 @@ We are done. now just run the project. We suggest to try below example to kickst
 | ------------- | ------------- |-----------| ------------- | ------------- |
 |ref|refrence|✓|bind reference to dynamo to call internal commands such as get values|✓|
 |items|array|✓	|array of object|✓	|
-|components|Function|✓	|rendering element finction|✓	|
+|components|Function|✓	|rendering element function|✓	|
 |managedCallback|Async Function|✓	|access to private function from inside common component||
 
 
