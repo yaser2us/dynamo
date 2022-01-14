@@ -175,13 +175,40 @@ We are done. now just run the project. We suggest to try below example to kickst
 
 | props | type | description | childs
 | ------| ---- | ----------- | ----- |
+|error|object|dictionary of all errors||
 |field|object|All necessary props has to bind to component | ref, name, onBlur, onChange, value |
 |index|int|element index in array||
 |item|object|entire element props|can be anything we introduce based on our requirement |
-|||||
-|||||
-|||||
-|||||
+|managedCallback|Function|custom callback function|can be anything we introduce based on our requirement|
+
+One basic example of having access to these props is demonstrated here.
+
+```jsx
+const Text = (props) => {
+  //Access to main props
+  //Injected at runtime
+  const { name, item, field } = props;
+
+  //Always check to not render with error ;)
+  if (item === undefined) return null;
+
+  //Access to all props that introduced in element.
+  const { placeholder } = item;
+  return (
+    <>
+      <input
+        type="text"
+        id={name}
+        name={name}
+        placeholder={placeholder}
+        className="text"
+        {...field}
+      />
+    </>
+  );
+};
+
+```
 
 
 ## APIs
