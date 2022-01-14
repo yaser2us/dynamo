@@ -353,7 +353,7 @@ export default App;
 
 ## Contributors
 
-Thanks goes to all wonderful people, M2U, SME and enginerring teams.
+Thanks goes to all wonderful people, M2U, SME and engineering teams.
 
 ## License
 
