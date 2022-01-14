@@ -1,14 +1,32 @@
+<div align="center">
+    <p align="center">
+        <a href="https://react-hook-form.com" title="dynamo, power of low-code development">
+            <img src="https://github.com/yaser2us/dynamo/blob/main/assets/intro.gif" alt="dynamo" />
+        </a>
+    </p>
+</div>
+
+<p align="center">Performant, flexible and extensible engine for web & mobile user interface, dynamo, power of low-code development</p>
+
 # dynamo
 
 > the joy of development :star_struck:	
 
-To experience smoother frontend development, *dynamo* was created to build flexible dynamic 
+To experience smoother frontend development, *dynamo* was created to build flexible dynamic user interface.
 
 [![NPM](https://img.shields.io/npm/v/dynamo.svg)](https://www.npmjs.com/package/dynamo) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Goal
 
 *dynamo*, less-code development with high flexibility
+
+## Features
+- [x] Dynamic UI  :tada:
+- [x] Business Logic & UI changes on fly  :tada:
+- [x] Smooth Backend Integration :tada:
+- [x] Absolutely one clean codebase :tada:
+- [x] Multiple platforms (Web/Mobile) :tada:
+- [x] More coming
 
 
 ## Install
@@ -323,6 +341,15 @@ function App() {
 
 export default App;
 ```
+## Projects
+- [x] SME App (Beta Version)  :tada:
+- [x] Maybank2u (Legacy Version)  :tada:
+- [ ] SME Web (MY, SG) upcoming  :tada:
+
+## TODO
+- [ ] Complex scenario documentation
+- [ ] Scenario based Video
+- [ ] Adding more features
 
 ## Contributors
 
