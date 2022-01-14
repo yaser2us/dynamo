@@ -39,7 +39,7 @@ npm install --save https://github.com/yaser2us/dynamo
 
 **Note**: Soon it will be accessable from Maybank Github repository :wink:	
 
-## Data Structure 
+## Step 1 - Data Structure 
 *dynamo* is all about data structure. 
 
 The data structure generates any kind of data entry form (Payment/Transfer/Login) or display form such as listing (Transaction History/Accounts page).
@@ -89,7 +89,7 @@ We have freedom to design our data object to render as form or page. It is an ar
 ...
 ```
 
-## Components & Types
+## Step 2 - Components & Types
 Once the data structure ready (the array of elements we discuss above), we need to bind our existing components into a dictionary of types. 
 
 *dynamo* uses dictionary to find and use each component for rendering.
@@ -112,7 +112,7 @@ Once the data structure ready (the array of elements we discuss above), we need 
 *More details can be found at How to make existing component ready for dynamo.*
 
 
-## Rendering Callback
+## Step 3 - Rendering Callback
 *dynamo* gives us freedom to manage element rendering. For example, like below, we can introduce function to customize rendering. 
 
 From legacy version of *dynamo*, we had to pass dictionary, however we can pass rendering function to have more customization such as injecting **Container**.
@@ -143,7 +143,7 @@ const renderContainer = children =>
 
 ***wow! we are almost there*** :wink:	
 
-## Managed Callbacks
+## Step 4 - Managed Callbacks
 *dynamo* can call any callback functions inside the element for seperating logic from presentation container, clean code and best practice. 
 
 Other form generators, they generate elements only, submit button is needed to be implemented seperatly as static code.
