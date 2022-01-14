@@ -170,6 +170,20 @@ In *dynamo*, also you can apply same approach, however, button can be part of el
 ## Done
 We are done. now just run the project. We suggest to try below example to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
 
+## How to make existing component ready for *dynamo*
+*dynamo* needs component ready to bind to its rendering engine. To do so, *dynamo* inject necessary props *runtime*. All props are listed here such as:
+
+| props | type | description | childs
+| ------| ---- | ----------- | ----- |
+|field|object|All necessary props has to bind to component | ref, name, onBlur, onChange, value |
+|index|int|element index in array||
+|item|object|entire element props|can be anything we introduce based on our requirement |
+|||||
+|||||
+|||||
+|||||
+
+
 ## APIs
 
 || type | Required | Description | Documentation Status |
