@@ -1,6 +1,6 @@
 <div align="center">
     <p align="center">
-        <a href="https://react-hook-form.com" title="dynamo, power of low-code development">
+        <a href="#" title="dynamo, power of low-code development">
             <img src="https://github.com/yaser2us/dynamo/blob/main/assets/intro.gif" alt="dynamo" />
         </a>
     </p>
