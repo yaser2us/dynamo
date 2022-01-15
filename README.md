@@ -166,11 +166,7 @@ In *dynamo*, also you can apply same approach, however, button can be part of el
     return true;
   };
 ```
-
-## Done 🎉🎉🎉🎉🎉
-We are done. now just run the project. We suggest to try <a href="#Quickstart"> Quickstart example </a> to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
-
-## :star_struck:	How to make existing component ready for *dynamo*
+## Step 5 - Component Customization
 *dynamo* needs component ready to bind to its rendering engine. To do so, *dynamo* inject necessary props *runtime*. All props are listed here such as:
 
 | props | type | description | childs
@@ -209,6 +205,8 @@ const Text = (props) => {
 };
 
 ```
+## Done 🎉🎉🎉🎉🎉
+We are done. now just run the project. We suggest to try <a href="#Quickstart"> Quickstart example </a> to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
 
 
 ## APIs
