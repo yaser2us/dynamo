@@ -5,12 +5,15 @@ import { Error } from "../Error"
 import Tooltips from "../Tooltips/Tooltips";
 
 const Text = (props) => {
-  const { name, item, error, field } = props;
-  const errorMsg = error && error[name] && error[name].message || ""
+  //Access to main props
+  //Injected at runtime
+  const { name, item, field } = props;
 
+  //Always check to not render with error ;)
   if (item === undefined) return null;
 
-  const { value, placeholder, description } = item;
+  //Access to all props that introduced in element.
+  const { placeholder } = item;
   return (
     <>
       <Tooltips {...props}>

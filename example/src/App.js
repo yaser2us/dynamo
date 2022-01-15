@@ -12,7 +12,6 @@ import Switch from "./Components/Switch/Switch";
 import DatePick from "./Components/Date/DatePick";
 import Dropdown from "./Components/Select/Dropdown";
 
-
 function App() {
 
   //form data store
@@ -28,7 +27,7 @@ function App() {
       "label": "Payment Type",
       "value": "",
       "visible": true,
-      "placeholder": "saving",
+      "placeholder": "Select Payment Type",
       "description": "IBFT sameday, GIRO tomorrow",
       "rule": { "required": "please select payment type." },
       "options": [
@@ -48,11 +47,13 @@ function App() {
       "label": "Amount MYR",
       "value": "",
       "placeholder": "0.0 RM",
-      "description": "The min amount is always 0.01 MYR",
       "visible": true,
+      "description": "Min is 1.0 MYR",
       "rule": {
         "required": "amount is required.",
-        "min": { value: 0.01, message: "min payment amount is 0.01 MYR" }
+        "min": { 
+          "value": 1.00, 
+          "message": "min payment amount is 1.00 MYR" }
       },
     },
     {
@@ -61,10 +62,24 @@ function App() {
       "label": "Refrence 1",
       "value": "",
       "placeholder": "8888",
-      "visible": true
+      "visible": true,
+      "rule": {
+        "required": "Reference is required.",
+      }
     },
     {
-      "type": "switch",
+      "type": "text",
+      "name": "ref2",
+      "label": "Refrence 2",
+      "value": "",
+      "placeholder": "phone number",
+      "visible": true,
+      "rule": {
+        "required": "Reference is required.",
+      }
+    },
+    {
+      "type": "checkbox",
       "name": "recurring",
       "label": "Recurring",
       "value": "",
