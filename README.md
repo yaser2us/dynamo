@@ -109,8 +109,6 @@ Once the data structure ready (the array of elements we discuss above), we need 
 
 **Suggestion**: we suggest to bind component without any container. later we have section to inject container for all components and types.
 
-<a href="#:star_struck:How to make existing component ready for dynamo">How to make existing component ready for dynamo</a>
-
 
 ## Step 3 - Rendering Callback
 *dynamo* gives us freedom to manage element rendering. For example, like below, we can introduce function to customize rendering. 
