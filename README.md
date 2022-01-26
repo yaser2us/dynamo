@@ -203,6 +203,29 @@ const Text = (props) => {
 };
 
 ```
+
+To have access to value, label, placeholder or others attributes, we can destructure from **item**. 
+```jsx
+  //Access to all props that introduced in element.
+  const { placeholder, value, defaultValue, label } = item;
+  
+  return (
+    <>
+      <a>{label}</a>
+      <input
+        type="text"
+        id={name}
+        name={name}
+        placeholder={placeholder}
+        className="text"
+        {...field}
+      />
+    </>
+  );
+};
+
+```
+
 ## Done 🎉🎉🎉🎉🎉
 We are done. now just run the project. We suggest to try <a href="#Quickstart"> Quickstart example </a> to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
 
@@ -378,6 +401,11 @@ function App() {
 
 export default App;
 ```
+
+## Important Notes
+- Dont use local state for value. The value has to be managed by *dynamo*.
+
+
 ## Projects
 - [x] SME App (Beta Version)  :tada:
 - [x] Maybank2u (Legacy Version)  :tada:
