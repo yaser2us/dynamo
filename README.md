@@ -204,7 +204,7 @@ const Text = (props) => {
 
 ```
 
-To have access to value, label, placeholder or others attributes, we can destructure from **item**. 
+To have access to *value, label, placeholder* or others attributes, we can destructure from **item**. 
 ```jsx
   //Access to all props that introduced in element.
   const { placeholder, value, defaultValue, label } = item;
@@ -216,7 +216,9 @@ To have access to value, label, placeholder or others attributes, we can destruc
         type="text"
         id={name}
         name={name}
+        defaultValue={defaultValue}
         placeholder={placeholder}
+        value={value}
         className="text"
         {...field}
       />
@@ -225,6 +227,7 @@ To have access to value, label, placeholder or others attributes, we can destruc
 };
 
 ```
+
 
 ## Done 🎉🎉🎉🎉🎉
 We are done. now just run the project. We suggest to try <a href="#Quickstart"> Quickstart example </a> to kickstart dynamo inside your project. Then try to change the dictionary and components one by one to have safe journey.
@@ -402,8 +405,51 @@ function App() {
 export default App;
 ```
 
+## Customise onChange
+
+If we need to change value before update, we can use custom onChange function.
+
+**Note**:
+
+
+The customise function has to be assigned to element after destructing *field* to override **onChange**.
+
+```jsx
+  const { label, options, placeholder, description } = item;
+  const { value, onChange } = field;
+
+  const customOnChange = (e) => {
+    //Here we can customise value before submit
+    const newValue = parseInt(e.target.value); 
+    onChange(newValue);
+  }
+
+  return (
+    <>
+      <Label {...props} />
+      <Select
+        name={name}
+        key={name}
+        id={name}
+        placeholder={placeholder}
+        defaultValue={value}
+        styles={customStyles}
+        options={options}
+        
+        
+        {...field}
+        onChange={customOnChange}
+      />
+      <Error {...props} />
+    </>
+  );
+
+```
+
+
 ## Important Notes
 - Dont use local state for value. The value has to be managed by *dynamo*.
+
 
 
 ## Projects
