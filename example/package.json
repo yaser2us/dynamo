@@ -22,7 +22,6 @@
     "bootstrap": "^5.1.3",
     "dynamo": "file:..",
     "mui": "0.0.1",
-    "node-sass": "^7.0.1",
     "react": "file:../node_modules/react",
     "react-bootstrap": "^2.0.4",
     "react-datepicker": "^4.5.0",
