@@ -8,3 +8,30 @@
   line-height: 22px;
   margin-bottom: 0.6rem;
 }
+
+.header {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 30px;
+/* identical to box height, or 136% */
+
+
+color: #0E1B42;
+
+}
+
+.title {
+  font-family: Rubik;
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 20px;
+/* identical to box height, or 111% */
+
+
+/* Text Color/Dark Blue */
+
+color: #0E1B42;
+}

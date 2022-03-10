@@ -4,7 +4,8 @@
   border: solid 1px rgb(255, 221, 0);
   border-radius: 8px;
   height: 38px;
-  width: 112px;
+  /* width: 112px; */
+  padding: 0px 23px;
   font-family: "Rubik", sans-serif;
   color: rgb(14, 27, 66);
   text-align: center;
@@ -14,6 +15,25 @@
   text-decoration: none;
   display: inline-block;
   cursor: pointer;
+}
+
+.resetButton {
+  background: #B0BAD7;
+  border: solid 1px rgb(177, 177, 177);
+  border-radius: 8px;
+  height: 38px;
+  /* width: 112px; */
+  padding: 0px 23px;
+  font-family: "Rubik", sans-serif;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 23px;
 }
 
 .button:disabled {

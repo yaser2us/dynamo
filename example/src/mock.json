@@ -1,0 +1,50 @@
+{
+    "name": "trfsCrdEp",
+    "type": "fieldset",
+    "name": "9KsbjYImzix",
+    "label": "Fieldset",
+    "value": "",
+    "visible": true,
+    "items": [
+      {
+        "name": "G8RV9sXlj",
+        "type": "radiobox",
+        "name": "pkFvKtJNKO8",
+        "label": "radiobox",
+        "value": "",
+        "visible": true
+      },
+      {
+        "name": "NDPkA1nM5",
+        "type": "checkbox",
+        "name": "WYr0X9pJAYb",
+        "label": "checkbox",
+        "value": "",
+        "visible": true
+      },
+      {
+        "name": "5BkOuESxh",
+        "type": "text",
+        "name": "GvwiALRvfTs",
+        "label": "Textbox",
+        "value": "",
+        "visible": true
+      },
+      {
+        "name": "k0yh6QrG_",
+        "type": "button",
+        "name": "EWiXm3KOR53",
+        "label": "Button",
+        "value": "",
+        "visible": true
+      },
+      {
+        "name": "uuQiNNAEf",
+        "type": "label",
+        "name": "E9Ou2LotXUO",
+        "label": "Label",
+        "value": "Value",
+        "visible": true
+      }
+    ]
+  }

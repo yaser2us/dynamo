@@ -8,11 +8,17 @@ const Button = (props) => {
   const disabled = error && Object.keys(error).length > 0 || false;
 
   const onClick = () => {
-    managedCallback(action?.actionURL);
+    managedCallback({item: undefined, actionType: action?.actionURL});
   }
 
   return (
-    <div>
+    <div style={{
+      float: 'left',
+      marginRight: '5px',
+      width: '100%',
+      textAlign: 'right',
+      marginTop: '13px'
+    }}>
       <button
         onClick={onClick}
         className="button"

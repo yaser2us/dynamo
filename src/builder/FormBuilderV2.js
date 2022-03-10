@@ -1,5 +1,22 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react'
 
+// import {
+//     useWatch
+// } from "../useWatch"
+// import {
+//     useFieldArray
+// } from "../useFieldArray"
+// import {
+//     FormProvider,
+//     useFormContext
+// } from "../useFormContext"
+// import {
+//     useForm
+// } from "../useForm"
+// import {
+//     Controller
+// } from "../Controller"
+
 import {
     useWatch
 } from "../useWatch"
@@ -18,8 +35,11 @@ import {
 } from "../Controller"
 
 import _ from 'lodash'
+// import deepEqual from "../utils/deepEqual"
 import deepEqual from "../utils/deepEqual"
 import { defaultValidationResolver } from "../utils/defaultValidationResolver"
+
+// import { defaultValidationResolver } from "../dynamo/utils/defaultValidationResolver"
 
 const renderComponentInd = (name, data, { updateReference,
     myComponents,
@@ -30,13 +50,20 @@ const renderComponentInd = (name, data, { updateReference,
     managedCallback,
     undefined,
     sharedItems,
-    setValue }
+    index,
+    parent,
+    givenName = undefined
+}
 ) => {
 
-    const selectedComponent = data[name];
+    const selectedComponent = {...data[name], givenName };
+    
+    //Add givenName here ;)
+    // selectedComponent.givenName = givenName;
+
     if (selectedComponent === undefined) return null;
     // debugger;
-    if(selectedComponent?.visible === false) return null
+    if (selectedComponent?.visible === false) return null
     return renderComponentForm(
         selectedComponent,
         updateReference,
@@ -48,8 +75,9 @@ const renderComponentInd = (name, data, { updateReference,
         managedCallback,
         undefined,
         sharedItems,
-        setValue,
-        data
+        index,
+        data,
+        parent
     )
 }
 
@@ -64,10 +92,11 @@ const renderComponentForm = (
     managedCallback,
     parentName,
     sharedItems,
-    setValues,
-    data
+    index,
+    data,
+    parent
 ) => {
-    console.log(errors, 'dataerrors')
+    console.log(errorss, 'dataerrors')
     console.time('renderFormmm')
     // const r = data
     //     .filter((element) => element.visible)
@@ -90,12 +119,12 @@ const renderComponentForm = (
     } = sharedItems
 
     // if (!item.visible) return null
-    const name = parentName && `${parentName}.${item.name}` || item.name
+    const name = parentName && `${parentName}.${item.name}` || item.givenName && item.givenName || item.name
 
     let result = null
     let child = []
     if (item.items) {
-        child = item.items.map(name => renderComponentInd(name, data, {
+        child = item.items.map((name,idx) => renderComponentInd(name, data, {
             updateReference,
             myControl,
             getValue,
@@ -105,8 +134,10 @@ const renderComponentForm = (
             managedCallback,
             parentName: item?.items && name || undefined,
             sharedItems,
-            setValue,
-            data
+            index: idx,
+            data,
+            parent: { name: item.name, index, id: item.id },
+            itemName: name
         }))
 
         // renderComponentForm(
@@ -133,6 +164,11 @@ const renderComponentForm = (
         required: item.required && item.required.value !== "" && item.required || undefined
     }
 
+   
+    // let rule = _.cloneDeep(item?.rule || {});
+    // debugger;
+    // rule.pattern?.value = new RegExp(item.rule?.pattern?.value);
+
     result = (
         <Controller
             key={item.isArray === true && `${name}container` || name}
@@ -143,7 +179,7 @@ const renderComponentForm = (
             render={({ field }) => {
 
                 if (item.isArray) {
-                    // console.log(name, "useFieldArray")
+                    console.log(name,item.items, "useFieldArray")
                     const { fields, append, remove } = useFieldArray({
                         control,
                         name: name
@@ -156,9 +192,27 @@ const renderComponentForm = (
                                     <li key={el.id}>
                                         {item.items.map((element, indx) => (
                                             <Controller
-                                                name={`${name}.${index}.${element.name}`}
+                                                key={`${name}.${index}.${data[element].name}`}
+                                                name={`${name}.${index}.${data[element].name}`}
                                                 control={control}
                                                 render={({ field }) => {
+                                                    console.log(`${name}.${index}.${element}`,'`${name}.${index}.${element}`')
+                                                    return renderComponentInd(element, data, {
+                                                        updateReference,
+                                                        myControl,
+                                                        getValue,
+                                                        errors,
+                                                        ControlledComponents,
+                                                        components,
+                                                        managedCallback,
+                                                        parentName: item?.items && name || undefined,
+                                                        sharedItems,
+                                                        index: index,
+                                                        data,
+                                                        parent: { name: item.name, index, id: item.id },
+                                                        givenName: `${name}.${index}.${data[element].name}`
+                                                    })
+
                                                     const Component = components(element.type, {
                                                         field,
                                                         item: element,
@@ -198,12 +252,13 @@ const renderComponentForm = (
                     field,
                     item,
                     name,
-                    index: 0,
+                    index,
                     managedCallback,
                     child,
                     useFieldArray,
                     error: errors,
-                    sharedItems
+                    sharedItems,
+                    parent
                 })
 
                 return Component
@@ -482,7 +537,7 @@ const prepareWtchingComponents = (items, key) => {
             const keys = Object.keys(preConditionObj)
             for (let index = 0; index < keys.length; index++) {
                 const internalItem = preConditionObj[keys[index]]
-                console.log(items[key],'items[key]')
+                console.log(items[key], 'items[key]')
                 initialValue.set(internalItem.name, [
                     ...((initialValue.get(internalItem.name) && initialValue.get(internalItem.name)) || []),
                     { refId: items[key].id, ...internalItem },
@@ -554,8 +609,9 @@ const convertArrayToObjectPOC = (array, key, value, isParent, original) => {
 }
 
 let renderCount = 0
-const FormBuilderV2 = React.forwardRef(({ items,
-    validationResolver = defaultValidationResolver,
+const FormBuilderNext = React.forwardRef(({ items,
+    validationResolver,
+    // = defaultValidationResolver,
     ControlledComponents,
     components,
     managedCallback,
@@ -613,7 +669,7 @@ const FormBuilderV2 = React.forwardRef(({ items,
         watchingComponents.current = prepareWtchingComponents(myComponents.current)
         console.log(myComponents, 'myComponentsmyComponents')
         console.log(watchingComponents, 'prepareWtchingComponents', [...watchingComponents.current.keys()])
-
+        
         const subscription = watch(async (value, { name, type }) => {
             if (watchingComponents.current.get(name)) {
                 // if(!Array.isArray(data)) return;
@@ -621,7 +677,7 @@ const FormBuilderV2 = React.forwardRef(({ items,
                 const [a, b] = await checkPreCondition(name, value[name], items);
                 if (!deepEqual(data, b) && a) {
                     // setData([...b]);
-                    setData({...b});
+                    setData({ ...b });
                     // preConditionItems.current = [...b];
                     return;
                 }
@@ -630,7 +686,7 @@ const FormBuilderV2 = React.forwardRef(({ items,
         });
 
         setData(items)
-    }, items)
+    }, [items])
 
     const getValue = (name) => {
         return myComponents.current[name].value
@@ -720,7 +776,7 @@ const FormBuilderV2 = React.forwardRef(({ items,
         console.log(myComponents.current, 'getValues', await getValuesPOC())
 
         console.time('iam here')
-        const [hasValidationChanged, result, error] = await validationOnce(name, value, {...data})
+        const [hasValidationChanged, result, error] = await validationOnce(name, value, { ...data })
         const [hasPreconditionChanged, preResult] = await checkPreCondition(name, value, data)
         // console.log(error, "asyncValidation", result, hasValidationChanged)
 
@@ -733,7 +789,7 @@ const FormBuilderV2 = React.forwardRef(({ items,
                 hasPreconditionChanged,
                 errors,
             )
-            setData({...preResult})
+            setData({ ...preResult })
         }
 
         // console.log("getValues", await getValues())
@@ -751,6 +807,7 @@ const FormBuilderV2 = React.forwardRef(({ items,
         // how to update the Array
         // OR update and dont itterate the Object
         // _.set({ a: myComponents.current }, "a.textbox-2.items[0].value", "leila")
+        // let n = _.cloneDeep(result);
         let n = {...result}
 
         let updated = false
@@ -764,14 +821,20 @@ const FormBuilderV2 = React.forwardRef(({ items,
             // }
 
             await hasCondition.map(async (item) => {
-                const realValue = value["value"] || value;
+                const realValue = value && value["value"] || value;
                 const touched = item?.type && (await validationResolver[item.type](item, realValue)) // || validationResolver["eq"](item,value); //value !== "" && item.value.includes(value) || false;
                 // if(touched){
-                    debugger
-                if(n[item.refId] && n[item.refId].visible !== touched){
+                debugger
+                // if (n[item.refId] && n[item.refId].visible !== touched) {
+                //     n[item.refId].visible = touched;
+                //     updated = true
+                // }
+                const i = n[item.refId];
+                console.log(n["accountNo"],"accountNoaccountNo",'-----',i)
+                if(i !== undefined && i.visible !== touched ){
                     n[item.refId].visible = touched;
                     updated = true
-                }    
+                }
                 // if (_.get({ a: n }, `a${item.refId}.visible`) !== touched) { //touched
                 //     // myComponents.current[item.name].visible = touched;
                 //     n = _.set({ a: n }, `a${item.refId}.visible`, touched).a
@@ -788,13 +851,14 @@ const FormBuilderV2 = React.forwardRef(({ items,
                 // }
             })
         }
-        return [updated, {...n}]
+        return [updated, n]
+        return [updated, { ...n }]
     }
 
     console.log('renderCount', renderCount++)
 
     return (
-        (data && data.root?.items?.map(name => renderComponentInd(name, data, {
+        (data && data.root?.items?.map((name, index) => renderComponentInd(name, data, {
             updateReference,
             myComponents,
             getValues,
@@ -804,7 +868,7 @@ const FormBuilderV2 = React.forwardRef(({ items,
             managedCallback,
             undefined,
             sharedItems,
-            setValue
+            index
         })
         )) || null
     )
@@ -830,7 +894,7 @@ const FormBuilderV2 = React.forwardRef(({ items,
     )
 });
 
-FormBuilderV2.whyDidYouRender = true
-FormBuilderV2.displayName = "FormBuilderV2"
+FormBuilderNext.whyDidYouRender = true
+FormBuilderNext.displayName = "FormBuilderNext"
 
-export default FormBuilderV2
+export default FormBuilderNext

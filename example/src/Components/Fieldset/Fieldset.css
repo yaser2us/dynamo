@@ -7,3 +7,13 @@
     width: 50vw;
     margin: auto;
 }
+
+.field-blue{
+    /* height: 504px; */
+    background: aqua;
+    box-shadow: 0px 5px 10px 0px rgba(112, 136, 210, 0.1);
+    border-radius: 20px;
+    border: none;
+    width: 50vw;
+    margin: auto;
+}

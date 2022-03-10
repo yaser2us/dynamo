@@ -5,6 +5,7 @@ import "./Checkbox.css";
 const Checkbox = (props) => {
   const { item, field } = props;
   const { label } = item || { label: "" };
+  console.log(props, "checkbox")
   return (
     <>
       <label className="container">

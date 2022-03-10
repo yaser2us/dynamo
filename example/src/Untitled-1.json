@@ -1,0 +1,1202 @@
+{
+    "root": {
+        "name": "root",
+        "items": [
+            "8eHTTxJm3",
+            "B9Ob1BxCf",
+            "Jc41x8NBY",
+            "xXBzPLXmx",
+            "cLxvutHQ1",
+            "M7eD0lQj0",
+            "jdnlBx1df",
+            "#hXOlnRWH",
+            "dPNDsT2Qe"
+        ],
+        "visible": true
+    },
+    "jdnlBx1df": {
+        "id": "jdnlBx1df",
+        "type": "text",
+        "name": "psBI#peco5",
+        "label": "Textbox",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ]
+    },
+    "cLxvutHQ1": {
+        "id": "cLxvutHQ1",
+        "type": "label",
+        "name": "GRyd2_aLns",
+        "label": "Label",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ]
+    },
+    "Jc41x8NBY": {
+        "id": "Jc41x8NBY",
+        "type": "select",
+        "name": "6KBZxKeL8S",
+        "label": "Dropdown",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ]
+    },
+    "B9Ob1BxCf": {
+        "id": "B9Ob1BxCf",
+        "type": "text",
+        "name": "gCOmcWKTRc",
+        "label": "Textbox",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ]
+    },
+    "8eHTTxJm3": {
+        "id": "8eHTTxJm3",
+        "type": "label",
+        "name": "QiioAypGe3",
+        "label": "Label",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ]
+    },
+    "xXBzPLXmx": {
+        "id": "xXBzPLXmx",
+        "type": "asyncBlock",
+        "name": "vfenEMlPuy",
+        "label": "Label",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "",
+        "action": {
+            "actionURL": "http://localhost:3033/forms/620cfcf418635333c8b04127"
+        },
+        "items": [
+            "rN9qn#Oop"
+        ]
+    },
+    "#hXOlnRWH": {
+        "id": "#hXOlnRWH",
+        "type": "asyncBlock",
+        "name": "KrRvesIIWi",
+        "label": "Label",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "root",
+            "1"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "",
+        "action": {
+            "actionURL": "http://localhost:3033/forms/6213a91295357f3f41e4074a"
+        }
+    },
+    "dPNDsT2Qe": {
+        "id": "dPNDsT2Qe",
+        "type": "asyncBlock",
+        "name": "7Kl2fllxLE",
+        "label": "Label",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "root",
+            "4"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "",
+        "action": {
+            "actionURL": "http://localhost:3033/forms/620d0ea918635333c8b04764"
+        }
+    },
+    "M7eD0lQj0": {
+        "id": "M7eD0lQj0",
+        "type": "asyncBlock",
+        "name": "0Ngt6jxkVg",
+        "label": "yassernasser",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "",
+        "action": {
+            "actionURL": "http://localhost:3033/forms/620df2eb18635333c8b04945"
+        }
+    },
+    "jAYj0st1z": {
+        "id": "jAYj0st1z",
+        "type": "label",
+        "name": "BOO5f8xtfL",
+        "label": "Other Accounts Transfer",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "header"
+    },
+    "3bxx5zRRl": {
+        "id": "3bxx5zRRl",
+        "type": "fieldset",
+        "name": "JOcX2JB7it",
+        "label": "Fieldset",
+        "value": "",
+        "visible": true,
+        "items": [
+            "WjfbQ43L#",
+            "kLr8rse_3"
+        ],
+        "parent": [
+            "root",
+            "1"
+        ]
+    },
+    "WjfbQ43L#": {
+        "id": "WjfbQ43L#",
+        "type": "label",
+        "name": "i#jD#P2aeQ",
+        "label": "Transfer From",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "3bxx5zRRl",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "title"
+    },
+    "tUufe#0Yp": {
+        "id": "tUufe#0Yp",
+        "type": "fieldset",
+        "name": "I2HCE5BURU",
+        "label": "Fieldset",
+        "value": "",
+        "visible": true,
+        "items": [
+            "lIAUrdfY3",
+            "bXcc8Jq8x",
+            "1ZdK2aH7c",
+            "moL7lRTxK",
+            "W0KNhmB0r",
+            "eDeB5Z3bT",
+            "HyAmycFwU"
+        ],
+        "parent": [
+            "root",
+            "2"
+        ]
+    },
+    "lIAUrdfY3": {
+        "id": "lIAUrdfY3",
+        "type": "label",
+        "name": "XXhpxWX9kI",
+        "label": "Transfer To",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "tUufe#0Yp",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "title"
+    },
+    "moL7lRTxK": {
+        "id": "moL7lRTxK",
+        "type": "label",
+        "name": "mMOR0x8Hwg",
+        "label": "Click here to find out more.",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "tUufe#0Yp",
+            "3"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "note"
+    },
+    "HyAmycFwU": {
+        "id": "HyAmycFwU",
+        "type": "button",
+        "name": "ooYDh7Tjr#",
+        "label": "Next",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "tUufe#0Yp",
+            "6"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": ""
+    },
+    "1ZdK2aH7c": {
+        "id": "1ZdK2aH7c",
+        "type": "text",
+        "name": "accountNumber",
+        "label": "Account number",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "tUufe#0Yp",
+            "2"
+        ],
+        "defaultValue": "",
+        "placeholder": "Enter account number",
+        "templateName": "",
+        "rule": {
+            "required": "Account number is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        },
+        "options": [
+            {
+                "value": "43242423423",
+                "label": "43243242343"
+            }
+        ]
+    },
+    "W0KNhmB0r": {
+        "id": "W0KNhmB0r",
+        "type": "text",
+        "name": "recipientName",
+        "label": "Recipient name",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "tUufe#0Yp",
+            "4"
+        ],
+        "defaultValue": "",
+        "placeholder": "Enter recipient name",
+        "templateName": "",
+        "rule": {
+            "required": "",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "^[a-z\\d\\-@_\\s]+$",
+                "message": "No more special char !#$%%^&*("
+            }
+        }
+    },
+    "eDeB5Z3bT": {
+        "id": "eDeB5Z3bT",
+        "type": "text",
+        "name": "amount",
+        "label": "Amount",
+        "value": "",
+        "visible": false,
+        "parent": [
+            "tUufe#0Yp",
+            "5"
+        ],
+        "defaultValue": "",
+        "placeholder": "RM 0.00",
+        "templateName": "",
+        "rule": {
+            "required": "Amount is required.",
+            "min": {
+                "value": "0.01",
+                "message": "min amount must be 0.01"
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "^\\s*-?(\\d+(\\.\\d{1,2})?|\\.\\d{1,2})\\s*$",
+                "message": "Only number pls ;)"
+            }
+        },
+        "preCondition": [
+            {
+                "name": "recipientName",
+                "value": "",
+                "type": "exist"
+            }
+        ]
+    },
+    "kLr8rse_3": {
+        "id": "kLr8rse_3",
+        "type": "select",
+        "name": "account",
+        "label": "Account",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "3bxx5zRRl",
+            "1"
+        ],
+        "defaultValue": "",
+        "placeholder": "select account",
+        "templateName": "",
+        "options": [
+            {
+                "value": "123456333",
+                "label": "1111 2222 33334"
+            },
+            {
+                "value": "56787654",
+                "label": "3232 3232 3434"
+            }
+        ],
+        "rule": {
+            "required": "Account is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        }
+    },
+    "bXcc8Jq8x": {
+        "id": "bXcc8Jq8x",
+        "type": "select",
+        "name": "recipientbank",
+        "label": "Recipient bank",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "tUufe#0Yp",
+            "1"
+        ],
+        "defaultValue": "",
+        "placeholder": "Select recipient bank",
+        "templateName": "",
+        "rule": {
+            "required": "Recipient bank is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        },
+        "options": [],
+        "action": {
+            "actionURL": "http://localhost:3033/data/banks/resources"
+        }
+    },
+    "M6W1Nk1aN": {
+        "id": "M6W1Nk1aN",
+        "type": "fieldset",
+        "name": "7rgq_tX10h",
+        "label": "Fieldset",
+        "value": "",
+        "visible": true,
+        "items": [
+            "MppdeTIIp",
+            "89xelIkUq",
+            "4jyM#2#OK",
+            "##sk5BfXl",
+            "z1XvRhvpW",
+            "qv#DFnYxa",
+            "IKGXunixL"
+        ],
+        "parent": [
+            "root",
+            "1"
+        ]
+    },
+    "KLL68VGG8": {
+        "id": "KLL68VGG8",
+        "type": "button",
+        "name": "next",
+        "label": "Next",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "root",
+            "2"
+        ],
+        "defaultValue": "",
+        "placeholder": ""
+    },
+    "4jyM#2#OK": {
+        "id": "4jyM#2#OK",
+        "type": "select",
+        "name": "fromBank",
+        "label": "Transfer From Bank",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "M6W1Nk1aN",
+            "2"
+        ],
+        "defaultValue": "",
+        "placeholder": "Select bank",
+        "rule": {
+            "required": "Transfer From Bank is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        },
+        "options": [
+            {
+                "value": "Maybank",
+                "label": "Maybank"
+            },
+            {
+                "value": "CIMB",
+                "label": "CIMB"
+            },
+            {
+                "value": "PublicBank",
+                "label": "Public Bank"
+            }
+        ]
+    },
+    "89xelIkUq": {
+        "id": "89xelIkUq",
+        "type": "select",
+        "name": "fdAccountNo",
+        "label": "FD Account Number",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "M6W1Nk1aN",
+            "1"
+        ],
+        "defaultValue": "",
+        "placeholder": "Select FD account Number",
+        "rule": {
+            "required": "FD Account Number is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        },
+        "options": [
+            {
+                "value": "433423332212",
+                "label": "4334 2333 2212"
+            },
+            {
+                "value": "433411182212",
+                "label": "4334 1118 2212"
+            }
+        ]
+    },
+    "MppdeTIIp": {
+        "id": "MppdeTIIp",
+        "type": "select",
+        "name": "accountType",
+        "label": "Account Type",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "M6W1Nk1aN",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "Select account type",
+        "rule": {
+            "required": "Account Type is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        },
+        "options": [
+            {
+                "value": "eIFD",
+                "label": "Islamic Fixed Deposit (eIFD)"
+            },
+            {
+                "value": "eFD",
+                "label": "Fixed Deposit (eFD)"
+            }
+        ]
+    },
+    "qv#DFnYxa": {
+        "id": "qv#DFnYxa",
+        "type": "select",
+        "name": "term",
+        "label": "Term",
+        "value": "",
+        "visible": false,
+        "parent": [
+            "M6W1Nk1aN",
+            "4"
+        ],
+        "defaultValue": "",
+        "placeholder": "select term",
+        "options": [
+            {
+                "value": "1",
+                "label": "1 month"
+            },
+            {
+                "value": "2",
+                "label": "2 month"
+            }
+        ],
+        "rule": {
+            "required": "term is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        },
+        "preCondition": [
+            {
+                "name": "accountNo",
+                "value": "",
+                "type": "exist"
+            },
+            {
+                "name": "otherBankAccount",
+                "value": "",
+                "type": "exist"
+            }
+        ]
+    },
+    "IKGXunixL": {
+        "id": "IKGXunixL",
+        "type": "text",
+        "name": "amount",
+        "label": "Amount",
+        "value": "",
+        "visible": false,
+        "parent": [
+            "M6W1Nk1aN",
+            "4"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "preCondition": [
+            {
+                "name": "accountNo",
+                "value": "Maybank",
+                "type": "exist"
+            },
+            {
+                "name": "otherBankAccount",
+                "value": "",
+                "type": "exist"
+            }
+        ]
+    },
+    "##sk5BfXl": {
+        "id": "##sk5BfXl",
+        "type": "select",
+        "name": "accountNo",
+        "label": "Account No",
+        "value": "",
+        "visible": false,
+        "parent": [
+            "M6W1Nk1aN",
+            "4"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "rule": {
+            "required": "Account is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        },
+        "preCondition": [
+            {
+                "name": "fromBank",
+                "value": "Maybank",
+                "type": "eq"
+            }
+        ],
+        "options": [
+            {
+                "value": "7777777777777",
+                "label": "7777 7777 77777"
+            },
+            {
+                "value": "4345453454355",
+                "label": "4345 4534 54355"
+            }
+        ]
+    },
+    "Fozik6DQV": {
+        "id": "Fozik6DQV",
+        "type": "label",
+        "name": "L8eD8ZdXtE",
+        "label": "Make an FD Placement",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "title"
+    },
+    "z1XvRhvpW": {
+        "id": "z1XvRhvpW",
+        "type": "text",
+        "name": "otherBankAccount",
+        "label": "Account No",
+        "value": "",
+        "visible": false,
+        "parent": [
+            "M6W1Nk1aN",
+            "6"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "preCondition": [
+            {
+                "name": "fromBank",
+                "value": "Maybank",
+                "type": "noteq"
+            }
+        ],
+        "templateName": "",
+        "rule": {
+            "required": "",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "^[0-9]*$",
+                "message": "Only number is accepted."
+            }
+        }
+    },
+    "_MhQ4Lj9H": {
+        "id": "_MhQ4Lj9H",
+        "type": "fieldset",
+        "name": "UWEiMJMLny",
+        "label": "Fieldset",
+        "value": "",
+        "visible": true,
+        "items": [
+            "eNuBUV6hO",
+            "qrvkqDgkY",
+            "Z5Ct8cnAd",
+            "RNzKhVtFu",
+            "dsfRELSU8"
+        ],
+        "parent": [
+            "root",
+            "1"
+        ]
+    },
+    "qrvkqDgkY": {
+        "id": "qrvkqDgkY",
+        "type": "select",
+        "name": "statementCycle",
+        "label": "Statement Cycle",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "_MhQ4Lj9H",
+            "1"
+        ],
+        "defaultValue": "",
+        "placeholder": "Select statement cycle",
+        "options": [
+            {
+                "value": "1",
+                "label": "Monthly Statements"
+            },
+            {
+                "value": "2",
+                "label": "Yearly Statements"
+            }
+        ],
+        "rule": {
+            "required": "Statement Cycle is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        }
+    },
+    "Z5Ct8cnAd": {
+        "id": "Z5Ct8cnAd",
+        "type": "select",
+        "name": "year",
+        "label": "Year",
+        "value": "",
+        "visible": false,
+        "parent": [
+            "_MhQ4Lj9H",
+            "2"
+        ],
+        "defaultValue": "",
+        "placeholder": "Select Year",
+        "options": [
+            {
+                "value": "2020",
+                "label": "2020"
+            },
+            {
+                "value": "2021",
+                "label": "2021"
+            }
+        ],
+        "preCondition": [
+            {
+                "name": "statementCycle",
+                "value": "",
+                "type": "exist"
+            }
+        ],
+        "rule": {
+            "required": "Year is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        }
+    },
+    "RNzKhVtFu": {
+        "id": "RNzKhVtFu",
+        "type": "select",
+        "name": "monthly",
+        "label": "Month",
+        "value": "",
+        "visible": false,
+        "parent": [
+            "_MhQ4Lj9H",
+            "3"
+        ],
+        "defaultValue": "",
+        "placeholder": "Select Month",
+        "options": [
+            {
+                "value": "1",
+                "label": "Jan"
+            },
+            {
+                "value": "2",
+                "label": "Feb"
+            }
+        ],
+        "preCondition": [
+            {
+                "name": "statementCycle",
+                "value": "1",
+                "type": "eq"
+            }
+        ]
+    },
+    "dsfRELSU8": {
+        "id": "dsfRELSU8",
+        "type": "confirmationButton",
+        "name": "8wE8keO#sB",
+        "label": "Download",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "_MhQ4Lj9H",
+            "3"
+        ],
+        "defaultValue": "",
+        "placeholder": ""
+    },
+    "eNuBUV6hO": {
+        "id": "eNuBUV6hO",
+        "type": "label",
+        "name": "U0nzkiZ1mB",
+        "label": "Download Statement",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "_MhQ4Lj9H",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "title"
+    },
+    "knvAQB39R": {
+        "id": "knvAQB39R",
+        "type": "label",
+        "name": "7RoGZ9LYT2",
+        "label": "SME First Account",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "root",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "title"
+    },
+    "xLgf4NW2j": {
+        "id": "xLgf4NW2j",
+        "type": "select",
+        "name": "term",
+        "label": "Term",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "rN9qn#Oop",
+            "1"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "rule": {
+            "required": "Term is required.",
+            "min": {
+                "value": null,
+                "message": ""
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "",
+                "message": ""
+            }
+        },
+        "options": [
+            {
+                "value": "1",
+                "label": "1 month"
+            },
+            {
+                "value": "6",
+                "label": "6 moths"
+            }
+        ]
+    },
+    "WSgJ2txQm": {
+        "id": "WSgJ2txQm",
+        "type": "label",
+        "name": "note",
+        "label": "Note: Terms & Condition here",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "rN9qn#Oop",
+            "2"
+        ],
+        "defaultValue": "",
+        "placeholder": ""
+    },
+    "jhaHP9eZw": {
+        "id": "jhaHP9eZw",
+        "type": "button",
+        "name": "submit",
+        "label": "Check Rate",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "rN9qn#Oop",
+            "3"
+        ],
+        "defaultValue": "",
+        "placeholder": ""
+    },
+    "rN9qn#Oop": {
+        "id": "rN9qn#Oop",
+        "type": "fieldset",
+        "name": "oR2ERyFPK3",
+        "label": "Fieldset",
+        "value": "",
+        "visible": true,
+        "items": [
+            "t#BPfjCW2",
+            "P8NeXYdHH",
+            "xLgf4NW2j",
+            "WSgJ2txQm",
+            "jhaHP9eZw"
+        ],
+        "parent": [
+            "root",
+            "0"
+        ]
+    },
+    "t#BPfjCW2": {
+        "id": "t#BPfjCW2",
+        "type": "label",
+        "name": "KVkRCtKRDD",
+        "label": "Check FD Rate",
+        "value": "Value",
+        "visible": true,
+        "parent": [
+            "rN9qn#Oop",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "",
+        "templateName": "title"
+    },
+    "P8NeXYdHH": {
+        "id": "P8NeXYdHH",
+        "type": "text",
+        "name": "amount",
+        "label": "Amount",
+        "value": "",
+        "visible": true,
+        "parent": [
+            "rN9qn#Oop",
+            "0"
+        ],
+        "defaultValue": "",
+        "placeholder": "RM 0.00",
+        "rule": {
+            "required": "Amount is required.",
+            "min": {
+                "value": "0.01",
+                "message": "Min amount is 0.01"
+            },
+            "max": {
+                "value": null,
+                "message": ""
+            },
+            "minLength": {
+                "value": null,
+                "message": ""
+            },
+            "maxLength": {
+                "value": null,
+                "message": ""
+            },
+            "pattern": {
+                "value": "^[0-9]*$",
+                "message": "Only number is accepted."
+            }
+        },
+        "templateName": ""
+    }
+}

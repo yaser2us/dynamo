@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Select from 'react-select';
 import Label from "../Label/Label"
 import { Error } from "../Error"
@@ -41,13 +41,28 @@ const optionsDefault = [
 
 const Dropdown = (props) => {
 
-  const { child, error, name, item, field } = props;
+  const { child, error, name, item, field, managedCallback } = props;
   const errorMsg = error && error[name] && error[name].message || ""
-
-  if (item === undefined) return null;
-
   const { label, options, placeholder, description } = item || { label: "" };
+
+  const [ existingOptions, setExistingOptions] = useState(options);
+
+  useEffect(()=> {
+    if (item === undefined) return null;
+
+    if(props.item?.action){
+      setTimeout(() => {
+        managedCallback({item: props.item}).then(result => {
+          console.log(props, result, 'hereeeeeeeeeeeeeeeeeeeee droppppppp');
+          setExistingOptions(result.options)
+        })       
+      }, 7000);
+    }
+  }, [])
+
   const { value, onChange } = field;
+
+  // existOptions = existOptions === undefined && options;
 
   const customOnChange = (e) => {
     onChange(e);
@@ -64,6 +79,8 @@ const Dropdown = (props) => {
     })
   }
 
+  console.log(name,value,"dropdown")
+
   return (
     <>
       <Label {...props} />
@@ -74,7 +91,7 @@ const Dropdown = (props) => {
         placeholder={placeholder}
         defaultValue={value}
         styles={customStyles}
-        options={options}
+        options={existingOptions}
         {...field}
         onChange={customOnChange}
       />

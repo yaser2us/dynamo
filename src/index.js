@@ -8,4 +8,4 @@ export * from './useFormContext';
 export * from './useFormState';
 export * from './useWatch';
 export * from './utils';
-export { DynoBuilder } from "./builder"
+export { DynoBuilder, FormBuilderNext } from "./builder"
