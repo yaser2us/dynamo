@@ -3,7 +3,7 @@ import React from 'react'
 import './Button.css';
 import '../../index.css';
 const Button = (props) => {
-  const { item, error, managedCallback } = props;
+  const { item, error, managedCallback, name } = props;
   const { label, action } = item || { label: "Submit" };
   const disabled = error && Object.keys(error).length > 0 || false;
 
@@ -20,6 +20,7 @@ const Button = (props) => {
       marginTop: '13px'
     }}>
       <button
+      id={name}
         onClick={onClick}
         className="button"
 

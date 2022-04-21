@@ -629,7 +629,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         setFocus,
         getValues,
         setValue,
-        triggerBackground
+        triggerBackground,
+        unregister
     } = useForm({
         mode: 'onChange',
         // criteriaMode: 'all',
@@ -662,6 +663,13 @@ const FormBuilderNext = React.forwardRef(({ items,
 
     React.useEffect(() => {
         if (items === undefined) return
+
+        if(items !== data && data !== undefined){
+            for (const [key, value] of Object.entries(data)) {
+                unregister(value?.name);
+            }
+        }
+        
 
         console.time('convertIdToRefffff')
         myComponents.current = items; // convertIdToRef(items, 'name')

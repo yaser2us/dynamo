@@ -22,6 +22,7 @@
     "axios": "^0.26.0",
     "bootstrap": "^5.1.3",
     "dynamo": "file:..",
+    "mocha": "^9.2.2",
     "mui": "0.0.1",
     "react": "file:../node_modules/react",
     "react-bootstrap": "^2.0.4",
@@ -32,7 +33,8 @@
     "web-vitals": "^2.1.2"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
+    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
+    "arkit": "^1.6.4"
   },
   "eslintConfig": {
     "extends": "react-app"

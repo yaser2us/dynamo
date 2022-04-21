@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Select from 'react-select';
+import Select, { components } from "react-select";
 import Label from "../Label/Label"
 import { Error } from "../Error"
 
@@ -79,6 +79,17 @@ const Dropdown = (props) => {
     })
   }
 
+  const Option = (props) => {
+    const optionProps = {
+      ...props,
+      innerProps: {
+        ...props.innerProps,
+        "id": props.data.value
+      }
+    };
+    return <components.Option {...optionProps} />;
+  };
+
   console.log(name,value,"dropdown")
 
   return (
@@ -88,12 +99,16 @@ const Dropdown = (props) => {
         name={name}
         key={name}
         id={name}
+        instanceId={name}
+        inputId={name}
+
         placeholder={placeholder}
         defaultValue={value}
         styles={customStyles}
         options={existingOptions}
         {...field}
         onChange={customOnChange}
+        components={{ Option }}
       />
       <Error {...props} />
     </>

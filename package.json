@@ -52,6 +52,7 @@
     "dist"
   ],
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "selenium-webdriver": "^4.1.1"
   }
 }

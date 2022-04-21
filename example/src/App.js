@@ -962,7 +962,7 @@ function App() {
     return renderContainer(selectedComponent({ ...propsItems }));
   };
 
-  const managedCallback = async ({ item , actionType = "partial" }) => {
+  const managedCallback = async ({ item, actionType = "partial" }) => {
     if (item && actionType === "partial") {
       const result = await axios.get(item?.action?.actionURL);
       console.log("hereeeeeeeeeeeeeeeeeeeee", result);
@@ -985,11 +985,9 @@ function App() {
         ...itemsRefs?.current,
         [item.id]: item,
         ...newItems,
-      }
+      };
 
-      setItems(
-        updateItemsRefs(oio)
-      );
+      setItems(updateItemsRefs(oio));
 
       // pppppp = {
       //   ...{
@@ -1074,7 +1072,7 @@ function App() {
 
   const updateItemsRefs = (data) => {
     itemsRefs.current = data;
-    console.log(itemsRefs.current,'itemsRefs.current')
+    console.log(itemsRefs.current, "itemsRefs.current");
     return { ...data };
   };
 
@@ -1111,6 +1109,8 @@ function App() {
       <div className="fieldd" style={{ padding: "2rem", marginTop: "2rem" }}>
         {items && (
           <FormBuilderNext
+            key={`dynamo-${items.length}`}
+            name={`dynamo-${items.length}`}
             ref={myForm}
             items={items}
             components={renderComponent}
