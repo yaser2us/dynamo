@@ -905,6 +905,8 @@ function App() {
   //Form elements
   // const [items, setItems] = useState(sample);
   const [items, setItems] = useState();
+  const [preparedValueTypes, setPreparedValueTypes] = useState();
+
   const itemsRefs = useRef({});
 
   React.useEffect(() => {
@@ -1037,10 +1039,24 @@ function App() {
     //otherwise the data object returns
     if (!formData) return null;
 
-    //just sample store data in component
-    setData(formData);
+    let resultData = {};
+    for (const [key, value] of Object.entries(preparedValueTypes)) {
 
-    console.log("this is result from dynamo ;)", formData);
+        if(formData[key]){
+          const field = formData[key].value;
+          const selectedValue = _.get(field, value);
+          resultData = Object.assign(resultData, { [key]: formData[key][value]})
+          console.log(field,selectedValue, 'insideeeeeeeee',value, formData[key][value])
+
+        } 
+    }
+
+
+    console.log(preparedValueTypes, 'managedCallback prepared Massaging', resultData)
+    //just sample store data in component
+    setData({...formData, ...resultData});
+
+    console.log("this is result from dynamo ;)", {...formData, ...resultData});
     return true;
   };
 
@@ -1079,6 +1095,21 @@ function App() {
   const customOnChange = (e) => {
     const selectedPage = _.cloneDeep(products[e.value].items);
     console.log(e, "customOnChange", selectedPage);
+
+    let prepareValueTypes = {};
+    for (const [key, value] of Object.entries(selectedPage)) {
+      console.log(key, "customOnChange valueType", value, value['valueType']);
+      if(value['valueType']){
+        const name = value.name;
+        prepareValueTypes = Object.assign(prepareValueTypes, { [name]: value['valueType']})
+      }      
+    }
+
+    // if(prepareValueTypes !== {}) {
+      setPreparedValueTypes(prepareValueTypes);
+    // }
+    console.log(preparedValueTypes, "customOnChange valueType preparedValueTypes");
+
     // setItemsRefs(selectedPage);
     setItems(selectedPage);
   };

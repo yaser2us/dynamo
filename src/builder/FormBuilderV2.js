@@ -57,7 +57,6 @@ const renderComponentInd = (name, data, { updateReference,
 ) => {
 
     const selectedComponent = {...data[name], givenName };
-    
     //Add givenName here ;)
     // selectedComponent.givenName = givenName;
 
@@ -633,6 +632,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         unregister
     } = useForm({
         mode: 'onChange',
+        shouldUnregister: true,
         // criteriaMode: 'all',
         // criteriaMode: "firstError",
         defaultValues
@@ -650,7 +650,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         setValue,
         useFieldArray,
         useWatch,
-        triggerBackground
+        triggerBackground,
+        unregister
     }
 
     const myComponents = React.useRef()
@@ -664,11 +665,11 @@ const FormBuilderNext = React.forwardRef(({ items,
     React.useEffect(() => {
         if (items === undefined) return
 
-        if(items !== data && data !== undefined){
-            for (const [key, value] of Object.entries(data)) {
-                unregister(value?.name);
-            }
-        }
+        // if(items !== data && data !== undefined){
+        //     for (const [key, value] of Object.entries(data)) {
+        //         unregister(value?.name);
+        //     }
+        // }
         
 
         console.time('convertIdToRefffff')
