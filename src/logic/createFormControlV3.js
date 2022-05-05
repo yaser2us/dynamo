@@ -136,7 +136,7 @@ export function createFormControlV3(props = {}) {
         if (field) {
             const _f = field._f;
             if (_f) {
-                if(!field._f.ref.visible) return;
+                // if(!field._f.ref.visible) return;
                 set(_formValues, name, getFieldValueAs(value, _f));
                 const fieldValue = isWeb && isHTMLElement(_f.ref) && isNullOrUndefined(value)
                     ? ''
@@ -241,7 +241,7 @@ export function createFormControlV3(props = {}) {
                     //To do for formId ;)
                     const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
                     // const fieldError = field._f.ref.formId === "ALL" &&  await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
-                    // console.log(fieldError,"fieldError")
+                    console.log(fieldError,"fieldError")
                     if (shouldCheckValid) {
                         if (fieldError[_f.name]) {
                             context.valid = false;
@@ -531,7 +531,7 @@ export function createFormControlV3(props = {}) {
         return isValid;
     };
     const getValues = (fieldNames) => {
-        // console.log(_formValues, _fields, "fdfdfdfdfdfd")
+        console.log(_formValues, _fields, "fdfdfdfdfdfd")
         const values = Object.assign(Object.assign({}, _defaultValues), _formValues);
         return isUndefined(fieldNames)
             ? values
@@ -614,6 +614,7 @@ export function createFormControlV3(props = {}) {
         set(_fields, name, {
             _f: Object.assign(Object.assign(Object.assign({}, (field && field._f ? field._f : { ref: { name } })), { name, mount: true }), options),
         });
+        console.log(Object.assign(Object.assign(Object.assign({}, (field && field._f ? field._f : { ref: { name } })), { name, mount: true }), options),"registerRegister after", field, name, _fields)
         if (options.value) {
             set(_formValues, name, options.value);
         }
