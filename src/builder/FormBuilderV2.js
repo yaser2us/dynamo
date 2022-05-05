@@ -632,7 +632,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         unregister
     } = useForm({
         mode: 'onChange',
-        shouldUnregister: true,
+        // shouldUnregister: true,
         // criteriaMode: 'all',
         // criteriaMode: "firstError",
         defaultValues
