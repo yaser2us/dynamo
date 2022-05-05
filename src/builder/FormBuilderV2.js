@@ -725,7 +725,8 @@ const FormBuilderNext = React.forwardRef(({ items,
 
     ref.current = {
         getValues: getValuesPOC,
-        resetValues: resetValues
+        resetValues: resetValues,
+        setValue: setValue
     }
 
     const validationOnce = async (name, value, result) => {
