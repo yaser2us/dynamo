@@ -1,22 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react'
 
-// import {
-//     useWatch
-// } from "../useWatch"
-// import {
-//     useFieldArray
-// } from "../useFieldArray"
-// import {
-//     FormProvider,
-//     useFormContext
-// } from "../useFormContext"
-// import {
-//     useForm
-// } from "../useForm"
-// import {
-//     Controller
-// } from "../Controller"
-
 import {
     useWatch
 } from "../useWatch"
@@ -29,7 +12,7 @@ import {
 } from "../useFormContext"
 import {
     useForm
-} from "../useForm"
+} from "../useFormV1"
 import {
     Controller
 } from "../Controller"
@@ -56,7 +39,7 @@ const renderComponentInd = (name, data, { updateReference,
 }
 ) => {
 
-    const selectedComponent = {...data[name], givenName };
+    const selectedComponent = { ...data[name], givenName };
     //Add givenName here ;)
     // selectedComponent.givenName = givenName;
 
@@ -123,7 +106,7 @@ const renderComponentForm = (
     let result = null
     let child = []
     if (item.items) {
-        child = item.items.map((name,idx) => renderComponentInd(name, data, {
+        child = item.items.map((name, idx) => renderComponentInd(name, data, {
             updateReference,
             myControl,
             getValue,
@@ -163,7 +146,7 @@ const renderComponentForm = (
         required: item.required && item.required.value !== "" && item.required || undefined
     }
 
-   
+
     // let rule = _.cloneDeep(item?.rule || {});
     // debugger;
     // rule.pattern?.value = new RegExp(item.rule?.pattern?.value);
@@ -178,7 +161,7 @@ const renderComponentForm = (
             render={({ field }) => {
 
                 if (item.isArray) {
-                    console.log(name,item.items, "useFieldArray")
+                    console.log(name, item.items, "useFieldArray")
                     const { fields, append, remove } = useFieldArray({
                         control,
                         name: name
@@ -195,7 +178,7 @@ const renderComponentForm = (
                                                 name={`${name}.${index}.${data[element].name}`}
                                                 control={control}
                                                 render={({ field }) => {
-                                                    console.log(`${name}.${index}.${element}`,'`${name}.${index}.${element}`')
+                                                    console.log(`${name}.${index}.${element}`, '`${name}.${index}.${element}`')
                                                     return renderComponentInd(element, data, {
                                                         updateReference,
                                                         myControl,
@@ -615,8 +598,12 @@ const FormBuilderNext = React.forwardRef(({ items,
     components,
     managedCallback,
     shouldUnregister = true,
-    defaultValues = {} }, ref) => {
+    defaultValues = {},
+    devMode = true }, ref) => {
 
+    if (devMode) {
+        console.log = () => { };
+    }
     console.log(defaultValues, "defaultValues")
 
     const {
@@ -671,7 +658,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         //         unregister(value?.name);
         //     }
         // }
-        
+
 
         console.time('convertIdToRefffff')
         myComponents.current = items; // convertIdToRef(items, 'name')
@@ -679,12 +666,12 @@ const FormBuilderNext = React.forwardRef(({ items,
         watchingComponents.current = prepareWtchingComponents(myComponents.current)
         console.log(myComponents, 'myComponentsmyComponents')
         console.log(watchingComponents, 'prepareWtchingComponents', [...watchingComponents.current.keys()])
-        
+
         const subscription = watch(async (value, { name, type }) => {
             // const [a, b] = await checkPreCondition(name, value[name], items);
             // setData({ ...b });
             // console.log("watchhhhhhh", name, value)
-// return;
+            // return;
             if (watchingComponents.current.get(name)) {
                 // if(!Array.isArray(data)) return;
                 console.log("checkPreCondition ;) checkPreCondition", value, name, type, data, items)
@@ -822,7 +809,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         // OR update and dont itterate the Object
         // _.set({ a: myComponents.current }, "a.textbox-2.items[0].value", "leila")
         // let n = _.cloneDeep(result);
-        let n = {...result}
+        let n = { ...result }
 
         let updated = false
 
@@ -844,8 +831,8 @@ const FormBuilderNext = React.forwardRef(({ items,
                 //     updated = true
                 // }
                 const i = n[item.refId];
-                console.log(n["accountNo"],"accountNoaccountNo",'-----',i)
-                if(i !== undefined && i.visible !== touched ){
+                console.log(n["accountNo"], "accountNoaccountNo", '-----', i)
+                if (i !== undefined && i.visible !== touched) {
                     n[item.refId].visible = touched;
                     updated = true
                 }

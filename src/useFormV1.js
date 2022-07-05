@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createFormControl } from './logic/createFormControl';
-import { createFormControlV3 as createFormControlV2 } from './logic/createFormControlV3';
+import { createFormControlV4 } from './logic/createFormControlV4';
 import getProxyFormState from './logic/getProxyFormState';
 import shouldRenderFormState from './logic/shouldRenderFormState';
 import get from './utils/get';
@@ -24,7 +24,7 @@ export function useForm(props = {}) {
         _formControl.current.control._updateProps(props);
     }
     else {
-        _formControl.current = Object.assign(Object.assign({}, createFormControlV2(props)), { formState });
+        _formControl.current = Object.assign(Object.assign({}, createFormControlV4(props)), { formState });
     }
     const control = _formControl.current.control;
     React.useEffect(() => {

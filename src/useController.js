@@ -7,7 +7,8 @@ import { useFormContext } from './useFormContext';
 import { useFormState } from './useFormState';
 export function useController(props) {
     const methods = useFormContext();
-    const { name, control = methods.control, shouldUnregister } = props;
+    const { name, control = methods.control, shouldUnregister, item } = props;
+    console.log(item, "useController");
     const [value, setInputStateValue] = React.useState(get(control._formValues, name, get(control._defaultValues, name, props.defaultValue)));
     const formState = useFormState({
         control: control || methods.control,
