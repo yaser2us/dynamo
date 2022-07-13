@@ -15,7 +15,7 @@ import {
 } from "../useFormV1"
 import {
     Controller
-} from "../Controller"
+} from "../controller"
 
 import _ from 'lodash'
 // import deepEqual from "../utils/deepEqual"

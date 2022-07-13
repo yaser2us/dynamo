@@ -15,7 +15,7 @@ import {
 } from "../useForm"
 import {
     Controller
-} from "../Controller"
+} from "../controller"
 
 // import { Subject, AsyncSubject } from 'rxjs'
 // import pubsub from "./pubsub";

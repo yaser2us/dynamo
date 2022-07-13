@@ -32,7 +32,7 @@ import {
 } from "../useForm"
 import {
     Controller
-} from "../Controller"
+} from "../controller"
 
 import _ from 'lodash'
 // import deepEqual from "../utils/deepEqual"
