@@ -24,7 +24,6 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
 import { DynoBuilder, FormBuilderNext } from "dynamo";
 
 const Section = ({children, title}) => {
@@ -54,8 +53,9 @@ const Section = ({children, title}) => {
 };
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
   const [items, setItems] = useState();
+  const isDarkMode = useColorScheme() === 'dark';
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -71,8 +71,7 @@ const App = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-
-{items && (
+            {items && (
           <FormBuilderNext
             key={`dynamo-${items.length}`}
             name={`dynamo-${items.length}`}
