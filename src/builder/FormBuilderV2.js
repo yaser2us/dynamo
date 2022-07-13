@@ -32,7 +32,7 @@ import {
 } from "../useForm"
 import {
     Controller
-} from "../Controller"
+} from "../controller"
 
 import _ from 'lodash'
 // import deepEqual from "../utils/deepEqual"
@@ -614,6 +614,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     ControlledComponents,
     components,
     managedCallback,
+    shouldUnregister = true,
     defaultValues = {} }, ref) => {
 
     console.log(defaultValues, "defaultValues")
@@ -635,7 +636,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         shouldUnregister: true,
         // criteriaMode: 'all',
         // criteriaMode: "firstError",
-        defaultValues
+        defaultValues: defaultValues
     })
 
     const sharedItems = {
@@ -680,6 +681,10 @@ const FormBuilderNext = React.forwardRef(({ items,
         console.log(watchingComponents, 'prepareWtchingComponents', [...watchingComponents.current.keys()])
         
         const subscription = watch(async (value, { name, type }) => {
+            // const [a, b] = await checkPreCondition(name, value[name], items);
+            // setData({ ...b });
+            // console.log("watchhhhhhh", name, value)
+// return;
             if (watchingComponents.current.get(name)) {
                 // if(!Array.isArray(data)) return;
                 console.log("checkPreCondition ;) checkPreCondition", value, name, type, data, items)
@@ -690,7 +695,6 @@ const FormBuilderNext = React.forwardRef(({ items,
                     // preConditionItems.current = [...b];
                     return;
                 }
-
             }
         });
 

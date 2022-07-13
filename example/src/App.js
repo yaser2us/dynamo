@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 // 1: install this dynamo
-import { DynoBuilder, FormBuilderNext } from "dynamo";
+import { DynoBuilder, FormBuilderV4 as FormBuilderNext } from "dynamo";
 // import 'dynamo/dist/index.css'
 import Select from "react-select";
 import _ from "lodash";
@@ -14,6 +14,7 @@ import Switch from "./Components/Switch/Switch";
 import DatePick from "./Components/Date/DatePick";
 import Dropdown from "./Components/Select/Dropdown";
 import Fieldset from "./Components/Fieldset/Fieldset";
+import LocalPagination from "./Components/Fieldset/LocalPagination";
 import Label from "./Components/Label/Label";
 import ConfirmationButton from "./Components/Button/ConfirmationButton";
 import AsyncBlock from "./Components/AsyncBlock/AsyncBlock";
@@ -400,7 +401,7 @@ const sample110 = {
     name: "YReB8ij6Oko",
     label: "Textbox",
     value: "",
-    visible: true,
+    visible: true
   },
   "3GBtSH7SQlX": {
     id: "Q5lzi3Lgt",
@@ -423,7 +424,7 @@ const sample110 = {
     id: "XVaBKVraB",
     type: "select",
     name: "9gChBnUqnGU",
-    label: "dropdown",
+    label: "{f5Ou1GNVw2y}",
     value: "",
     visible: true,
   },
@@ -441,7 +442,9 @@ const sample110 = {
     name: "f5Ou1GNVw2y",
     label: "Textbox",
     value: "",
+    valueType: "",
     visible: true,
+    watch: true
   },
 };
 
@@ -899,7 +902,7 @@ function App() {
   const [data, setData] = useState();
   const [products, setProducts] = useState();
   const [options, setOptions] = useState();
-
+  const [shouldUnregister, setShouldUnregister] = useState(false);
   //Access to form
   const myForm = useRef({});
   //Form elements
@@ -937,6 +940,7 @@ function App() {
     date: (props) => <DatePick {...props} />,
     button: (props) => <Button {...props} />,
     fieldset: (props) => <Fieldset {...props} />,
+    // fieldset: (props) => <LocalPagination {...props} />,
     label: (props) => <Label {...props} />,
     confirmationButton: (props) => <ConfirmationButton {...props} />,
     asyncBlock: (props) => <AsyncBlock {...props} />,
@@ -1034,6 +1038,7 @@ function App() {
 
     //Get dynamo form values
     const formData = await myForm.current.getValues();
+    console.log(myForm.current, 'setValue')
 
     //false means error is there
     //otherwise the data object returns
@@ -1042,21 +1047,22 @@ function App() {
     let resultData = {};
     for (const [key, value] of Object.entries(preparedValueTypes)) {
 
-        if(formData[key]){
-          const field = formData[key].value;
-          const selectedValue = _.get(field, value);
-          resultData = Object.assign(resultData, { [key]: formData[key][value]})
-          console.log(field,selectedValue, 'insideeeeeeeee',value, formData[key][value])
+      if (formData[key]) {
+        const field = formData[key].value;
+        const selectedValue = _.get(field, value);
+        resultData = Object.assign(resultData, { [key]: formData[key][value] })
+        console.log(field, selectedValue, 'insideeeeeeeee', value, formData[key][value])
 
-        } 
+      }
     }
 
 
     console.log(preparedValueTypes, 'managedCallback prepared Massaging', resultData)
     //just sample store data in component
-    setData({...formData, ...resultData});
+    setShouldUnregister(false)
 
-    console.log("this is result from dynamo ;)", {...formData, ...resultData});
+    setData({ ...formData, ...resultData });
+    console.log("this is result from dynamo ;)", { ...formData, ...resultData });
     return true;
   };
 
@@ -1099,14 +1105,14 @@ function App() {
     let prepareValueTypes = {};
     for (const [key, value] of Object.entries(selectedPage)) {
       console.log(key, "customOnChange valueType", value, value['valueType']);
-      if(value['valueType']){
+      if (value['valueType']) {
         const name = value.name;
-        prepareValueTypes = Object.assign(prepareValueTypes, { [name]: value['valueType']})
-      }      
+        prepareValueTypes = Object.assign(prepareValueTypes, { [name]: value['valueType'] })
+      }
     }
 
     // if(prepareValueTypes !== {}) {
-      setPreparedValueTypes(prepareValueTypes);
+    setPreparedValueTypes(prepareValueTypes);
     // }
     console.log(preparedValueTypes, "customOnChange valueType preparedValueTypes");
 
@@ -1140,13 +1146,19 @@ function App() {
       <div className="fieldd" style={{ padding: "2rem", marginTop: "2rem" }}>
         {items && (
           <FormBuilderNext
+            devMode={false}
             key={`dynamo-${items.length}`}
             name={`dynamo-${items.length}`}
             ref={myForm}
-            items={items}
+            items={sample110}
+            // items={items}
+            shouldUnregister={shouldUnregister}
             components={renderComponent}
             managedCallback={managedCallback}
             validationResolver={validationResolver}
+            defaultValues={{
+              amount: "fsfsfsfsfsd"
+            }}
           />
         )}
       </div>

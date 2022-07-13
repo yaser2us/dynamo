@@ -41,10 +41,10 @@ const optionsDefault = [
 
 const Dropdown = (props) => {
 
-  const { child, error, name, item, field, managedCallback } = props;
+  const { child, error, name, item, field, managedCallback, sharedItems } = props;
   const errorMsg = error && error[name] && error[name].message || ""
   const { label, options, placeholder, description } = item || { label: "" };
-
+  const { getValues } = sharedItems;
   const [ existingOptions, setExistingOptions] = useState(options);
 
   useEffect(()=> {
@@ -89,11 +89,13 @@ const Dropdown = (props) => {
     };
     return <components.Option {...optionProps} />;
   };
+  
 
-  console.log(name,value,"dropdown")
+  console.log(name,value,"dropdowndropdown", props, getValues("f5Ou1GNVw2y"), getValues())
 
   return (
     <>
+    {getValues("f5Ou1GNVw2y")}
       <Label {...props} />
       <Select
         name={name}
@@ -109,6 +111,7 @@ const Dropdown = (props) => {
         {...field}
         onChange={customOnChange}
         components={{ Option }}
+        isDisabled={getValues("f5Ou1GNVw2y")}
       />
       <Error {...props} />
     </>

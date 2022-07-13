@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="551px" preserveAspectRatio="none" style="width:408px;height:551px;" version="1.1" viewBox="0 0 408 551" width="408px" zoomAndPan="magnify"><defs/><g><ellipse cx="77.6419" cy="296.242" fill="#F8F8F8" rx="17.8492" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="21" x="67.1419" y="299.9842">App</text><ellipse cx="77.8551" cy="21.242" fill="#F8F8F8" rx="39.0624" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="51" x="52.3551" y="24.9842">App-old</text><ellipse cx="77.9765" cy="254.242" fill="#F8F8F8" rx="41.1838" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="54" x="50.9765" y="257.9842">App.test</text><ellipse cx="222.962" cy="317.242" fill="#F8F8F8" rx="49.669" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="66" x="189.962" y="320.9842">AsyncBlock</text><ellipse cx="222.7833" cy="63.9981" fill="#F8F8F8" rx="55.4903" ry="13.4981" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="184.7833" y="67.7402">AsyncBlock</text><ellipse cx="222.6631" cy="359.242" fill="#F8F8F8" rx="29.8701" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="38" x="203.6631" y="362.9842">Button</text><ellipse cx="222.891" cy="527.242" fill="#F8F8F8" rx="42.598" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="56" x="194.891" y="530.9842">Checkbox</text><ellipse cx="222.9806" cy="186.8375" fill="#F8F8F8" rx="69.6876" ry="16.3375" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="112" x="166.9806" y="190.5797">ConfirmationButton</text><ellipse cx="222.6483" cy="233.242" fill="#F8F8F8" rx="38.3553" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="50" x="197.6483" y="236.9842">DatePick</text><ellipse cx="223.0123" cy="401.242" fill="#F8F8F8" rx="44.7193" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="59" x="193.5123" y="404.9842">Dropdown</text><ellipse cx="359.3849" cy="422.242" fill="#F8F8F8" rx="22.0919" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="27" x="345.8849" y="425.9842">Error</text><ellipse cx="222.9057" cy="275.242" fill="#F8F8F8" rx="34.1127" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="44" x="200.9057" y="278.9842">Fieldset</text><ellipse cx="78.0414" cy="170.242" fill="#F8F8F8" rx="27.7487" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="35" x="60.5414" y="173.9842">index</text><ellipse cx="78.0267" cy="212.242" fill="#F8F8F8" rx="36.234" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="47" x="54.5267" y="215.9842">index 2</text><ellipse cx="359.5062" cy="191.242" fill="#F8F8F8" rx="24.2132" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="30" x="344.5062" y="194.9842">Label</text><ellipse cx="78.012" cy="63.242" fill="#F8F8F8" rx="44.7193" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="59" x="48.512" y="66.9842">Progress</text><ellipse cx="222.956" cy="485.242" fill="#F8F8F8" rx="29.163" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="37" x="204.456" y="488.9842">Radio</text><ellipse cx="222.6483" cy="21.242" fill="#F8F8F8" rx="38.3553" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="50" x="197.6483" y="24.9842">Sidebar</text><ellipse cx="222.6631" cy="443.242" fill="#F8F8F8" rx="29.8701" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="38" x="203.6631" y="446.9842">Switch</text><ellipse cx="222.7636" cy="107.242" fill="#F8F8F8" rx="19.9706" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="24" x="210.7636" y="110.9842">Text</text><ellipse cx="359.527" cy="107.242" fill="#F8F8F8" rx="36.234" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="47" x="336.027" y="110.9842">Tooltips</text><!--MD5=[7396a1a6dd138fb6107fb5308b2f5bf8]
+link App to AsyncBlock--><path d="M95.4765,298.45 C114.689,301.271 147.098,306.031 174.277,310.022 " fill="none" id="App-&gt;AsyncBlock" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="179.287,310.758,170.9643,305.4917,174.3401,310.0309,169.801,313.4067,179.287,310.758" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[f64407ee4b06e44cbda0177240d69ae8]
+link App to Button--><path d="M91.8071,304.485 C106.339,313.683 130.78,328.338 153.293,338 C165.395,343.194 179.203,347.684 191.236,351.163 " fill="none" id="App-&gt;Button" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="196.275,352.592,188.708,346.288,191.4647,351.2276,186.5251,353.9844,196.275,352.592" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[54b8d1aa5befe12d29252487d8c7d1d6]
+link App to Checkbox--><path d="M79.4989,308.982 C82.1939,345.5 94.8945,450.0849 153.293,506 C160.331,512.7394 169.477,517.3207 178.782,520.4335 " fill="none" id="App-&gt;Checkbox" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="183.651,521.9311,176.2247,515.4619,178.872,520.4611,173.8728,523.1084,183.651,521.9311" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[4386f76f36c6e67c11decc2d6b81056c]
+link App to ConfirmationButton--><path d="M94.8287,291.171 C103.7991,287.812 114.674,282.562 122.293,275 C144.442,253.017 130.075,232.851 153.293,212 C158.096,207.686 163.705,204.099 169.607,201.12 " fill="none" id="App-&gt;ConfirmationButton" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="174.168,198.958,164.322,199.1952,169.6492,201.0981,167.7462,206.4253,174.168,198.958" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[a15ae9e023625f94707bea53af249c16]
+link App to DatePick--><path d="M93.5666,289.518 C102.1162,285.608 112.991,280.358 122.293,275 C136.713,266.694 138.282,261.185 153.293,254 C163.509,249.11 175.123,245.042 185.849,241.829 " fill="none" id="App-&gt;DatePick" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="190.707,240.414,180.9474,239.0913,185.9066,241.8127,183.1853,246.7719,190.707,240.414" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[ed472b035fd7e46d2fe71aa8a1441a48]
+link App to Dropdown--><path d="M85.9977,307.593 C97.8356,325.695 123.123,360.604 153.293,380 C161.49,385.27 171.085,389.281 180.455,392.31 " fill="none" id="App-&gt;Dropdown" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="185.326,393.806,177.8976,387.3392,180.5465,392.3376,175.5481,394.9865,185.326,393.806" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[fc3b5fbfa0cbe5d61ca8cdcdef3254af]
+link App to Fieldset--><path d="M95.4765,293.55 C117.394,290.331 156.485,284.591 185.394,280.345 " fill="none" id="App-&gt;Fieldset" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="190.667,279.571,181.181,276.9223,185.7201,280.2981,182.3443,284.8373,190.667,279.571" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[fe911ba37e61486fef934367a62bea1b]
+link App to Label--><path d="M94.9561,291.829 C104.1985,288.654 115.307,283.37 122.293,275 C155.389,235.348 112.188,194.273 153.293,163 C208.646,120.886 297.543,158.497 337.574,179.324 " fill="none" id="App-&gt;Label" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="342.208,181.774,336.1215,174.0309,337.7879,179.4368,332.382,181.1031,342.208,181.774" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[a4ee61f3f6443eb9315f6743d820e1f6]
+link App to Switch--><path d="M82.8357,308.83 C91.5142,334.281 114.363,391.338 153.293,422 C163.468,430.014 176.698,434.983 188.815,438.058 " fill="none" id="App-&gt;Switch" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="193.927,439.263,186.085,433.3045,189.0604,438.1157,184.2493,441.091,193.927,439.263" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[e65b5bdb0c4979d8cfcc8abdffb56136]
+link App to Text--><path d="M95.13,291.97 C104.4342,288.845 115.546,283.564 122.293,275 C162.537,223.916 110.55,181.013 153.293,132 C164.408,119.254 182.577,113.002 197.411,109.939 " fill="none" id="App-&gt;Text" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="202.705,108.948,193.1234,106.6692,197.7901,109.8664,194.5929,114.5331,202.705,108.948" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[ade7508b8fd28882668ed72a2a00701f]
+link <b>App.test</b> to App--><path d="M77.7927,267.084 C77.7927,270.538 77.7927,273.993 77.7927,277.447 " fill="none" id="&lt;b&gt;App.test&lt;/b&gt;-&gt;App" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="77.7927,282.875,81.7927,273.875,77.7927,277.875,73.7927,273.875,77.7927,282.875" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[ea3cb2d2a13a3c3d6f8b9aff1d793037]
+link <b>AsyncBlock</b> to AsyncBlock--><path d="M172.505,69.883 C158.653,74.213 145.365,81.571 137.793,94 C126.578,112.409 126.578,269.591 137.793,288 C145.018,299.859 157.503,306.977 170.715,311.217 " fill="none" id="&lt;b&gt;AsyncBlock&lt;/b&gt;-&gt;AsyncBlock" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="175.607,312.652,168.098,306.279,170.8094,311.2437,165.8447,313.9552,175.607,312.652" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[532bd55ad5b483fc87f80bccba0559ac]
+link Checkbox to Error--><path d="M259.784,520.3595 C270.853,517.201 282.65,512.6131 292.293,506 C317.814,488.497 338.105,458.1245 349.142,439.095 " fill="none" id="Checkbox-&gt;Error" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="351.746,434.516,343.8198,440.3619,349.2742,438.8623,350.7739,444.3168,351.746,434.516" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[3da7131e12c8d9d39313207268aba542]
+link DatePick to Error--><path d="M259.288,237.567 C270.966,240.597 283.257,245.633 292.293,254 C336.599,295.025 351.599,369.473 356.309,403.786 " fill="none" id="DatePick-&gt;Error" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="356.979,408.937,359.7857,399.4965,356.3346,403.9787,351.8524,400.5276,356.979,408.937" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[cb212518f881a2a45cbd211030284464]
+link DatePick to Label--><path d="M252.142,224.383 C264.485,220.611 279.114,216.117 292.293,212 C305.972,207.727 321.218,202.881 333.609,198.922 " fill="none" id="DatePick-&gt;Label" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="338.382,197.396,328.5913,196.3269,333.6195,198.9187,331.0277,203.9469,338.382,197.396" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[02d6c851bccbaa97a7fe116d2b4ecd7e]
+link Dropdown to Error--><path d="M262.335,407.018 C284.853,410.534 312.656,414.875 332.529,417.977 " fill="none" id="Dropdown-&gt;Error" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="337.657,418.778,329.3819,413.4373,332.7169,418.0066,328.1476,421.3415,337.657,418.778" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[3b5977310873014198daaac2a87f8c04]
+link Dropdown to Label--><path d="M263.384,395.544 C273.846,392.443 284.405,387.59 292.293,380 C341.466,332.684 354.034,246.771 357.222,209.299 " fill="none" id="Dropdown-&gt;Label" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="357.627,204.132,352.9373,212.7926,357.2371,209.1168,360.913,213.4165,357.627,204.132" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[ecd3eb27b95e64915d32091e7d695c57]
+link Error to Error--><path d="M341.419,414.278 C327.038,404.565 332.996,393 359.293,393 C382.713,393 390.001,402.174 381.155,411.042 " fill="none" id="Error-&gt;Error" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="377.166,414.278,386.6753,411.7142,381.0489,411.1279,381.6352,405.5016,377.166,414.278" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[893f7b7637e22df589de0e5c7f34855e]
+link <b>index</b> to App--><path d="M52.6489,175.307 C39.7983,179.446 25.3168,186.649 17.7927,199 C2.0691,224.81 2.0691,241.19 17.7927,267 C25.7636,280.084 41.5425,287.391 54.9189,291.398 " fill="none" id="&lt;b&gt;index&lt;/b&gt;-&gt;App" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="60.0949,292.824,52.4815,286.576,55.2747,291.4952,50.3555,294.2884,60.0949,292.824" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[64c5c28d2e4c3cbf621cee7a29436ca6]
+link <b>index 2</b> to App--><path d="M47.337,219.171 C35.988,223.5 24.2936,230.329 17.7927,241 C11.7808,250.868 11.7808,257.132 17.7927,267 C25.7636,280.084 41.5425,287.391 54.9189,291.398 " fill="none" id="&lt;b&gt;index 2&lt;/b&gt;-&gt;App" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="60.0949,292.824,52.4815,286.576,55.2747,291.4952,50.3555,294.2884,60.0949,292.824" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[c3f268c889c78579aefde2dd95cca9e1]
+link <b>Radio</b> to Error--><path d="M248.799,479.0732 C262.043,475.5053 278.399,470.4071 292.293,464 C309.579,456.0283 327.72,444.1963 340.599,435.12 " fill="none" id="&lt;b&gt;Radio&lt;/b&gt;-&gt;Error" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="344.756,432.158,335.1054,434.1243,340.6843,435.06,339.7486,440.6389,344.756,432.158" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[87ff78403a62513cec6fde7cb5861b57]
+link Switch to Error--><path d="M251.335,438.7 C275.2,434.974 309.458,429.625 332.726,425.992 " fill="none" id="Switch-&gt;Error" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="337.807,425.199,328.2976,422.6355,332.8669,425.9704,329.5319,430.5397,337.807,425.199" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[62261f35779f2e301d3d4d4b6dfc034e]
+link Text to Error--><path d="M238.441,115.096 C254.151,124.542 278.669,141.628 292.293,163 C343.104,242.713 354.842,359.573 357.517,403.979 " fill="none" id="Text-&gt;Error" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="357.8,409.028,361.2898,399.8182,357.52,404.0358,353.3023,400.2661,357.8,409.028" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[d0b494f234557465b2ca7865385837f6]
+link Text to Label--><path d="M241.79,111.536 C256.112,115.613 276.328,122.437 292.293,132 C312.127,143.881 331.442,162.173 343.999,175.238 " fill="none" id="Text-&gt;Label" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="347.672,179.112,344.381,169.8292,344.2313,175.4841,338.5764,175.3344,347.672,179.112" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[5051b63d1bb966d8b96a01a05eb730e3]
+link Text to Tooltips--><path d="M243.063,107 C262.526,107 293.176,107 317.973,107 " fill="none" id="Text-&gt;Tooltips" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="323.17,107,314.17,103,318.17,107,314.17,111,323.17,107" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[7ccb55cde0028bb1365974f11d4fb573]
+link <b>App-old</b> to <b>Progress</b>--><!--MD5=[e049287057df9663cffc5b5bee40c05e]
+link <b>App-old</b> to <b>Sidebar</b>--><script type="text/plantuml"><![CDATA[MD5=[dadd7ab75a66f91fd1ec2644a97a8eda]
+@startuml
+
+scale max 1920 width
+left to right direction
+
+skinparam nodesep 16
+skinparam ranksep 31
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 12
+skinparam roundCorner 6
+skinparam dpi 150
+skinparam arrowColor black
+skinparam arrowThickness 0.5
+skinparam packageTitleAlignment left
+
+skinparam usecase {
+  borderThickness 0.5
+}
+
+skinparam rectangle {
+  borderThickness 0.5
+}
+
+skinparam component {
+  borderThickness 1
+}
+
+
+(App)
+(<b>App-old</b>)
+(<b>App.test</b>)
+(AsyncBlock)
+(<b>AsyncBlock</b>)
+(Button)
+(Checkbox)
+(ConfirmationButton)
+(DatePick)
+(Dropdown)
+(Error)
+(Error)
+(Fieldset)
+(<b>index</b>)
+(<b>index 2</b>)
+(Label)
+(<b>Progress</b>)
+(<b>Radio</b>)
+(<b>Sidebar</b>)
+(Switch)
+(Text)
+(Tooltips)
+
+
+(App) --> (AsyncBlock)
+(App) --> (Button)
+(App) --> (Checkbox)
+(App) --> (ConfirmationButton)
+(App) --> (DatePick)
+(App) --> (Dropdown)
+(App) --> (Fieldset)
+(App) --> (Label)
+(App) --> (Switch)
+(App) --> (Text)
+(<b>App.test</b>) -[thickness=1]> (App)
+(<b>AsyncBlock</b>) -[thickness=1]> (AsyncBlock)
+(Checkbox) --> (Error)
+(DatePick) --> (Error)
+(DatePick) --> (Label)
+(Dropdown) --> (Error)
+(Dropdown) --> (Label)
+(Error) --> (Error)
+(<b>index</b>) -[thickness=1]> (App)
+(<b>index 2</b>) -[thickness=1]> (App)
+(<b>Radio</b>) --[thickness=1]> (Error)
+(Switch) --> (Error)
+(Text) --> (Error)
+(Text) --> (Label)
+(Text) --> (Tooltips)
+
+@enduml
+
+
+' View and edit on https://arkit.pro
+]]></script></g></svg>
