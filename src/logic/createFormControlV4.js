@@ -285,8 +285,9 @@ export function createFormControlV4(props = {}) {
                 set(_formValues, name, inputValue);
             }
             const fieldState = updateTouchAndDirtyState(name, inputValue, isBlurEvent, false);
-            const shouldRender = field._f.ref.watch || !isEmptyObject(fieldState) || isWatched;
-            console.log(field,'heyyyyyyyyyyy',field._f.ref.watch, shouldRender, shouldSkipValidation, isBlurEvent)
+            const shouldRender = field._f.watch || !isEmptyObject(fieldState) || isWatched;
+            // const shouldRender = !isEmptyObject(fieldState) || isWatched;
+            console.log(shouldRender,'heyyyyyyyyyyy',field._f.watch, shouldRender, shouldSkipValidation, isBlurEvent, '------;)----', isWatched)
             if (shouldSkipValidation) {
                 !isBlurEvent &&
                     _subjects.watch.next({

@@ -1144,11 +1144,11 @@ function App() {
         onChange={customOnChange}
       />
       <div className="fieldd" style={{ padding: "2rem", marginTop: "2rem" }}>
-        {items && (
+        {sample110 && (
           <FormBuilderNext
             devMode={false}
-            key={`dynamo-${items.length}`}
-            name={`dynamo-${items.length}`}
+            key={`dynamo-${sample110.length}`}
+            name={`dynamo-${sample110.length}`}
             ref={myForm}
             items={sample110}
             // items={items}
