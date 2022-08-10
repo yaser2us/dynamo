@@ -10,9 +10,10 @@ import getRadioValue from './getRadioValue';
 export default function getFieldValue(field) {
     if (field && field._f) {
         const ref = field._f.ref;
-        if (field._f.refs ? field._f.refs.every((ref) => ref.disabled) : ref.disabled) {
-            return;
-        }
+        //TODO: findout why it is here ;) thanks to Edward ;)
+        // if (field._f.refs ? field._f.refs.every((ref) => ref.disabled) : ref.disabled) {
+        //     return;
+        // }
         if (isFileInput(ref)) {
             return ref.files;
         }
