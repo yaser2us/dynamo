@@ -43,6 +43,7 @@ const defaultOptions = {
 const isWindowUndefined = typeof window === 'undefined';
 export function createFormControlV4(props = {}) {
     let formOptions = Object.assign(Object.assign({}, defaultOptions), props);
+    console.log(formOptions,'formOptions')
     let _delayCallback;
     let _formState = {
         isDirty: false,
@@ -255,6 +256,9 @@ export function createFormControlV4(props = {}) {
                         fieldError[_f.name]
                             ? set(_formState.errors, _f.name, fieldError[_f.name])
                             : unset(_formState.errors, _f.name);
+                            //Added to stop at first error
+                            //TODO: enhance as parameter 
+                            if (Object.keys(_formState.errors).length == 1) break;
                     }
                 }
                 val && (await validateForm(val, shouldCheckValid, context));

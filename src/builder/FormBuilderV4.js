@@ -624,7 +624,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     } = useForm({
         mode: 'onChange',
         shouldUnregister: true,
-        // criteriaMode: 'all',
+        // reValidateMode: 'onSubmit',
         // criteriaMode: "firstError",
         defaultValues: defaultValues
     })
@@ -720,7 +720,8 @@ const FormBuilderNext = React.forwardRef(({ items,
     ref.current = {
         getValues: getValuesPOC,
         resetValues: resetValues,
-        setValue: setValue
+        setValue: setValue,
+        errors: errors
     }
 
     const validationOnce = async (name, value, result) => {
