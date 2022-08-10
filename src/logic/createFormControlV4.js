@@ -43,6 +43,7 @@ const defaultOptions = {
 const isWindowUndefined = typeof window === 'undefined';
 export function createFormControlV4(props = {}) {
     let formOptions = Object.assign(Object.assign({}, defaultOptions), props);
+    console.log(formOptions,'formOptions')
     let _delayCallback;
     let _formState = {
         isDirty: false,
@@ -255,6 +256,9 @@ export function createFormControlV4(props = {}) {
                         fieldError[_f.name]
                             ? set(_formState.errors, _f.name, fieldError[_f.name])
                             : unset(_formState.errors, _f.name);
+                            //Added to stop at first error
+                            //TODO: enhance as parameter 
+                            if (Object.keys(_formState.errors).length == 1) break;
                     }
                 }
                 val && (await validateForm(val, shouldCheckValid, context));
@@ -285,8 +289,9 @@ export function createFormControlV4(props = {}) {
                 set(_formValues, name, inputValue);
             }
             const fieldState = updateTouchAndDirtyState(name, inputValue, isBlurEvent, false);
-            const shouldRender = field._f.ref.watch || !isEmptyObject(fieldState) || isWatched;
-            console.log(field,'heyyyyyyyyyyy',field._f.ref.watch, shouldRender, shouldSkipValidation, isBlurEvent)
+            const shouldRender = field._f.watch || !isEmptyObject(fieldState) || isWatched;
+            // const shouldRender = !isEmptyObject(fieldState) || isWatched;
+            console.log(shouldRender,'heyyyyyyyyyyy',field._f.watch, shouldRender, shouldSkipValidation, isBlurEvent, '------;)----', isWatched)
             if (shouldSkipValidation) {
                 !isBlurEvent &&
                     _subjects.watch.next({

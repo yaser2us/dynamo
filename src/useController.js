@@ -14,7 +14,7 @@ export function useController(props) {
         control: control || methods.control,
         name,
     });
-    const registerProps = control.register(name, Object.assign(Object.assign({}, props.rules), { value }));
+    const registerProps = control.register(name, Object.assign(Object.assign({}, {...props.rules, ...item}), { value }));
     // console.log(registerProps,"useController")
 
     const updateMounted = React.useCallback((name, value) => {
@@ -68,7 +68,7 @@ export function useController(props) {
             ref: (elm) => elm &&
                 registerProps.ref({
                     //todo item ;)
-                    ...(props.item && props.item || {}),
+                    // ...(props.item && props.item || {}),
                     focus: () => elm.focus && elm.focus(),
                     setCustomValidity: (message) => elm.setCustomValidity(message),
                     reportValidity: () => elm.reportValidity(),

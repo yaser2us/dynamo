@@ -96,7 +96,7 @@ const renderComponentForm = (
     parent
 ) => {
     console.log(errorss, 'dataerrors')
-    console.time('renderFormmm')
+    //console.time('renderFormmm')
     // const r = data
     //     .filter((element) => element.visible)
     //     .map((item, index) => {
@@ -268,7 +268,7 @@ const renderComponentForm = (
 
     //     return result
     // })
-    console.timeEnd('renderFormmm')
+    //console.timeEnd('renderFormmm')
     return result
 }
 
@@ -286,7 +286,7 @@ const renderForm = (
     setValue
 ) => {
     console.log(errors, 'dataerrors')
-    console.time('renderFormmm')
+    //console.time('renderFormmm')
     const r = data
         .filter((element) => element.visible)
         .map((item, index) => {
@@ -440,7 +440,7 @@ const renderForm = (
 
             return result
         })
-    console.timeEnd('renderFormmm')
+    //console.timeEnd('renderFormmm')
     return r
 }
 
@@ -522,7 +522,7 @@ const convertIdToRefV2 = (array, key, name) => {
 
 const prepareWtchingComponents = (items, key) => {
     // const initialValue = {};
-    // console.time('prepareWtchingComponents')
+    // //console.time('prepareWtchingComponents')
     const initialValue = new Map()
 
     Object.keys(items).forEach((key) => {
@@ -568,7 +568,7 @@ const prepareWtchingComponents = (items, key) => {
             // ];
         }
     })
-    console.timeEnd('prepareWtchingComponents')
+    //console.timeEnd('prepareWtchingComponents')
     return initialValue
 }
 
@@ -585,7 +585,7 @@ const convertArrayToObject = (array, key, value) => {
 }
 
 const convertArrayToObjectPOC = (array, key, value, isParent, original) => {
-    // console.time("convertArrayToObjectPOC")
+    // //console.time("convertArrayToObjectPOC")
     const initialValue = {}
     const givenArray =
         (isParent && array.concat()) || array.filter((el) => el.parent === undefined).concat()
@@ -603,7 +603,7 @@ const convertArrayToObjectPOC = (array, key, value, isParent, original) => {
                 '',
         }
     }, initialValue)
-    // console.timeEnd("convertArrayToObjectPOC")
+    // //console.timeEnd("convertArrayToObjectPOC")
     return result
 }
 
@@ -673,9 +673,9 @@ const FormBuilderNext = React.forwardRef(({ items,
         // }
         
 
-        console.time('convertIdToRefffff')
+        //console.time('convertIdToRefffff')
         myComponents.current = items; // convertIdToRef(items, 'name')
-        console.timeEnd('convertIdToRefffff')
+        //console.timeEnd('convertIdToRefffff')
         watchingComponents.current = prepareWtchingComponents(myComponents.current)
         console.log(myComponents, 'myComponentsmyComponents')
         console.log(watchingComponents, 'prepareWtchingComponents', [...watchingComponents.current.keys()])
@@ -734,7 +734,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     }
 
     const validationOnce = async (name, value, result) => {
-        console.time('validationssss')
+        //console.time('validationssss')
         const validatedItem = myComponents.current[name];
         let n = result
         const originalErrors = { ...errors.current } || {}
@@ -777,19 +777,19 @@ const FormBuilderNext = React.forwardRef(({ items,
         // });
         // error && pubsub.publish('textbox-3', {error: Date.now()});
 
-        console.timeEnd('validationssss')
+        //console.timeEnd('validationssss')
         return [!_.isEqual(originalErrors, newErrors), [...n], newErrors[name]]
     }
 
     const updateReference = async (value, name) => {
 
-        console.time('myComponentsFind')
+        //console.time('myComponentsFind')
         myComponents.current[name].value = value
-        console.timeEnd('myComponentsFind')
+        //console.timeEnd('myComponentsFind')
 
         console.log(myComponents.current, 'getValues', await getValuesPOC())
 
-        console.time('iam here')
+        //console.time('iam here')
         const [hasValidationChanged, result, error] = await validationOnce(name, value, { ...data })
         const [hasPreconditionChanged, preResult] = await checkPreCondition(name, value, data)
         // console.log(error, "asyncValidation", result, hasValidationChanged)
@@ -807,7 +807,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         }
 
         // console.log("getValues", await getValues())
-        console.timeEnd('iam here')
+        //console.timeEnd('iam here')
         // return [value, error]
     }
 
