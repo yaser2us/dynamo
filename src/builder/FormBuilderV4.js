@@ -624,7 +624,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     } = useForm({
         mode: 'onChange',
         shouldUnregister: true,
-        // reValidateMode: 'onSubmit',
+        reValidateMode: 'onSubmit',
         // criteriaMode: "firstError",
         defaultValues: defaultValues
     })
@@ -671,20 +671,23 @@ const FormBuilderNext = React.forwardRef(({ items,
         console.log(watchingComponents, 'prepareWtchingComponents', [...watchingComponents.current.keys()])
 
         const subscription = watch(async (value, { name, type }) => {
-            // const [a, b] = await checkPreCondition(name, value[name], items);
-            // setData({ ...b });
-            // console.log("watchhhhhhh", name, value)
-            // return;
+            //  For watch items
+            //  Re-render watch items
+
+
+            // has better than get ;)
+            // if (watchingComponents.current.get(name)) {
             if (watchingComponents.current.get(name)) {
-                // if(!Array.isArray(data)) return;
                 console.log("checkPreCondition ;) checkPreCondition", value, name, type, data, items)
                 const [a, b] = await checkPreCondition(name, value[name], items);
                 if (!deepEqual(data, b) && a) {
-                    // setData([...b]);
                     setData({ ...b });
-                    // preConditionItems.current = [...b];
                     return;
                 }
+            } else if (watchingComponents.current.has(name)) {
+                console.log(watchingComponents.current.has(name), "before checkPreCondition ;) checkPreCondition", value, name, type, data, items)
+                setData({ ...items });
+                return;
             }
         });
 
