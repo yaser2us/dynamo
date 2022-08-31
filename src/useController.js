@@ -14,7 +14,10 @@ export function useController(props) {
         control: control || methods.control,
         name,
     });
-    const registerProps = control.register(name, Object.assign(Object.assign({}, {...props.rules, ...item}), { value }));
+    // WTACHME: disable bug ;)
+    // TODO: move item from ref into item object seperately 
+    // to prevent disable reaction about validation and submission
+    const registerProps = control.register(name, Object.assign(Object.assign({}, {...props.rules, item: {...item} }), { value }));
     // console.log(registerProps,"useController")
 
     const updateMounted = React.useCallback((name, value) => {
