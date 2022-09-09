@@ -21,7 +21,7 @@ import _ from 'lodash'
 // import deepEqual from "../utils/deepEqual"
 import deepEqual from "../utils/deepEqual"
 import { defaultValidationResolver } from "../utils/defaultValidationResolver"
-
+import { dataTransformer } from '../middleware/dataTransformer'
 // import { defaultValidationResolver } from "../dynamo/utils/defaultValidationResolver"
 
 const renderComponentInd = (name, data, { updateReference,
@@ -230,9 +230,27 @@ const renderComponentForm = (
                         </>
                 }
 
+                //proxy here ;)
+                const proxyHandler = {
+                    get(target, prop, receiver) {
+                        return dataTransformer(target[prop], prop, target)({
+                            ...sharedItems.localFunction
+                        });
+                    }
+                };
+            
+                const proxyItem = new Proxy({
+                    ...item,
+                    sharedItems: sharedItems
+                }, proxyHandler);
+
+
+                //end of proxy
+
+               
                 const Component = components(item.type, {
                     field,
-                    item,
+                    item: proxyItem,//item,
                     name,
                     index,
                     managedCallback,
@@ -600,6 +618,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     ControlledComponents,
     components,
     managedCallback,
+    localFunction,
     shouldUnregister = true,
     defaultValues = {},
     devMode = true }, ref) => {
@@ -642,7 +661,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         useFieldArray,
         useWatch,
         triggerBackground,
-        unregister
+        unregister,
+        localFunction
     }
 
     const myComponents = React.useRef()
