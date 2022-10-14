@@ -21,7 +21,7 @@ import _ from 'lodash'
 // import deepEqual from "../utils/deepEqual"
 import deepEqual from "../utils/deepEqual"
 import { defaultValidationResolver } from "../utils/defaultValidationResolver"
-import { dataTransformer } from '../middleware/dataTransformer'
+import { dataTransformer as defaultDataTransformer } from '../middleware/dataTransformer'
 // import { defaultValidationResolver } from "../dynamo/utils/defaultValidationResolver"
 
 const renderComponentInd = (name, data, { updateReference,
@@ -35,7 +35,8 @@ const renderComponentInd = (name, data, { updateReference,
     sharedItems,
     index,
     parent,
-    givenName = undefined
+    givenName = undefined,
+    dataTransformer
 }
 ) => {
 
@@ -59,7 +60,8 @@ const renderComponentInd = (name, data, { updateReference,
         sharedItems,
         index,
         data,
-        parent
+        parent,
+        dataTransformer
     )
 }
 
@@ -76,7 +78,8 @@ const renderComponentForm = (
     sharedItems,
     index,
     data,
-    parent
+    parent,
+    dataTransformer
 ) => {
     console.log(errorss, 'dataerrors')
     //console.time('renderFormmm')
@@ -119,7 +122,8 @@ const renderComponentForm = (
             index: idx,
             data,
             parent: { name: item.name, index, id: item.id },
-            itemName: name
+            itemName: name,
+            dataTransformer
         }))
 
         // renderComponentForm(
@@ -238,7 +242,7 @@ const renderComponentForm = (
                         });
                     }
                 };
-            
+
                 const proxyItem = new Proxy({
                     ...item,
                     sharedItems: sharedItems
@@ -247,7 +251,7 @@ const renderComponentForm = (
 
                 //end of proxy
 
-               
+
                 const Component = components(item.type, {
                     field,
                     item: proxyItem,//item,
@@ -621,7 +625,9 @@ const FormBuilderNext = React.forwardRef(({ items,
     localFunction,
     shouldUnregister = true,
     defaultValues = {},
-    devMode = true }, ref) => {
+    devMode = true,
+    dataTransformer = defaultDataTransformer
+}, ref) => {
 
     if (devMode) {
         console.log = () => { };
@@ -644,6 +650,24 @@ const FormBuilderNext = React.forwardRef(({ items,
         mode: 'onChange',
         shouldUnregister: true,
         reValidateMode: 'onSubmit',
+        // resolver: async (data, context) => {
+        //     const { error, value: values } = validationSchema.validate(data, {
+        //         abortEarly: false,
+        //     });
+
+        //     if (!error) return { values: values, errors: {} };
+
+        //     return {
+        //         values: {},
+        //         errors: error.details.reduce(
+        //             (previous, currentError) => ({
+        //                 ...previous,
+        //                 [currentError.path[0]]: currentError,
+        //             }),
+        //             {},
+        //         ),
+        //     };
+        // },,
         // criteriaMode: "firstError",
         defaultValues: defaultValues
     })
@@ -896,7 +920,8 @@ const FormBuilderNext = React.forwardRef(({ items,
             managedCallback,
             undefined,
             sharedItems,
-            index
+            index,
+            dataTransformer
         })
         )) || null
     )
