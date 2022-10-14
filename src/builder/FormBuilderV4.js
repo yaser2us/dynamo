@@ -626,7 +626,8 @@ const FormBuilderNext = React.forwardRef(({ items,
     shouldUnregister = true,
     defaultValues = {},
     devMode = true,
-    dataTransformer = defaultDataTransformer
+    dataTransformer = defaultDataTransformer,
+    dataStore
 }, ref) => {
 
     if (devMode) {
@@ -686,7 +687,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         useWatch,
         triggerBackground,
         unregister,
-        localFunction
+        localFunction,
+        dataStore
     }
 
     const myComponents = React.useRef()

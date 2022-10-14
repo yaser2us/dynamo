@@ -1,6 +1,8 @@
+import _ from "lodash";
+
 const dataTransformer = (data, name, obj) => (local) => {
-    const { getValues } = obj.sharedItems;
-    const values = getValues();
+    const { getValues, dataStore } = obj.sharedItems;
+    const values = { ...dataStore, ...(getValues() || {}) };
     console.log(data, values, 'getValues()()()')
 
     if (typeof data === 'function') {
@@ -8,6 +10,10 @@ const dataTransformer = (data, name, obj) => (local) => {
     }
 
     if (typeof data === "string") {
+        if (data !== undefined && data.includes("$$")) {
+            console.log("blaherebla", data, dataStore)
+            return _.get(dataStore, data.substring(2));
+        }
         // check fx first 
         if (data !== undefined && data.includes("fx")) {
             console.log(data.slice(2), 'sliceeeeeee')
@@ -29,7 +35,7 @@ const dataTransformer = (data, name, obj) => (local) => {
 
         if (data !== undefined && data.includes("dx")) {
             patternResult = patternResult.replace(/dx.*?\(.*?\)/g, (_, name) => {
- 
+
                 try {
                     console.log(_, name, 'pattern waaaaaalalala 2nd', patternResult)
                     const result = eval(`local.${_}`);
@@ -54,7 +60,7 @@ const dataTransformer = (data, name, obj) => (local) => {
         });
 
         return patternResult;
-       
+
     };
 
     return data;
