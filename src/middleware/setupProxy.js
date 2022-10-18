@@ -1,8 +1,8 @@
 import _ from "lodash";
 import schemaProxy from "./schemaProxy";
 
-const setupProxy = (item, extraValues = {}) => {
-    const proxyItems = schemaProxy(item, extraValues);
+const setupProxy = (item, extraValues = {}, extraFunctions = {}) => {
+    const proxyItems = schemaProxy(item, extraValues, extraFunctions);
 
     let newSchema = {};
     const y = Object.keys(proxyItems).map((el) => {
