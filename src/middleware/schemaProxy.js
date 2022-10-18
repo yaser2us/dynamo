@@ -1,7 +1,7 @@
 import flattenObject from "../utils/flattenObject";
 import schemaTransformation from "./schemaTransformer";
 
-const schemaProxy = (item, extraValues = {}) => {
+const schemaProxy = (item, extraValues = {}, extraFunctions = {}) => {
     if (item === undefined) return {};
 
     const proxyHandler = {
