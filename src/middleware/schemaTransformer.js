@@ -20,7 +20,7 @@ const schemaTransformation = (data, name, obj) => (local) => {
         }
 
         if (data !== "") {
-            const result = _.get(values, data) ?? data; // values[data] || data;
+            const result = _.get(values, data.substring(2)) ?? data; // values[data] || data;
             // if(result!== undefined) return result;
             return result;
         }
