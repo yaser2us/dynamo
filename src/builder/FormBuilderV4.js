@@ -237,6 +237,10 @@ const renderComponentForm = (
                 //proxy here ;)
                 const proxyHandler = {
                     get(target, prop, receiver) {
+                        if (typeof target[prop] === "object" && target[prop] !== null) {
+                            console.log(target[prop], "proxyHanlerrrrrrrr me ;)");
+                            return new Proxy(target[prop], proxyHandler);
+                        }
                         return dataTransformer(target[prop], prop, target)({
                             ...sharedItems.localFunction
                         });
