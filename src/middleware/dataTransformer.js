@@ -1,13 +1,18 @@
 import _ from "lodash";
 
 const dataTransformer = (data, name, obj) => (local) => {
+    // const { getValues, dataStore } = obj.sharedItems || { getValues: undefined };
+    // const values = { ...dataStore, ...(getValues() || {}) };
+    // console.log(data, values, 'getValues()()()')
+
     const { getValues, dataStore } = obj.sharedItems || { getValues: undefined };
-    const values = { ...dataStore, ...(getValues() || {}) };
+    const values = { ...dataStore, ...(getValues && getValues() || {}) };
     console.log(data, values, 'getValues()()()')
 
-    if (typeof data === 'function') {
-        return data()(values)
-    }
+
+    // if (typeof data === 'function') {
+    //     return data()(values)
+    // }
 
     if (typeof data === "string") {
         if (data !== undefined && data.includes("$$")) {
