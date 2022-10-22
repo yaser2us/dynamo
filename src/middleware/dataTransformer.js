@@ -5,19 +5,19 @@ const dataTransformer = (data, name, obj) => (local) => {
     // const values = { ...dataStore, ...(getValues() || {}) };
     // console.log(data, values, 'getValues()()()')
 
-    const { getValues, dataStore } = obj.sharedItems || { getValues: undefined };
+    const { getValues, dataStore } = local || { getValues: undefined };
     const values = { ...dataStore, ...(getValues && getValues() || {}) };
     console.log(data, values, 'getValues()()()')
 
 
-    // if (typeof data === 'function') {
-    //     return data()(values)
-    // }
+    if (typeof data === 'function') {
+        return data()(values)
+    }
 
     if (typeof data === "string") {
         if (data !== undefined && data.includes("$$")) {
-            console.log("blaherebla", data, dataStore)
-            return _.get(dataStore, data.substring(2));
+            console.log("blaherebla", data, values)
+            return _.get(values, data.substring(2));
         }
         // check fx first 
         if (data !== undefined && data.includes("fx")) {
