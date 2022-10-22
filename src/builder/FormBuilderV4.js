@@ -242,7 +242,8 @@ const renderComponentForm = (
                             return new Proxy(target[prop], proxyHandler);
                         }
                         return dataTransformer(target[prop], prop, target)({
-                            ...sharedItems.localFunction
+                            ...sharedItems.localFunction,
+                            ...sharedItems
                         });
                     }
                 };
