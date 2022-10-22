@@ -4,8 +4,9 @@ const dataTransformer = (data, name, obj) => (local) => {
     // const { getValues, dataStore } = obj.sharedItems || { getValues: undefined };
     // const values = { ...dataStore, ...(getValues() || {}) };
     // console.log(data, values, 'getValues()()()')
+    //
 
-    const { getValues, dataStore } = local || { getValues: undefined };
+    const { getValues, dataStore } = local.sharedItems || { getValues: undefined };
     const values = { ...dataStore, ...(getValues && getValues() || {}) };
     console.log(data, values, 'getValues()()()')
 
