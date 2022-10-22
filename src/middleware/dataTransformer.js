@@ -11,9 +11,10 @@ const dataTransformer = (data, name, obj) => (local) => {
     console.log(data, values, 'getValues()()()')
 
 
-    if (typeof data === 'function') {
-        return data()(values)
-    }
+    //Need to check later ;)
+    // if (typeof data === 'function') {
+    //     return data()(values)
+    // }
 
     if (typeof data === "string") {
         if (data !== undefined && data.includes("$$")) {
