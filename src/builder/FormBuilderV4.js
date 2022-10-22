@@ -243,7 +243,7 @@ const renderComponentForm = (
                         }
                         return dataTransformer(target[prop], prop, target)({
                             ...sharedItems.localFunction,
-                            ...sharedItems
+                            sharedItems: sharedItems
                         });
                     }
                 };
