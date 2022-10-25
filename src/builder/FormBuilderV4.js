@@ -150,6 +150,18 @@ const renderComponentForm = (
         required: item.required && item.required.value !== "" && item.required || undefined
     }
 
+    const { validate = {} } = item?.rule || { validate: {} };
+
+    if (item?.rule) {
+        console.log(validate, 'validate[', sharedItems?.localFunction)
+        Object.keys(validate).forEach(key => {
+            if (typeof validate[key] === "function") return;
+            validate[key] = sharedItems?.localFunction[key](validate[key])({...sharedItems, getItem: () => item});
+            console.log(validate, 'validate[ within', validate[key])
+        });
+        console.log(validate, 'validate[ after')
+    }
+
 
     // let rule = _.cloneDeep(item?.rule || {});
     // debugger;
@@ -161,7 +173,7 @@ const renderComponentForm = (
             name={item.isArray === true && `${name}container` || name}
             control={control}
             item={item}
-            rules={item.rule || validation}
+            rules={{ ...item.rule } || validation}
             render={({ field }) => {
 
                 if (item.isArray) {
@@ -652,7 +664,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         getValues,
         setValue,
         triggerBackground,
-        unregister
+        unregister,
+        clearErrors
     } = useForm({
         mode: 'onChange',
         shouldUnregister: true,
@@ -693,9 +706,12 @@ const FormBuilderNext = React.forwardRef(({ items,
         useWatch,
         triggerBackground,
         unregister,
-        localFunction,
-        dataStore
+        localFunction: { ...localFunction, triggerBackground: () => !_.isEmpty(errors), getValues },
+        dataStore,
+        clearErrors
     }
+
+    // console.log(typeof errors, 'hereeeeeeeeeerroooooors')
 
     const myComponents = React.useRef()
     // const errors = React.useRef({})
