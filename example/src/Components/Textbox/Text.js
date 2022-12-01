@@ -7,17 +7,18 @@ import Tooltips from "../Tooltips/Tooltips";
 const Text = (props) => {
   //Access to main props
   //Injected at runtime
-  const { name, item, field } = props;
+  const { name, item, field, sharedItems } = props;
 
   //Always check to not render with error ;)
   if (item === undefined) return null;
+  const { getValues } = sharedItems;
 
   //Access to all props that introduced in element.
-  const { placeholder } = item;
+  const { placeholder, label, disabled } = item;
   return (
     <>
       <Tooltips {...props}>
-        <Label {...props} />
+        <Label {...props} label= {getValues(label)} />
       </Tooltips>
       <input
         type="text"
@@ -25,6 +26,7 @@ const Text = (props) => {
         name={name}
         placeholder={placeholder}
         className="text"
+        disabled={disabled}
         {...field}
       />
       <Error {...props} />

@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 // 1: install this dynamo
-import { DynoBuilder, FormBuilderV4 as FormBuilderNext } from "dynamo";
+import { DynoBuilder, FormBuilderV4 as FormBuilderNext, schemaProxy, setupProxy } from "dynamo";
+
 // import 'dynamo/dist/index.css'
 import Select from "react-select";
 import _ from "lodash";
+import R from "ramda";
 import "./App.css";
 
 import Button from "./Components/Button/Button";
@@ -389,64 +391,7 @@ const sample999 = {
   },
 };
 
-const sample110 = {
-  root: {
-    name: "root",
-    items: ["YReB8ij6Oko", "3GBtSH7SQlX"],
-    visible: true,
-  },
-  YReB8ij6Oko: {
-    id: "OdGuig00o",
-    type: "text",
-    name: "YReB8ij6Oko",
-    label: "Textbox",
-    value: "",
-    visible: true
-  },
-  "3GBtSH7SQlX": {
-    id: "Q5lzi3Lgt",
-    type: "fieldset",
-    name: "3GBtSH7SQlX",
-    label: "Fieldset",
-    value: "",
-    visible: true,
-    items: ["f5Ou1GNVw2y", "D#lXsGb#ZVg", "9gChBnUqnGU", "aQSAHwaMWoc"],
-  },
-  aQSAHwaMWoc: {
-    id: "zawF9HrqM",
-    type: "button",
-    name: "aQSAHwaMWoc",
-    label: "Button",
-    value: "",
-    visible: true,
-  },
-  "9gChBnUqnGU": {
-    id: "XVaBKVraB",
-    type: "select",
-    name: "9gChBnUqnGU",
-    label: "{f5Ou1GNVw2y}",
-    value: "",
-    visible: true,
-  },
-  "D#lXsGb#ZVg": {
-    id: "t1Bv4mTZN",
-    type: "label",
-    name: "D#lXsGb#ZVg",
-    label: "Label",
-    value: "Value",
-    visible: true,
-  },
-  f5Ou1GNVw2y: {
-    id: "LnYRFHRB3",
-    type: "text",
-    name: "f5Ou1GNVw2y",
-    label: "Textbox",
-    value: "",
-    valueType: "",
-    visible: true,
-    watch: true
-  },
-};
+
 
 const realObject = {
   //recursive naming -
@@ -892,6 +837,9 @@ const arrayItems = [
   },
 ];
 
+
+
+
 const serverURL = "http://54.169.175.134:3033/";
 const developmentURL = "http://localhost:3033/";
 const serverPath = developmentURL;
@@ -899,7 +847,7 @@ let pppppp = {};
 //from 942 to
 function App() {
   //form data store
-  const [data, setData] = useState();
+  const [data, setData] = useState("hihihihihihih");
   const [products, setProducts] = useState();
   const [options, setOptions] = useState();
   const [shouldUnregister, setShouldUnregister] = useState(false);
@@ -932,6 +880,18 @@ function App() {
     fetchProducts();
   }, []);
 
+  const Valid = (a, b, c) => (values) => {
+    if (!values) return false;
+    const aValue = values[a] || 0;
+    try {
+      const result = eval(`${aValue} ${b} ${c}`);
+      console.log(a, b, c, values, 'VALIDDDDDDDDDD', result)
+      return result
+    } catch (error) {
+      return eval(`0 ${b} 0`);
+    }
+  }
+
   const newComponents = {
     text: (props) => <Text {...props} />,
     checkbox: (props) => <Checkbox {...props} />,
@@ -944,6 +904,7 @@ function App() {
     label: (props) => <Label {...props} />,
     confirmationButton: (props) => <ConfirmationButton {...props} />,
     asyncBlock: (props) => <AsyncBlock {...props} />,
+    dataSource: (props) => <AsyncBlock {...props} />,
     none: (props) => (
       <pre>
         {JSON.stringify(props.item, null, 2)}
@@ -1040,29 +1001,34 @@ function App() {
     const formData = await myForm.current.getValues();
     console.log(myForm.current, 'setValue')
 
+    if (!_.isEmpty(myForm.current.errors)) {
+      alert(myForm.current.errors[Object.keys(myForm.current.errors)[0]].message);
+      myForm.current.errors[Object.keys(myForm.current.errors)[0]].ref.focus();
+    }
+
     //false means error is there
     //otherwise the data object returns
     if (!formData) return null;
 
-    let resultData = {};
-    for (const [key, value] of Object.entries(preparedValueTypes)) {
+    // let resultData = {};
+    // for (const [key, value] of Object.entries(preparedValueTypes)) {
 
-      if (formData[key]) {
-        const field = formData[key].value;
-        const selectedValue = _.get(field, value);
-        resultData = Object.assign(resultData, { [key]: formData[key][value] })
-        console.log(field, selectedValue, 'insideeeeeeeee', value, formData[key][value])
+    //   if (formData[key]) {
+    //     const field = formData[key].value;
+    //     const selectedValue = _.get(field, value);
+    //     resultData = Object.assign(resultData, { [key]: formData[key][value] })
+    //     console.log(field, selectedValue, 'insideeeeeeeee', value, formData[key][value])
 
-      }
-    }
+    //   }
+    // }
 
 
-    console.log(preparedValueTypes, 'managedCallback prepared Massaging', resultData)
-    //just sample store data in component
-    setShouldUnregister(false)
+    // console.log(preparedValueTypes, 'managedCallback prepared Massaging', resultData)
+    // //just sample store data in component
+    // setShouldUnregister(false)
 
-    setData({ ...formData, ...resultData });
-    console.log("this is result from dynamo ;)", { ...formData, ...resultData });
+    // setData({ ...formData, ...resultData });
+    // console.log("this is result from dynamo ;)", { ...formData, ...resultData });
     return true;
   };
 
@@ -1131,6 +1097,223 @@ function App() {
     }),
   };
 
+  const positiveNumber = (error) => (resources) => (value) => {
+    console.log(value, 'positiveNumber validatevalidatevalidatevalidate', error, resources)
+    const result = parseFloat(value) > 0;
+    return result && result || error
+  }
+
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const lessThanHundred = (error) => (resources) => async (value) => {
+    const formData = await resources.getValues("wathchMei");
+    const item = resources.getItem();
+
+    const { name } = item;
+    resources.clearErrors(name);
+
+    // resources.setValue("wathchMei", value);
+
+    console.log(value, 'lessThanHundred validatevalidatevalidatevalidate', error, '====', data, resources, '----- getValuesssssssssszzzzzz', formData, resources.getItem())
+    await sleep(3000)  
+    // resources.setFocus("wathchMei")
+    return parseFloat(value) < parseInt(formData) || error
+  }
+
+  //Should we have in dyno ???
+  //Edward :)
+  const letsComposeValidation = (validations) => (resources) => (value) => {
+    console.log(value, 'letsComposeValidationME validatevalidatevalidatevalidate', validations, resources)
+    let result = true;
+    Object.keys(validations).every(key => {
+      if (typeof validations[key] === "function") return;
+      result = localFunction[key](validations[key])(value);
+      console.log(key, 'letsComposeValidationWITHIN ---- within', result, typeof result === "string")
+      if (typeof result === "string") {
+        return false;
+      };
+      return true;
+    });
+    return result;
+  }
+
+  const localFunction = {
+    Valid: Valid,
+    positiveNumber: positiveNumber,
+    lessThanHundred: lessThanHundred,
+    letsComposeValidation: letsComposeValidation
+  }
+
+  const sample110 = {
+    root: {
+      name: "root",
+      items: ["header", "whatsYourName", "container", "dataSource"],
+      visible: true,
+    },
+    whatsYourName: {
+      id: "whatsYourName",
+      type: "text",
+      name: "whatsYourName",
+      label: "Whats Your Name buddy? ${wathchMei}",
+      // label: (props) => (values) => `hi hi from f(x) ;)`,
+      value: "",
+      disabled: (props) => (values) => Valid('wathchMei', '==', '90')(values),
+      visible: true,
+      rule: {
+        required: "I dont know your name yet hmmmmm.",
+        min: {
+          value: null,
+          message: "",
+        },
+        max: {
+          value: null,
+          message: "",
+        },
+        minLength: {
+          value: 3,
+          message: "min 3",
+        },
+        maxLength: {
+          value: 3,
+          message: "max 3",
+        },
+        pattern: {
+          value: "",
+          message: "",
+        },
+        validate: {
+          positiveNumber: "only positive number pls yeah :)",
+          lessThanHundred: "cant be less than hundred ;)",
+        },
+        validateCompse: {
+          letsComposeValidation: {
+            positiveNumber: "only positive number pls yeah :)",
+            lessThanHundred: "cant be less than hundred ;)"
+          }
+        },
+        deps: ["wathchMei"],
+        validate2121: {
+          positiveNumber: (value) => {
+            console.log(value, 'positiveNumber validatevalidatevalidatevalidate')
+            const result = parseFloat(value) > 0;
+            return result && result || "errororororororororoo"
+          },
+          lessThanHundred: (value) => {
+            console.log(value, 'lessThanHundred validatevalidatevalidatevalidate')
+            return parseFloat(value) < 200 || "less than 200"
+          },
+        },
+        validate1234: [
+          {
+            messages: "",
+            validation: "fxPositiveNumber"
+          }
+        ]
+      },
+      watch: false
+    },
+    "container": {
+      id: "container",
+      type: "fieldset",
+      name: "container",
+      label: "Fieldset",
+      value: "",
+      visible: true,
+      items: ["wathchMei", "howAreYouThen", "submitME"],
+    },
+    submitME: {
+      id: "submitME",
+      type: "button",
+      name: "submitME",
+      label: "Button",
+      value: "",
+      disabled: "fxtriggerBackground()",
+      visible: true,
+    },
+    "howAreYouThen": {
+      id: "howAreYouThen",
+      type: "select",
+      name: "howAreYouThen",
+      label: "wathchMei",
+      options: "dataSource",
+      visible: true,
+      rule: {
+        required: "Transfer select hello From Bank is required.",
+        min: {
+          value: null,
+          message: "",
+        },
+        max: {
+          value: null,
+          message: "",
+        },
+        minLength: {
+          value: null,
+          message: "",
+        },
+        maxLength: {
+          value: null,
+          message: "",
+        },
+        pattern: {
+          value: "",
+          message: "",
+        },
+      }
+    },
+    "header": {
+      id: "header",
+      type: "label",
+      name: "header",
+      label: "Example of Watch & DataSource",
+      value: "Value",
+      visible: true,
+    },
+    "dataSource": {
+      id: "dataSource",
+      type: "dataSource",
+      name: "dataSource",
+      label: "wathchMei",
+      value: "Value",
+      visible: true,
+      watch: true
+    },
+    wathchMei: {
+      id: "wathchMei",
+      type: "text",
+      name: "wathchMei",
+      label: "watch me ;)",
+      value: "",
+      valueType: "",
+      visible: true,
+      disabled: false,
+      rule: {
+        required: "Transfer From Bank is required.",
+        min: {
+          value: null,
+          message: "",
+        },
+        max: {
+          value: null,
+          message: "",
+        },
+        minLength: {
+          value: null,
+          message: "",
+        },
+        maxLength: {
+          value: null,
+          message: "",
+        },
+        pattern: {
+          value: "",
+          message: "",
+        },
+      },
+      watch: true
+    },
+  };
+
   console.log(items, "itemsitemsitemsitems");
   return (
     <>
@@ -1152,12 +1335,19 @@ function App() {
             ref={myForm}
             items={sample110}
             // items={items}
+            localFunction={
+              localFunction
+            }
             shouldUnregister={shouldUnregister}
             components={renderComponent}
             managedCallback={managedCallback}
             validationResolver={validationResolver}
             defaultValues={{
-              amount: "fsfsfsfsfsd"
+              whatsYourName: "hihihihihi",
+              dataSource: [{
+                value: "ffdsfsfd",
+                label: "hihihihi"
+              }]
             }}
           />
         )}

@@ -3,10 +3,11 @@ import React from 'react'
 import './Button.css';
 import '../../index.css';
 const Button = (props) => {
-  const { item, error, managedCallback, name } = props;
-  const { label, action } = item || { label: "Submit" };
-  const disabled = error && Object.keys(error).length > 0 || false;
+  const { item, error, managedCallback, name, sharedItems } = props;
+  const { label, action, disabled = false } = item || { label: "Submit" };
+  // const disabled = false;// error && Object.keys(error).length > 0 || false;
 
+  console.log(disabled, 'buttooonnnnnndisabled', error, sharedItems?.localFunction?.triggerBackground())
   const onClick = () => {
     managedCallback({item: undefined, actionType: action?.actionURL});
   }

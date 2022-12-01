@@ -45,10 +45,13 @@ const Dropdown = (props) => {
   const errorMsg = error && error[name] && error[name].message || ""
   const { label, options, placeholder, description } = item || { label: "" };
   const { getValues } = sharedItems;
-  const [ existingOptions, setExistingOptions] = useState(options);
+  const [ existingOptions, setExistingOptions] = useState(getValues(options));
 
   useEffect(()=> {
     if (item === undefined) return null;
+    const newOptions = getValues(options);
+    setExistingOptions(newOptions);
+    customOnChange("")
 
     if(props.item?.action){
       setTimeout(() => {
@@ -58,7 +61,7 @@ const Dropdown = (props) => {
         })       
       }, 7000);
     }
-  }, [])
+  }, [getValues(options)])
 
   const { value, onChange } = field;
 
@@ -95,7 +98,7 @@ const Dropdown = (props) => {
 
   return (
     <>
-    {getValues("f5Ou1GNVw2y")}
+    {getValues("wathchMei")}
       <Label {...props} />
       <Select
         name={name}
@@ -105,13 +108,13 @@ const Dropdown = (props) => {
         inputId={name}
 
         placeholder={placeholder}
-        defaultValue={value}
+        // defaultValue={value}
         styles={customStyles}
         options={existingOptions}
         {...field}
         onChange={customOnChange}
         components={{ Option }}
-        isDisabled={getValues("f5Ou1GNVw2y")}
+        isDisabled={!getValues("wathchMei")}
       />
       <Error {...props} />
     </>
