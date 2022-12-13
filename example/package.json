@@ -24,6 +24,7 @@
     "dynamo": "file:..",
     "mocha": "^9.2.2",
     "mui": "0.0.1",
+    "ramda": "^0.28.0",
     "react": "file:../node_modules/react",
     "react-bootstrap": "^2.0.4",
     "react-datepicker": "^4.5.0",

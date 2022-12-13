@@ -41,13 +41,19 @@ const sample110 = {
     label: "Hi i am here ;)",
     value: "",
     visible: true,
-    watch: true
+    watch: true,
+    rule: {
+      validate: {
+        positiveNumber: "only positive number pls yeah :)",
+        lessThanHundred: "cant be less than hundred ;)",
+      },
+    }
   },
   ttttttt: {
     id: "ttttttt",
     type: "text",
     name: "ttttttt",
-    label: "ttttttt ;)",
+    label: "fxValid('YReB8ij6Oko')",
     value: "",
     visible: true
   },
@@ -135,18 +141,19 @@ const App = () => {
     // switch: (props) => <Switch {...props} />,
     // select: (props) => <Dropdown {...props} />,
     button: (props) => {
-      
+
       const { getValues } = props.sharedItems;
       const label = getValues(props.item.label);
       const onPress = () => {
-        console.log(label,getValues(props.item.label),'ppppppp');
+        console.log(label, getValues(props.item.label), 'ppppppp');
       }
 
-      return(<Button
-      title={label}
-      onPress={onPress}
+      return (<Button
+        title={label}
+        onPress={onPress}
       // onPress={() => props.managedCallback(props.item)}
-    />)},
+      />)
+    },
 
     buttonL: (props) => <View onPress={props.managedCallback} {...props}><Text>{props.item.label}</Text></View>,
     // fieldset: (props) => <Fieldset {...props} />,
@@ -226,6 +233,35 @@ const App = () => {
 
   }
 
+  const Valid = (a) => (values) => {
+    if (!values) return false;
+    return values[a]
+  };
+
+  const positiveNumber = (error) => (resources) => (value) => {
+    console.log(value, 'positiveNumber validatevalidatevalidatevalidate', error, resources)
+    const result = parseFloat(value) > 0;
+    return result && result || error
+  }
+
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const lessThanHundred = (error) => (resources) => async (value) => {
+    const formData = await resources.getValues("wathchMei");
+    const item = resources.getItem();
+
+    const { name } = item;
+    resources.clearErrors(name);
+
+    // resources.setValue("wathchMei", value);
+
+    console.log(value, 'lessThanHundred validatevalidatevalidatevalidate', error, '====', resources, '----- getValuesssssssssszzzzzz', formData, resources.getItem())
+    await sleep(3000)  
+    // resources.setFocus("wathchMei")
+    return parseFloat(value) < parseInt(formData) || error
+  }
+
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -244,6 +280,11 @@ const App = () => {
               name={`dynamo-${items.length}`}
               ref={myForm}
               items={items}
+              localFunction={{
+                Valid: Valid,
+                positiveNumber: positiveNumber,
+                lessThanHundred: lessThanHundred
+              }}
               defaultValues={
                 {
                   "YReB8ij6Oko": "llllllllol"
