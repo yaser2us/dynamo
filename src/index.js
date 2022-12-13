@@ -8,5 +8,7 @@ export * from './useFormContext';
 export * from './useFormState';
 export * from './useWatch';
 export * from './utils';
+export { useHistory } from './tools';
+
 export { setupProxy } from './middleware';
 export { DynoBuilder, FormBuilderNext, FormBuilderV4 } from "./builder"
