@@ -856,6 +856,11 @@ function App() {
   //Form elements
   // const [items, setItems] = useState(sample);
   const [items, setItems] = useState();
+  const [defaultValues, updateDefaults] = useState({
+    wathchMei: "Edwarddddddddddd 0)"
+  });
+
+
   const [preparedValueTypes, setPreparedValueTypes] = useState();
 
   const itemsRefs = useRef({});
@@ -1115,7 +1120,7 @@ function App() {
     // resources.setValue("wathchMei", value);
 
     console.log(value, 'lessThanHundred validatevalidatevalidatevalidate', error, '====', data, resources, '----- getValuesssssssssszzzzzz', formData, resources.getItem())
-    await sleep(3000)  
+    await sleep(3000)
     // resources.setFocus("wathchMei")
     return parseFloat(value) < parseInt(formData) || error
   }
@@ -1143,6 +1148,8 @@ function App() {
     lessThanHundred: lessThanHundred,
     letsComposeValidation: letsComposeValidation
   }
+
+
 
   const sample110 = {
     root: {
@@ -1259,7 +1266,10 @@ function App() {
           value: "",
           message: "",
         },
-      }
+      },
+      preCondition: [
+
+      ]
     },
     "header": {
       id: "header",
@@ -1317,6 +1327,7 @@ function App() {
   console.log(items, "itemsitemsitemsitems");
   return (
     <>
+
       <Select
         name={"product"}
         key={"product"}
@@ -1327,6 +1338,17 @@ function App() {
         onChange={customOnChange}
       />
       <div className="fieldd" style={{ padding: "2rem", marginTop: "2rem" }}>
+        <p onClick={() => {
+          updateDefaults({
+            wathchMei: "Yasser"
+          })
+          // myForm.current.reset({
+          //   wathchMei: "Yasser"
+          // });
+          console.log("brrrrrrrrrrr")
+        }}>
+          hi hihiihhihhihh
+        </p>
         {sample110 && (
           <FormBuilderNext
             devMode={false}
@@ -1342,13 +1364,7 @@ function App() {
             components={renderComponent}
             managedCallback={managedCallback}
             validationResolver={validationResolver}
-            defaultValues={{
-              whatsYourName: "hihihihihi",
-              dataSource: [{
-                value: "ffdsfsfd",
-                label: "hihihihi"
-              }]
-            }}
+            defaultValues={defaultValues}
           />
         )}
       </div>

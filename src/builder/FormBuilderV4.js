@@ -156,7 +156,7 @@ const renderComponentForm = (
         console.log(validate, 'validate[', sharedItems?.localFunction)
         Object.keys(validate).forEach(key => {
             if (typeof validate[key] === "function") return;
-            validate[key] = sharedItems?.localFunction[key](validate[key])({...sharedItems, getItem: () => item});
+            validate[key] = sharedItems?.localFunction[key](validate[key])({ ...sharedItems, getItem: () => item });
             console.log(validate, 'validate[ within', validate[key])
         });
         console.log(validate, 'validate[ after')
@@ -665,7 +665,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         setValue,
         triggerBackground,
         unregister,
-        clearErrors
+        clearErrors,
+        reset
     } = useForm({
         mode: 'onChange',
         shouldUnregister: true,
@@ -691,6 +692,10 @@ const FormBuilderNext = React.forwardRef(({ items,
         // criteriaMode: "firstError",
         defaultValues: defaultValues
     })
+
+    React.useEffect(() => {
+        reset({...defaultValues})
+    }, [defaultValues]);
 
     const sharedItems = {
         register,
@@ -792,7 +797,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         getValues: getValuesPOC,
         resetValues: resetValues,
         setValue: setValue,
-        errors: errors
+        errors: errors,
+        reset
     }
 
     const validationOnce = async (name, value, result) => {
