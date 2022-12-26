@@ -5358,7 +5358,8 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
                     index: index,
                     id: item.id
                   },
-                  givenName: name + "." + index + "." + data[element].name
+                  givenName: name + "." + index + "." + data[element].name,
+                  dataTransformer: dataTransformer
                 });
               }
             });

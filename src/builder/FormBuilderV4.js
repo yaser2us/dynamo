@@ -208,7 +208,8 @@ const renderComponentForm = (
                                                         index: index,
                                                         data,
                                                         parent: { name: item.name, index, id: item.id },
-                                                        givenName: `${name}.${index}.${data[element].name}`
+                                                        givenName: `${name}.${index}.${data[element].name}`,
+                                                        dataTransformer
                                                     })
 
                                                     const Component = components(element.type, {
