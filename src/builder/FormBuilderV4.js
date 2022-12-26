@@ -184,7 +184,7 @@ const renderComponentForm = (
                     });
 
                     child =
-                        <>
+                        <div>
                             <ul>
                                 {fields.map((el, index) => (
                                     <li key={el.id}>
@@ -243,7 +243,7 @@ const renderComponentForm = (
                             >
                                 +
                             </button>
-                        </>
+                        </div>
                 }
 
                 //proxy here ;)
@@ -388,7 +388,7 @@ const renderForm = (
                             // });
                             // console.log(myaCondition, "myaCondition", getValue("textbox-3"))
                             child =
-                                <>
+                                <div>
                                     {/* <>
                                         {`${item.name}`}
                                         <br />
@@ -439,7 +439,7 @@ const renderForm = (
                                     >
                                         +
                                     </button>
-                                </>
+                                </div>
 
                         }
 

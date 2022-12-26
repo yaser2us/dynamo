@@ -5331,7 +5331,7 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
             append = _useFieldArray.append,
             remove = _useFieldArray.remove;
 
-        child = /*#__PURE__*/React__default.createElement(Fragment, null, /*#__PURE__*/React__default.createElement("ul", null, fields.map(function (el, index) {
+        child = /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("ul", null, fields.map(function (el, index) {
           return /*#__PURE__*/React__default.createElement("li", {
             key: el.id
           }, item.items.map(function (element, indx) {
