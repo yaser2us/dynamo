@@ -38,6 +38,10 @@ export default function useHistory(init = { name: "" }) {
             // const newHistory = [...history].slice(0,existing["x-index"]);
             const newHistory = rebuildHistory(history, existing["x-index"]);
             updateHistory(newHistory)
+
+            const copy = _.cloneDeep(_.set(states, pageName, { ...value, "x-index": existing["x-index"] }));
+            setStates(copy);
+
             // updateHistory(new Set(newHistory));
             setIndex(existing["x-index"])
             updateCurrentPage(pageName);
