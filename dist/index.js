@@ -5,7 +5,7 @@ var React__default = _interopDefault(React);
 var _ = _interopDefault(require('lodash'));
 
 function _extends() {
-  _extends = Object.assign || function (target) {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -18,7 +18,6 @@ function _extends() {
 
     return target;
   };
-
   return _extends.apply(this, arguments);
 }
 
@@ -243,7 +242,7 @@ function useController(props) {
       control = _props$control === void 0 ? methods.control : _props$control,
       shouldUnregister = props.shouldUnregister,
       item = props.item;
-  console.log(item, "useController");
+  console.log("dyno ;)", item, "useController");
 
   var _React$useState = React.useState(get(control._formValues, name, get(control._defaultValues, name, props.defaultValue))),
       value = _React$useState[0],
@@ -1363,7 +1362,7 @@ var validateField = (function (field, inputValue, validateAllFieldCriteria, shou
           patternValue = _getValueAndMessage.value,
           _message = _getValueAndMessage.message;
 
-      console.log(isRegex(new RegExp(patternValue)), !inputValue.match(patternValue), patternValue, "patternValue");
+      console.log("dyno ;)", isRegex(new RegExp(patternValue)), !inputValue.match(patternValue), patternValue, "patternValue");
 
       if (isRegex(new RegExp(patternValue)) && !inputValue.match(patternValue)) {
         error[name] = Object.assign({
@@ -1715,7 +1714,7 @@ function createFormControlV3(props) {
             var _temp10 = function () {
               if (_f) {
                 return Promise.resolve(validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation)).then(function (fieldError) {
-                  console.log(fieldError, "fieldError");
+                  console.log("dyno ;)", fieldError, "fieldError");
 
                   if (shouldCheckValid) {
                     if (fieldError[_f.name]) {
@@ -1928,7 +1927,7 @@ function createFormControlV3(props) {
       name = '';
     }
 
-    console.log(defaultValues, "_updateFormValues");
+    console.log("dyno ;)", defaultValues, "_updateFormValues");
 
     for (var key in defaultValues) {
       var value = defaultValues[key];
@@ -2121,13 +2120,13 @@ function createFormControlV3(props) {
         }
 
         _proxyFormState.isValid && _updateValid();
-        console.log("trigger", _formState.errors, "end");
+        console.log("dyno ;)", "trigger", _formState.errors, "end");
         return isValid;
       };
 
       var fieldNames = convertToArrayPayload(name);
       var isValid;
-      console.log("trigger", _formState.errors);
+      console.log("dyno ;)", "trigger", _formState.errors);
 
       var _temp25 = function () {
         if (formOptions.resolver) {
@@ -2169,7 +2168,7 @@ function createFormControlV3(props) {
   };
 
   var getValues = function getValues(fieldNames) {
-    console.log(_formValues, _fields, "fdfdfdfdfdfd");
+    console.log("dyno ;)", _formValues, _fields, "fdfdfdfdfdfd");
     var values = Object.assign(Object.assign({}, _defaultValues), _formValues);
     return isUndefined(fieldNames) ? values : isString(fieldNames) ? get(values, fieldNames) : fieldNames.map(function (name) {
       return get(values, name);
@@ -2291,7 +2290,7 @@ function createFormControlV3(props) {
         mount: true
       }), options)
     });
-    console.log(Object.assign(Object.assign(Object.assign({}, field && field._f ? field._f : {
+    console.log("dyno ;)", Object.assign(Object.assign(Object.assign({}, field && field._f ? field._f : {
       ref: {
         name: name
       }
@@ -2650,7 +2649,7 @@ function useForm(props) {
       field && (field._f.refs ? field._f.refs.every(live) : live(field._f.ref)) && unregisterFieldNames.push(name);
     }
 
-    console.log(unregisterFieldNames, 'unregisterFieldNames', control._names, control);
+    console.log("dyno ;)", unregisterFieldNames, 'unregisterFieldNames', control._names, control);
     unregisterFieldNames.length && _formControl.current.unregister(unregisterFieldNames);
     control._names.unMount = new Set();
   });
@@ -2680,7 +2679,7 @@ function useWatch(props) {
     var watchSubscription = control._subjects.watch.subscribe({
       next: function next(_ref2) {
         var name = _ref2.name;
-        console.log("##1 watchSubscription", name);
+        console.log("dyno ;)", "##1 watchSubscription", name);
         return (!_name.current || !name || convertToArrayPayload(_name.current).some(function (fieldName) {
           return name && fieldName && (fieldName.startsWith(name) || name.startsWith(fieldName));
         })) && updateValue(control._getWatch(_name.current, defaultValue));
@@ -2709,7 +2708,7 @@ var rebuildHistory = function rebuildHistory(history, to, from) {
   }
 
   var newHistory = [].concat(history).slice(from, to);
-  console.log('rebuildHistory', newHistory, to);
+  console.log("dyno ;)", 'rebuildHistory', newHistory, to);
   return new Set(newHistory);
 };
 
@@ -2751,13 +2750,19 @@ function useHistory(init) {
     if (history.has(pageName)) {
       var newHistory = rebuildHistory(history, existing["x-index"]);
       updateHistory(newHistory);
+
+      var _copy = _.cloneDeep(_.set(states, pageName, _extends({}, value, {
+        "x-index": existing["x-index"]
+      })));
+
+      setStates(_copy);
       setIndex(existing["x-index"]);
       updateCurrentPage(pageName);
-      console.log("lolllllllllllllllllll", history, '99999', existing["x-index"], newHistory);
+      console.log("dyno ;)", "lolllllllllllllllllll", history, '99999', existing["x-index"], newHistory);
       return;
     }
 
-    console.log("histlori", value, _.set(states, pageName, value), state, history.size);
+    console.log("dyno ;)", "histlori", value, _.set(states, pageName, value), state, history.size);
     var newIndex = index + 1;
 
     var copy = _.cloneDeep(_.set(states, pageName, _extends({}, value, {
@@ -2768,9 +2773,9 @@ function useHistory(init) {
     updateHistory(history.add(pageName));
     setStates(copy);
     updateCurrentPage(pageName);
-    console.log('hissssstory', history);
-    console.log(value, 'drooooomemppppppphistlori', existing);
-    console.log(states, '31231232323132', state, currentPage, _.isEqual(existing, value));
+    console.log("dyno ;)", 'hissssstory', history);
+    console.log("dyno ;)", value, 'drooooomemppppppphistlori', existing);
+    console.log("dyno ;)", states, '31231232323132', state, currentPage, _.isEqual(existing, value));
   };
 
   var resetState = function resetState(init) {
@@ -2778,7 +2783,7 @@ function useHistory(init) {
     setIndex(0);
     setStates({});
     updateHistory([]);
-    console.log(":::::resetState", history, states, index);
+    console.log("dyno ;)", ":::::resetState", history, states, index);
   };
 
   var goBack = function goBack(steps, reset) {
@@ -2795,7 +2800,7 @@ function useHistory(init) {
       return;
     }
 
-    console.log('gobackbyname', steps);
+    console.log("dyno ;)", 'gobackbyname', steps);
 
     if (!states[steps]) {
       throw "gobackbyname is not available ;)";
@@ -2813,10 +2818,10 @@ function useHistory(init) {
       reset = false;
     }
 
-    console.log(steps, 'stepsssssss');
+    console.log("dyno ;)", steps, 'stepsssssss');
     var newIndex = Math.max(0, Number(index) - (Number(steps) || 1));
     var previousPageName = Object.keys(states)[newIndex - 1];
-    console.log(Math.max(0, Number(index) - (Number(steps) || 1)), 'drooooomempppppppdrooooo45678mempppppppdrooooomemppppppp', index, previousPageName, states[previousPageName]);
+    console.log("dyno ;)", Math.max(0, Number(index) - (Number(steps) || 1)), 'drooooomempppppppdrooooo45678mempppppppdrooooomemppppppp', index, previousPageName, states[previousPageName]);
     updateCurrentPage(previousPageName);
     setIndex(newIndex);
 
@@ -2825,7 +2830,7 @@ function useHistory(init) {
 
       var newHistory = rebuildHistory(history, newIndex);
       updateHistory(newHistory);
-      console.log(previousPageName, newIndex, 'resetHardddddddd', history, newHistory, existingPage["x-index"]);
+      console.log("dyno ;)", previousPageName, newIndex, 'resetHardddddddd', history, newHistory, existingPage["x-index"]);
     }
   };
 
@@ -2838,13 +2843,13 @@ function useHistory(init) {
       reset = false;
     }
 
-    console.log(steps, 'stepsssssss');
+    console.log("dyno ;)", steps, 'stepsssssss');
 
     var existingPage = _.get(states, steps);
 
     var newIndex = Math.max(0, Number(index) - (Number(steps) || 1));
     var previousPageName = Object.keys(states)[newIndex - 1];
-    console.log(Math.max(0, Number(index) - (Number(steps) || 1)), 'drooooomempppppppdrooooo45678mempppppppdrooooomemppppppp', index, previousPageName, states[previousPageName]);
+    console.log("dyno ;)", Math.max(0, Number(index) - (Number(steps) || 1)), 'drooooomempppppppdrooooo45678mempppppppdrooooomemppppppp', index, previousPageName, states[previousPageName]);
     updateCurrentPage(previousPageName);
     setIndex(newIndex);
 
@@ -2853,7 +2858,7 @@ function useHistory(init) {
 
       var newHistory = rebuildHistory(history, newIndex);
       updateHistory(newHistory);
-      console.log(previousPageName, newIndex, 'resetHardddddddd', history, newHistory, _existingPage["x-index"]);
+      console.log("dyno ;)", previousPageName, newIndex, 'resetHardddddddd', history, newHistory, _existingPage["x-index"]);
     }
   };
 
@@ -2869,7 +2874,7 @@ function useHistory(init) {
     var existing = _.get(states, currentPage);
 
     existing.defaultValues = _extends({}, value);
-    console.log(value, 'updatePage youuuuupppp', existing);
+    console.log("dyno ;)", value, 'updatePage youuuuupppp', existing);
   };
 
   return {
@@ -2896,20 +2901,20 @@ var dataTransformer = function dataTransformer(data, name, obj) {
 
     var values = _extends({}, dataStore, getValues && getValues() || {});
 
-    console.log(data, values, 'getValues()()()');
+    console.log("dyno ;)", data, values, 'getValues()()()');
 
     if (typeof data === "string") {
       if (data !== undefined && data.includes("$$")) {
-        console.log("blaherebla", data, values);
+        console.log("dyno ;)", "blaherebla", data, values);
         return _.get(values, data.substring(2));
       }
 
       if (data !== undefined && data.includes("fx")) {
-        console.log(data.slice(2), 'sliceeeeeee');
+        console.log("dyno ;)", data.slice(2), 'sliceeeeeee');
 
         try {
           var result = eval("local." + data.slice(2));
-          console.log(result, 'rrrrrrrsulttttttttt');
+          console.log("dyno ;)", result, 'rrrrrrrsulttttttttt');
 
           if (typeof result === 'function') {
             return result(values);
@@ -2917,7 +2922,7 @@ var dataTransformer = function dataTransformer(data, name, obj) {
 
           return result;
         } catch (error) {
-          console.log(error, 'rrrrrrrsulttttttttt errorororrororor');
+          console.log("dyno ;)", error, 'rrrrrrrsulttttttttt errorororrororor');
         }
       }
       var patternResult = data;
@@ -2925,7 +2930,7 @@ var dataTransformer = function dataTransformer(data, name, obj) {
       if (data !== undefined && data.includes("dx")) {
         patternResult = patternResult.replace(/dx.*?\(.*?\)/g, function (_, name) {
           try {
-            console.log(_, name, 'pattern waaaaaalalala 2nd', patternResult);
+            console.log("dyno ;)", _, name, 'pattern waaaaaalalala 2nd', patternResult);
 
             var _result = eval("local." + _);
 
@@ -2935,7 +2940,7 @@ var dataTransformer = function dataTransformer(data, name, obj) {
 
             return _result;
           } catch (error) {
-            console.log(error, 'dxxxxxxxxxxxxdxdxxdxdxx');
+            console.log("dyno ;)", error, 'dxxxxxxxxxxxxdxdxxdxdxx');
             return _;
           }
         });
@@ -2943,8 +2948,8 @@ var dataTransformer = function dataTransformer(data, name, obj) {
 
       patternResult = patternResult.replace(/\$\{(.*?)\}/g, function (_, name) {
         var result = values[name] || '';
-        console.log(values, 'valuesssssssssssssssssRGEX');
-        console.log(name, '------>>>>>>------', result, 'pattern waaaaaalalala only', patternResult);
+        console.log("dyno ;)", values, 'valuesssssssssssssssssRGEX');
+        console.log("dyno ;)", name, '------>>>>>>------', result, 'pattern waaaaaalalala only', patternResult);
         return result !== undefined && result;
       });
       return patternResult;
@@ -2970,7 +2975,7 @@ var schemaTransformation = function schemaTransformation(data, name, obj) {
 
           return result;
         } catch (error) {
-          console.log(error, "rrrrrrrsulttttttttt errorororrororor");
+          console.log("dyno ;)", error, "rrrrrrrsulttttttttt errorororrororor");
         }
       }
 
@@ -3030,7 +3035,7 @@ var schemaProxy = function schemaProxy(item, extraValues, extraFunctions) {
   var proxyHandler = {
     get: function get(target, prop, receiver) {
       if (typeof target[prop] === "object" && target[prop] !== null) {
-        console.log(target[prop], "proxyHanlerrrrrrrr ;)");
+        console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr ;)");
         return new Proxy(target[prop], proxyHandler);
       } else {
         return schemaTransformation(target[prop], prop, target)(_extends({}, extraFunctions));
@@ -3057,7 +3062,7 @@ var setupProxy = function setupProxy(item, extraValues, extraFunctions) {
   var y = Object.keys(proxyItems).map(function (el) {
     if (el === "sharedItems") return;
     newSchema = _.set(newSchema, el, proxyItems[el]);
-    console.log(el, "flattttttttten");
+    console.log("dyno ;)", el, "flattttttttten");
   });
   return _.cloneDeep(newSchema);
 };
@@ -3093,13 +3098,13 @@ var ControlledComponentsV2 = function ControlledComponentsV2(props) {
       field = _useState2[0],
       setField = _useState2[1];
 
-  console.log(props.name, 'ControlledComponentsV2 renderrrrrrrrrr <1>', field, props.errors, props.name);
+  console.log("dyno ;)", props.name, 'ControlledComponentsV2 renderrrrrrrrrr <1>', field, props.errors, props.name);
   var error = props.errors && props.errors.current && ((_props$errors = props.errors) === null || _props$errors === void 0 ? void 0 : _props$errors.current[props.name]);
 
   var _useState3 = React.useState('');
 
   var onChange = function onChange(value) {
-    console.log('valuelavue', value);
+    console.log("dyno ;)", 'valuelavue', value);
     props.updateReference(value, props.name);
     setField(_extends({}, field, {
       value: value
@@ -3126,7 +3131,7 @@ var IIN = React__default.memo(function (props) {
   var errror = _.isEqual(oldE, newE);
 
   var errrorlol = (_nextProps$errors2 = nextProps.errors) === null || _nextProps$errors2 === void 0 ? void 0 : _nextProps$errors2.current[prevProps.name];
-  console.log(prevProps, nextProps, prevProps.name + ' ControlledComponentsV2 renderrrrrrrrrr <2>', errror, 'is===', errrorlol, prevProps.name);
+  console.log("dyno ;)", prevProps, nextProps, prevProps.name + ' ControlledComponentsV2 renderrrrrrrrrr <2>', errror, 'is===', errrorlol, prevProps.name);
 
   if (JSON.stringify(nextProps) === JSON.stringify(prevProps)) {
     return true;
@@ -3136,7 +3141,7 @@ var IIN = React__default.memo(function (props) {
 });
 
 var renderForm = function renderForm(data, updateReference, myControl, getValue, errors, ControlledComponents, components, managedCallback, parentName, sharedItems, setValue) {
-  console.log(errors, 'dataerrors');
+  console.log("dyno ;)", errors, 'dataerrors');
   var r = data.filter(function (element) {
     return element.visible;
   }).map(function (item, index) {
@@ -3232,7 +3237,7 @@ var renderForm = function renderForm(data, updateReference, myControl, getValue,
 };
 
 var RenderForm = function RenderForm(data, updateReference, myControl, getValue, errors, ControlledComponents, components, managedCallback, parentName, control, setValue) {
-  console.log(errors, 'dataerrors');
+  console.log("dyno ;)", errors, 'dataerrors');
   if (data === undefined) return null;
   var r = data.filter(function (element) {
     return element.visible;
@@ -3350,7 +3355,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
       managedCallback = _ref4.managedCallback,
       _ref4$defaultValues = _ref4.defaultValues,
       defaultValues = _ref4$defaultValues === void 0 ? {} : _ref4$defaultValues;
-  console.log(defaultValues, "defaultValues");
+  console.log("dyno ;)", defaultValues, "defaultValues");
 
   var _useForm = useForm({
     mode: 'onChange',
@@ -3393,8 +3398,8 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
     if (items === undefined) return;
     myComponents.current = convertIdToRef(items, 'name');
     watchingComponents.current = prepareWtchingComponents(myComponents.current);
-    console.log(myComponents, 'myComponentsmyComponents');
-    console.log(watchingComponents, 'prepareWtchingComponents', [].concat(watchingComponents.current.keys()));
+    console.log("dyno ;)", myComponents, 'myComponentsmyComponents');
+    console.log("dyno ;)", watchingComponents, 'prepareWtchingComponents', [].concat(watchingComponents.current.keys()));
     var subscription = watch(function (value, _ref5) {
       var name = _ref5.name,
           type = _ref5.type;
@@ -3402,7 +3407,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
       try {
         return Promise.resolve(function () {
           if (watchingComponents.current.get(name)) {
-            console.log("checkPreCondition ;) checkPreCondition", value, name, type, data, items);
+            console.log("dyno ;)", "checkPreCondition ;) checkPreCondition", value, name, type, data, items);
             return Promise.resolve(checkPreCondition(name, value[name], items)).then(function (_ref6) {
               var a = _ref6[0],
                   b = _ref6[1];
@@ -3429,7 +3434,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
     try {
       if (Object.keys(errors).length > 0) return Promise.resolve(false);
       return Promise.resolve(trigger()).then(function (result) {
-        console.log("SUBMITFORM SUBMITFORM result trigger", result, errors);
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
 
         if (result === true) {
           return Promise.resolve(getValues());
@@ -3471,7 +3476,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
       }
 
       errors.current = _extends({}, newErrors);
-      console.log(errors, "errrrrrrrrr", newErrors);
+      console.log("dyno ;)", errors, "errrrrrrrrr", newErrors);
 
       if (error.current !== originalErrors) {}
 
@@ -3486,7 +3491,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
       myComponents.current[name].value = value;
       var _myComponents$current2 = myComponents.current;
       return Promise.resolve(getValuesPOC()).then(function (_getValuesPOC) {
-        console.log(_myComponents$current2, 'getValues', _getValuesPOC);
+        console.log("dyno ;)", _myComponents$current2, 'getValues', _getValuesPOC);
         return Promise.resolve(validationOnce(name, value, [].concat(data))).then(function (_ref7) {
           var hasValidationChanged = _ref7[0],
               result = _ref7[1],
@@ -3496,7 +3501,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
                 preResult = _ref8[1];
 
             if (hasValidationChanged === true || hasPreconditionChanged === true) {
-              console.log('lololololololololololoolol', hasValidationChanged, hasPreconditionChanged, errors);
+              console.log("dyno ;)", 'lololololololololololoolol', hasValidationChanged, hasPreconditionChanged, errors);
               setData([].concat(preResult));
             }
           });
@@ -3514,7 +3519,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
       };
 
       var hasCondition = watchingComponents.current.get(name);
-      console.log(data, "checkPreConditionInside", name, myComponents.current, hasCondition, watchingComponents.current);
+      console.log("dyno ;)", data, "checkPreConditionInside", name, myComponents.current, hasCondition, watchingComponents.current);
       var n = [].concat(result);
       var updated = false;
 
@@ -3535,7 +3540,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
                       a: n
                     }, "a" + item.refId + ".visible")).then(function (_$get) {
                       return Promise.resolve(touched).then(function (_touched) {
-                        console.log('hashas', _$get, _touched, hasCondition, updated);
+                        console.log("dyno ;)", 'hashas', _$get, _touched, hasCondition, updated);
                       });
                     });
                   }
@@ -3562,7 +3567,7 @@ var FormBuilderV1 = React__default.forwardRef(function (_ref4, ref) {
     }
   };
 
-  console.log('renderCount', renderCount++);
+  console.log("dyno ;)", 'renderCount', renderCount++);
   return data && renderForm(data, updateReference, myComponents, getValues, _extends({}, errors), ControlledComponents, components, managedCallback, undefined, sharedItems) || null;
 });
 FormBuilderV1.whyDidYouRender = true;
@@ -3593,7 +3598,7 @@ var renderComponentInd = function renderComponentInd(name, data, _ref) {
 };
 
 var renderComponentForm = function renderComponentForm(item, updateReference, myControl, getValue, errorss, ControlledComponents, components, managedCallback, parentName, sharedItems, index, data, parent) {
-  console.log(errorss, 'dataerrors');
+  console.log("dyno ;)", errorss, 'dataerrors');
   var errors = sharedItems.errors,
       control = sharedItems.control,
       useFieldArray = sharedItems.useFieldArray;
@@ -3643,7 +3648,7 @@ var renderComponentForm = function renderComponentForm(item, updateReference, my
       var field = _ref2.field;
 
       if (item.isArray) {
-        console.log(name, item.items, "useFieldArray");
+        console.log("dyno ;)", name, item.items, "useFieldArray");
 
         var _useFieldArray = useFieldArray({
           control: control,
@@ -3662,7 +3667,7 @@ var renderComponentForm = function renderComponentForm(item, updateReference, my
               name: name + "." + index + "." + data[element].name,
               control: control,
               render: function render(_ref3) {
-                console.log(name + "." + index + "." + element, '`${name}.${index}.${element}`');
+                console.log("dyno ;)", name + "." + index + "." + element, '`${name}.${index}.${element}`');
                 return renderComponentInd(element, data, {
                   updateReference: updateReference,
                   myControl: myControl,
@@ -3756,7 +3761,7 @@ var prepareWtchingComponents$1 = function prepareWtchingComponents(items, key) {
 
       for (var index = 0; index < keys.length; index++) {
         var internalItem = preConditionObj[keys[index]];
-        console.log(items[key], 'items[key]');
+        console.log("dyno ;)", items[key], 'items[key]');
         initialValue.set(internalItem.name, [].concat(initialValue.get(internalItem.name) && initialValue.get(internalItem.name) || [], [_extends({
           refId: items[key].id
         }, internalItem)]));
@@ -3788,7 +3793,7 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
       managedCallback = _ref6.managedCallback,
       _ref6$defaultValues = _ref6.defaultValues,
       defaultValues = _ref6$defaultValues === void 0 ? {} : _ref6$defaultValues;
-  console.log(defaultValues, "defaultValues");
+  console.log("dyno ;)", defaultValues, "defaultValues");
 
   var _useForm = useForm({
     mode: 'onChange',
@@ -3834,8 +3839,8 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
     if (items === undefined) return;
     myComponents.current = items;
     watchingComponents.current = prepareWtchingComponents$1(myComponents.current);
-    console.log(myComponents, 'myComponentsmyComponents');
-    console.log(watchingComponents, 'prepareWtchingComponents', [].concat(watchingComponents.current.keys()));
+    console.log("dyno ;)", myComponents, 'myComponentsmyComponents');
+    console.log("dyno ;)", watchingComponents, 'prepareWtchingComponents', [].concat(watchingComponents.current.keys()));
     var subscription = watch(function (value, _ref7) {
       var name = _ref7.name,
           type = _ref7.type;
@@ -3843,7 +3848,7 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
       try {
         return Promise.resolve(function () {
           if (watchingComponents.current.get(name)) {
-            console.log("checkPreCondition ;) checkPreCondition", value, name, type, data, items);
+            console.log("dyno ;)", "checkPreCondition ;) checkPreCondition", value, name, type, data, items);
             return Promise.resolve(checkPreCondition(name, value[name], items)).then(function (_ref8) {
               var a = _ref8[0],
                   b = _ref8[1];
@@ -3870,7 +3875,7 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
     try {
       if (Object.keys(errors).length > 0) return Promise.resolve(false);
       return Promise.resolve(trigger()).then(function (result) {
-        console.log("SUBMITFORM SUBMITFORM result trigger", result, errors);
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
 
         if (result === true) {
           return Promise.resolve(getValues());
@@ -3913,7 +3918,7 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
       }
 
       errors.current = _extends({}, newErrors);
-      console.log(errors, "errrrrrrrrr", newErrors);
+      console.log("dyno ;)", errors, "errrrrrrrrr", newErrors);
 
       if (error.current !== originalErrors) {}
 
@@ -3928,7 +3933,7 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
       myComponents.current[name].value = value;
       var _myComponents$current2 = myComponents.current;
       return Promise.resolve(getValuesPOC()).then(function (_getValuesPOC) {
-        console.log(_myComponents$current2, 'getValues', _getValuesPOC);
+        console.log("dyno ;)", _myComponents$current2, 'getValues', _getValuesPOC);
         return Promise.resolve(validationOnce(name, value, _extends({}, data))).then(function (_ref9) {
           var hasValidationChanged = _ref9[0],
               result = _ref9[1],
@@ -3938,7 +3943,7 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
                 preResult = _ref10[1];
 
             if (hasValidationChanged === true || hasPreconditionChanged === true) {
-              console.log('lololololololololololoolol', hasValidationChanged, hasPreconditionChanged, errors);
+              console.log("dyno ;)", 'lololololololololololoolol', hasValidationChanged, hasPreconditionChanged, errors);
               setData(_extends({}, preResult));
             }
           });
@@ -3957,7 +3962,7 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
       };
 
       var hasCondition = watchingComponents.current.get(name);
-      console.log(data, "checkPreConditionInside", name, myComponents.current, hasCondition, watchingComponents.current);
+      console.log("dyno ;)", data, "checkPreConditionInside", name, myComponents.current, hasCondition, watchingComponents.current);
 
       var n = _extends({}, result);
 
@@ -3968,9 +3973,8 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
           return Promise.resolve(hasCondition.map(function (item) {
             try {
               var _temp6 = function _temp6(touched) {
-                debugger;
                 var i = n[item.refId];
-                console.log(n["accountNo"], "accountNoaccountNo", '-----', i);
+                console.log("dyno ;)", n["accountNo"], "accountNoaccountNo", '-----', i);
 
                 if (i !== undefined && i.visible !== touched) {
                   n[item.refId].visible = touched;
@@ -3996,7 +4000,7 @@ var FormBuilderNext = React__default.forwardRef(function (_ref6, ref) {
     }
   };
 
-  console.log('renderCount', renderCount$1++);
+  console.log("dyno ;)", 'renderCount', renderCount$1++);
   return data && ((_data$root = data.root) === null || _data$root === void 0 ? void 0 : (_data$root$items = _data$root.items) === null || _data$root$items === void 0 ? void 0 : _data$root$items.map(function (name, index) {
     return renderComponentInd(name, data, {
       updateReference: updateReference,
@@ -4027,7 +4031,7 @@ function createFormControlV4(props) {
   }
 
   var formOptions = Object.assign(Object.assign({}, defaultOptions$1), props);
-  console.log(formOptions, 'formOptions');
+  console.log("dyno ;)", formOptions, 'formOptions');
 
   var _delayCallback;
 
@@ -4282,7 +4286,7 @@ function createFormControlV4(props) {
             var _temp10 = function () {
               if (_f) {
                 return Promise.resolve(validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation)).then(function (fieldError) {
-                  console.log(fieldError, "fieldError");
+                  console.log("dyno ;)", fieldError, "fieldError");
 
                   if (shouldCheckValid) {
                     if (fieldError[_f.name]) {
@@ -4368,7 +4372,7 @@ function createFormControlV4(props) {
           var _fieldState = updateTouchAndDirtyState(name, inputValue, _isBlurEvent, false);
 
           var shouldRender = field._f.watch || !isEmptyObject(_fieldState) || _isWatched;
-          console.log(shouldRender, "heyyyyyyyyyyy { " + name + " } watch me or not?!", field._f.watch, "shouldSkipValidation:", shouldSkipValidation, "isBlurEvent:", _isBlurEvent, '------;)---- is watching hahaha:', _isWatched);
+          console.log("dyno ;)", shouldRender, "heyyyyyyyyyyy { " + name + " } watch me or not?!", field._f.watch, "shouldSkipValidation:", shouldSkipValidation, "isBlurEvent:", _isBlurEvent, '------;)---- is watching hahaha:', _isWatched);
 
           if (shouldSkipValidation) {
             !_isBlurEvent && _subjects.watch.next({
@@ -4500,7 +4504,7 @@ function createFormControlV4(props) {
       name = '';
     }
 
-    console.log(defaultValues, "_updateFormValues");
+    console.log("dyno ;)", defaultValues, "_updateFormValues");
 
     for (var key in defaultValues) {
       var value = defaultValues[key];
@@ -4693,13 +4697,13 @@ function createFormControlV4(props) {
         }
 
         _proxyFormState.isValid && _updateValid();
-        console.log("trigger", _formState.errors, "end");
+        console.log("dyno ;)", "trigger", _formState.errors, "end");
         return isValid;
       };
 
       var fieldNames = convertToArrayPayload(name);
       var isValid;
-      console.log("trigger", _formState.errors);
+      console.log("dyno ;)", "trigger", _formState.errors);
 
       var _temp25 = function () {
         if (formOptions.resolver) {
@@ -4741,7 +4745,7 @@ function createFormControlV4(props) {
   };
 
   var getValues = function getValues(fieldNames) {
-    console.log(_formValues, _fields, "getValuesgetValues");
+    console.log("dyno ;)", _formValues, _fields, "getValuesgetValues");
     var values = Object.assign(Object.assign({}, _defaultValues), _formValues);
     return isUndefined(fieldNames) ? values : isString(fieldNames) ? get(values, fieldNames) : fieldNames.map(function (name) {
       return get(values, name);
@@ -4863,7 +4867,7 @@ function createFormControlV4(props) {
         mount: true
       }), options)
     });
-    console.log(Object.assign(Object.assign(Object.assign({}, field && field._f ? field._f : {
+    console.log("dyno ;)", Object.assign(Object.assign(Object.assign({}, field && field._f ? field._f : {
       ref: {
         name: name
       }
@@ -5218,7 +5222,7 @@ function useForm$1(props) {
       field && (field._f.refs ? field._f.refs.every(live) : live(field._f.ref)) && unregisterFieldNames.push(name);
     }
 
-    console.log(unregisterFieldNames, 'unregisterFieldNames', control._names, control);
+    console.log("dyno ;)", unregisterFieldNames, 'unregisterFieldNames', control._names, control);
     unregisterFieldNames.length && _formControl.current.unregister(unregisterFieldNames);
     control._names.unMount = new Set();
   });
@@ -5252,7 +5256,7 @@ var renderComponentInd$1 = function renderComponentInd(name, data, _ref) {
 };
 
 var renderComponentForm$1 = function renderComponentForm(item, updateReference, myControl, getValue, errorss, ControlledComponents, components, managedCallback, parentName, sharedItems, index, data, parent, dataTransformer) {
-  console.log(errorss, 'dataerrors');
+  console.log("dyno ;)", errorss, 'dataerrors');
   var errors = sharedItems.errors,
       control = sharedItems.control,
       useFieldArray = sharedItems.useFieldArray;
@@ -5301,7 +5305,7 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
       validate = _ref2$validate === void 0 ? {} : _ref2$validate;
 
   if (item !== null && item !== void 0 && item.rule) {
-    console.log(validate, 'validate[', sharedItems === null || sharedItems === void 0 ? void 0 : sharedItems.localFunction);
+    console.log("dyno ;)", validate, 'validate[', sharedItems === null || sharedItems === void 0 ? void 0 : sharedItems.localFunction);
     Object.keys(validate).forEach(function (key) {
       if (typeof validate[key] === "function") return;
       validate[key] = sharedItems === null || sharedItems === void 0 ? void 0 : sharedItems.localFunction[key](validate[key])(_extends({}, sharedItems, {
@@ -5309,9 +5313,9 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
           return item;
         }
       }));
-      console.log(validate, 'validate[ within', validate[key]);
+      console.log("dyno ;)", validate, 'validate[ within', validate[key]);
     });
-    console.log(validate, 'validate[ after');
+    console.log("dyno ;)", validate, 'validate[ after');
   }
 
   result = /*#__PURE__*/React__default.createElement(Controller, {
@@ -5324,7 +5328,7 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
       var field = _ref3.field;
 
       if (item.isArray) {
-        console.log(name, item.items, "useFieldArray");
+        console.log("dyno ;)", name, item.items, "useFieldArray");
 
         var _useFieldArray = useFieldArray({
           control: control,
@@ -5343,7 +5347,7 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
               name: name + "." + index + "." + data[element].name,
               control: control,
               render: function render(_ref4) {
-                console.log(name + "." + index + "." + element, '`${name}.${index}.${element}`');
+                console.log("dyno ;)", name + "." + index + "." + element, '`${name}.${index}.${element}`');
                 return renderComponentInd$1(element, data, {
                   updateReference: updateReference,
                   myControl: myControl,
@@ -5383,7 +5387,7 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
       var proxyHandler = {
         get: function get(target, prop, receiver) {
           if (typeof target[prop] === "object" && target[prop] !== null) {
-            console.log(target[prop], "proxyHanlerrrrrrrr me ;)");
+            console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
             return new Proxy(target[prop], proxyHandler);
           }
 
@@ -5457,7 +5461,7 @@ var prepareWtchingComponents$2 = function prepareWtchingComponents(items, key) {
 
       for (var index = 0; index < keys.length; index++) {
         var internalItem = preConditionObj[keys[index]];
-        console.log(items[key], 'items[key]');
+        console.log("dyno ;)", items[key], 'items[key]');
         initialValue.set(internalItem.name, [].concat(initialValue.get(internalItem.name) && initialValue.get(internalItem.name) || [], [_extends({
           refId: items[key].id
         }, internalItem)]));
@@ -5491,16 +5495,23 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       _ref7$defaultValues = _ref7.defaultValues,
       defaultValues = _ref7$defaultValues === void 0 ? {} : _ref7$defaultValues,
       _ref7$devMode = _ref7.devMode,
-      devMode = _ref7$devMode === void 0 ? true : _ref7$devMode,
+      devMode = _ref7$devMode === void 0 ? false : _ref7$devMode,
       _ref7$dataTransformer = _ref7.dataTransformer,
       dataTransformer$1 = _ref7$dataTransformer === void 0 ? dataTransformer : _ref7$dataTransformer,
       dataStore = _ref7.dataStore;
 
-  if (devMode) {
-    console.log = function () {};
-  }
+  console.log = function () {
+    var log = console.log;
+    return function () {
+      var args = Array.from(arguments);
 
-  console.log(defaultValues, "defaultValues");
+      if (!args.includes("dyno ;)") || devMode) {
+        log.apply(console, args);
+      }
+    };
+  }();
+
+  console.log("dyno ;)", defaultValues, "defaultValues");
 
   var _useForm = useForm$1({
     mode: 'onChange',
@@ -5560,8 +5571,8 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     if (items === undefined) return;
     myComponents.current = items;
     watchingComponents.current = prepareWtchingComponents$2(myComponents.current);
-    console.log(myComponents, 'myComponentsmyComponents');
-    console.log(watchingComponents, 'prepareWtchingComponents', [].concat(watchingComponents.current.keys()));
+    console.log("dyno ;)", myComponents, 'myComponentsmyComponents');
+    console.log("dyno ;)", watchingComponents, 'prepareWtchingComponents', [].concat(watchingComponents.current.keys()));
     var subscription = watch(function (value, _ref8) {
       var name = _ref8.name,
           type = _ref8.type;
@@ -5569,7 +5580,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       try {
         return Promise.resolve(function () {
           if (watchingComponents.current.get(name)) {
-            console.log("checkPreCondition ;) checkPreCondition", value, name, type, data, items);
+            console.log("dyno ;)", "checkPreCondition ;) checkPreCondition", value, name, type, data, items);
             return Promise.resolve(checkPreCondition(name, value[name], items)).then(function (_ref9) {
               var a = _ref9[0],
                   b = _ref9[1];
@@ -5579,7 +5590,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
               }
             });
           } else if (watchingComponents.current.has(name)) {
-            console.log(watchingComponents.current.has(name), "before checkPreCondition ;) checkPreCondition", value, name, type, data, items);
+            console.log("dyno ;)", watchingComponents.current.has(name), "before checkPreCondition ;) checkPreCondition", value, name, type, data, items);
             setData(_extends({}, items));
             return;
           }
@@ -5600,7 +5611,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     try {
       if (Object.keys(errors).length > 0) return Promise.resolve(false);
       return Promise.resolve(trigger()).then(function (result) {
-        console.log("SUBMITFORM SUBMITFORM result trigger", result, errors);
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
 
         if (result === true) {
           return Promise.resolve(getValues());
@@ -5645,7 +5656,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       }
 
       errors.current = _extends({}, newErrors);
-      console.log(errors, "errrrrrrrrr", newErrors);
+      console.log("dyno ;)", errors, "errrrrrrrrr", newErrors);
 
       if (error.current !== originalErrors) {}
 
@@ -5660,7 +5671,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       myComponents.current[name].value = value;
       var _myComponents$current2 = myComponents.current;
       return Promise.resolve(getValuesPOC()).then(function (_getValuesPOC) {
-        console.log(_myComponents$current2, 'getValues', _getValuesPOC);
+        console.log("dyno ;)", _myComponents$current2, 'getValues', _getValuesPOC);
         return Promise.resolve(validationOnce(name, value, _extends({}, data))).then(function (_ref10) {
           var hasValidationChanged = _ref10[0],
               result = _ref10[1],
@@ -5670,7 +5681,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
                 preResult = _ref11[1];
 
             if (hasValidationChanged === true || hasPreconditionChanged === true) {
-              console.log('lololololololololololoolol', hasValidationChanged, hasPreconditionChanged, errors);
+              console.log("dyno ;)", 'lololololololololololoolol', hasValidationChanged, hasPreconditionChanged, errors);
               setData(_extends({}, preResult));
             }
           });
@@ -5689,7 +5700,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       };
 
       var hasCondition = watchingComponents.current.get(name);
-      console.log(data, "checkPreConditionInside", name, myComponents.current, hasCondition, watchingComponents.current);
+      console.log("dyno ;)", data, "checkPreConditionInside", name, myComponents.current, hasCondition, watchingComponents.current);
 
       var n = _extends({}, result);
 
@@ -5700,9 +5711,8 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
           return Promise.resolve(hasCondition.map(function (item) {
             try {
               var _temp6 = function _temp6(touched) {
-                debugger;
                 var i = n[item.refId];
-                console.log(n["accountNo"], "accountNoaccountNo", '-----', i);
+                console.log("dyno ;)", n["accountNo"], "accountNoaccountNo", '-----', i);
 
                 if (i !== undefined && i.visible !== touched) {
                   n[item.refId].visible = touched;
@@ -5728,7 +5738,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     }
   };
 
-  console.log('renderCount', renderCount$2++);
+  console.log("dyno ;)", 'renderCount', renderCount$2++);
   return data && ((_data$root = data.root) === null || _data$root === void 0 ? void 0 : (_data$root$items = _data$root.items) === null || _data$root$items === void 0 ? void 0 : _data$root$items.map(function (name, index) {
     return renderComponentInd$1(name, data, {
       updateReference: updateReference,

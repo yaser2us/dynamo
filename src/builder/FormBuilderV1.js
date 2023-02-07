@@ -66,12 +66,12 @@ const useStateWithPromise = (initialState) => {
 }
 
 export const ControlledComponentsV2 = (props) => {
-    // console.log('current', props.control.current);
+    // console.log("dyno ;)", 'current', props.control.current);
     // if(props.control.current === undefined) return;
     const [field, setField] = useState(props.control.current && props.control.current[props.name])
 
-    // console.log(props.name, "ControlledComponentsV2 renderrrrrrrrrr <1>", field, props.errors, props?.errors?.current && props?.errors?.current[props.name], props.name)
-    console.log(
+    // console.log("dyno ;)", props.name, "ControlledComponentsV2 renderrrrrrrrrr <1>", field, props.errors, props?.errors?.current && props?.errors?.current[props.name], props.name)
+    console.log("dyno ;)", 
         props.name,
         'ControlledComponentsV2 renderrrrrrrrrr <1>',
         field,
@@ -89,7 +89,7 @@ export const ControlledComponentsV2 = (props) => {
     const onChange = (value) => {
         // messageService.sendMessage(`${props.name}`);
         // pubsub.publish("anEvent", props.name);
-        console.log('valuelavue', value)
+        console.log("dyno ;)", 'valuelavue', value)
         // const [newValue, error] = props.updateReference(value.target.value, props.name);
 
         // update(value);
@@ -100,7 +100,7 @@ export const ControlledComponentsV2 = (props) => {
     }
 
     // const subscription = pubsub.getMessage().subscribe((data) => {
-    //     // console.log(`${props.name}, ControlledTextInput, message was published with this data: "${data}"`);
+    //     // console.log("dyno ;)", `${props.name}, ControlledTextInput, message was published with this data: "${data}"`);
 
     //     if (props.name === 'textbox-0') {
     //         setFields(data)
@@ -122,7 +122,7 @@ const IIN = React.memo(
         const errror = _.isEqual(oldE, newE)
         const errrorlol = nextProps.errors?.current[prevProps.name]
 
-        console.log(
+        console.log("dyno ;)", 
             prevProps,
             nextProps,
             prevProps.name + ' ControlledComponentsV2 renderrrrrrrrrr <2>',
@@ -159,12 +159,12 @@ const renderForm = (
     sharedItems,
     setValue
 ) => {
-    console.log(errors, 'dataerrors')
+    console.log("dyno ;)", errors, 'dataerrors')
     //console.time('renderFormmm')
     const r = data
         .filter((element) => element.visible)
         .map((item, index) => {
-            // console.log(item, "ittttem")
+            // console.log("dyno ;)", item, "ittttem")
 
             const {
                 register,
@@ -210,12 +210,12 @@ const renderForm = (
                 pattern: item.pattern && item.pattern.value !== "" && item.pattern || undefined,
                 required: item.required && item.required.value !== "" && item.required || undefined
             }
-            // console.log("validationValidation", validation)
+            // console.log("dyno ;)", "validationValidation", validation)
 
             // if (!item.visible) return null
 
             // const name = parentName && `${parentName}.0.${item.name}` || item.name
-            // console.log(name, "namename")
+            // console.log("dyno ;)", name, "namename")
             result = (
                 <Controller
                     key={item.isArray === true && `${name}container` || name}
@@ -231,7 +231,7 @@ const renderForm = (
                         //     name: item.preCondition[0].name, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
                         //     defaultValue: undefined // default value before the render
                         // });
-                        // console.log(item.name, myCondition, "myConditionssss")
+                        // console.log("dyno ;)", item.name, myCondition, "myConditionssss")
                         // if (!item.visible && myCondition !== "13333") return null
 
 
@@ -253,7 +253,7 @@ const renderForm = (
                         // const { useFieldArray } = useFormContext()
 
                         if (item.isArray) {
-                            // console.log(name, "useFieldArray")
+                            // console.log("dyno ;)", name, "useFieldArray")
                             const { fields, append, remove } = useFieldArray({
                                 control,
                                 name: name
@@ -264,7 +264,7 @@ const renderForm = (
                             //     name: 'textbox-0.test.0.firstName', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
                             //     defaultValue: undefined // default value before the render
                             // });
-                            // console.log(myaCondition, "myaCondition", getValue("textbox-3"))
+                            // console.log("dyno ;)", myaCondition, "myaCondition", getValue("textbox-3"))
                             child =
                                 <>
                                     {/* <>
@@ -305,7 +305,7 @@ const renderForm = (
                                     </ul>
                                     {/* <button type="button" onClick={() => {
                                         control.unregister("textbox-10")
-                                        console.log(getValue(), "unregisterrrr")
+                                        console.log("dyno ;)", getValue(), "unregisterrrr")
                                     }}> unregister 10 now ;) </button> */}
 
                                     {/* <button type="button" onClick={() => setValue("textbox-9", { hi: "wowwwwww" })}> Change 9 now ;) </button> */}
@@ -346,7 +346,7 @@ const renderForm = (
 
 const SimpleRender = props => renderForm({ ...props });
 const MemoRenderForm = props => SimpleRender(props) //React.memo(renderForm, (prev, next)=>{
-// console.log(prev,next,"memoRenderForm");
+// console.log("dyno ;)", prev,next,"memoRenderForm");
 // })
 
 
@@ -364,13 +364,13 @@ const RenderForm = (
     control,
     setValue
 ) => {
-    console.log(errors, 'dataerrors')
+    console.log("dyno ;)", errors, 'dataerrors')
     //console.time('renderFormmm')
     if (data === undefined) return null;
     const r = data
         .filter((element) => element.visible)
         .map((item, index) => {
-            // console.log(item, "ittttem")
+            // console.log("dyno ;)", item, "ittttem")
 
             // if (!item.visible) return null
             const name = parentName && `${parentName}.${item.name}` || item.name
@@ -397,7 +397,7 @@ const RenderForm = (
 
 
             // const name = parentName && `${parentName}.0.${item.name}` || item.name
-            // console.log(name, "namename")
+            // console.log("dyno ;)", name, "namename")
             result = (
                 <Controller
                     key={name}
@@ -413,7 +413,7 @@ const RenderForm = (
                         //     name: item.preCondition[0].name, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
                         //     defaultValue: undefined // default value before the render
                         // });
-                        // console.log(item.name, myCondition, "myConditionssss")
+                        // console.log("dyno ;)", item.name, myCondition, "myConditionssss")
                         // if (!item.visible && myCondition !== "13333") return null
 
                         // if (item.name === "textbox-0") {
@@ -427,7 +427,7 @@ const RenderForm = (
                         //     //     name: 'textbox-0.test.0.firstName', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
                         //     //     defaultValue: undefined // default value before the render
                         //     // });
-                        //     // console.log(myaCondition, "myaCondition", getValue("textbox-3"))
+                        //     // console.log("dyno ;)", myaCondition, "myaCondition", getValue("textbox-3"))
                         //     return (
                         //         <>
                         //             {/* <>
@@ -456,7 +456,7 @@ const RenderForm = (
                         //             {JSON.stringify(getValue("textbox-3"))}
                         //             <button type="button" onClick={() => {
                         //                 control.unregister("textbox-10")
-                        //                 console.log(getValue(), "unregisterrrr")
+                        //                 console.log("dyno ;)", getValue(), "unregisterrrr")
                         //             }}> unregister 10 now ;) </button>
 
                         //             <button type="button" onClick={() => setValue("textbox-9", { hi: "wowwwwww" })}> Change 9 now ;) </button>
@@ -491,7 +491,7 @@ const RenderForm = (
                             index,
                             managedCallback
                         })
-                        // console.log(Component, 'ControlledComponentsV2 renderrrrrrrrrr <3>', field.name)
+                        // console.log("dyno ;)", Component, 'ControlledComponentsV2 renderrrrrrrrrr <3>', field.name)
                         return Component
                     }}
 
@@ -519,7 +519,7 @@ const RenderForm = (
                 //             index,
                 //             managedCallback
                 //         })
-                //         console.log(Component, 'ControlledComponentsV2 renderrrrrrrrrr <3>', error, field.name)
+                //         console.log("dyno ;)", Component, 'ControlledComponentsV2 renderrrrrrrrrr <3>', error, field.name)
                 //         // return Component
                 //         // return (
                 //         //     <Component
@@ -572,7 +572,7 @@ const convertIdToRef = (array, key, name, parent, isArray) => {
     const result = array.reduce((obj, item, currentIndex) => {
         // TODO: remove console comment ;)
         const itemName = isArray === undefined && item[key] || `${parent}.0.${item[key]}`
-        // console.log(name, 'convertIdToRefconvertIdToRef', item, name, parent, itemName, isArray)
+        // console.log("dyno ;)", name, 'convertIdToRefconvertIdToRef', item, name, parent, itemName, isArray)
 
         const refId = (name && `${name}.items[${currentIndex}]`) || `[${currentIndex}]`
         return {
@@ -597,7 +597,7 @@ const resetItems = (array, key, name, parent) => {
     // const initialValue = new Map();
     const result = array.reduce((obj, item, currentIndex) => {
         // TODO: remove console comment ;)
-        // console.log(name, 'convertIdToRefconvertIdToRef', item, name, parent)
+        // console.log("dyno ;)", name, 'convertIdToRefconvertIdToRef', item, name, parent)
         const refId = (name && `${name}.items[${currentIndex}]`) || `[${currentIndex}]`
         return {
             ...obj,
@@ -621,7 +621,7 @@ const convertIdToRefV2 = (array, key, name) => {
     const initialValue = new Map()
     const result = array.reduce((obj, item, currentIndex) => {
         // TODO: remove console comment ;)
-        // console.log(name, "convertIdToRefconvertIdToRef", item)
+        // console.log("dyno ;)", name, "convertIdToRefconvertIdToRef", item)
         const refId = (name && `${name}.items[${currentIndex}]`) || item[key] // `[${currentIndex}]`;
         return {
             ...obj,
@@ -647,7 +647,7 @@ const prepareWtchingComponents = (items, key) => {
             // const thisShitIsBananas = items[key].preCondition.reduce((accumulator, fruit) => {
             //     return accumulator.concat(fruit.value);
             // }, []);
-            // console.log(items[key], "prepareWtchingComponents", Object.values(preConditionObj), '----===----', preConditionObj)
+            // console.log("dyno ;)", items[key], "prepareWtchingComponents", Object.values(preConditionObj), '----===----', preConditionObj)
             const keys = Object.keys(preConditionObj)
             for (let index = 0; index < keys.length; index++) {
                 const internalItem = preConditionObj[keys[index]]
@@ -669,7 +669,7 @@ const prepareWtchingComponents = (items, key) => {
             //         // {refId: items[key].refId, ...preConditionObj  }
             //         {refId: items[key].refId, ...preConditionObj[e] }
             //     ]);
-            //     // console.log(thisShitIsBananas, "prepareWtchingComponentsYY ---->", initialValue.get(preConditionObj[e].name),initialValue)
+            //     // console.log("dyno ;)", thisShitIsBananas, "prepareWtchingComponentsYY ---->", initialValue.get(preConditionObj[e].name),initialValue)
 
             // })
 
@@ -715,7 +715,7 @@ const convertArrayToObjectPOC = (array, key, value, isParent, original) => {
         (isParent && array.concat()) || array.filter((el) => el.parent === undefined).concat()
 
     const result = givenArray.reduce((obj, item) => {
-        // console.log(item, obj, "reducereduce", item[key], original[[item[key]]][value], original)
+        // console.log("dyno ;)", item, obj, "reducereduce", item[key], original[[item[key]]][value], original)
 
         return {
             ...obj,
@@ -739,7 +739,7 @@ const FormBuilderV1 = React.forwardRef(({ items,
     managedCallback,
     defaultValues = {} }, ref) => {
 
-    console.log(defaultValues, "defaultValues")
+    console.log("dyno ;)", defaultValues, "defaultValues")
 
     const {
         register,
@@ -789,13 +789,13 @@ const FormBuilderV1 = React.forwardRef(({ items,
         myComponents.current = convertIdToRef(items, 'name')
         //console.timeEnd('convertIdToRefffff')
         watchingComponents.current = prepareWtchingComponents(myComponents.current)
-        console.log(myComponents, 'myComponentsmyComponents')
-        console.log(watchingComponents, 'prepareWtchingComponents', [...watchingComponents.current.keys()])
+        console.log("dyno ;)", myComponents, 'myComponentsmyComponents')
+        console.log("dyno ;)", watchingComponents, 'prepareWtchingComponents', [...watchingComponents.current.keys()])
 
         const subscription = watch(async (value, { name, type }) => {
             if (watchingComponents.current.get(name)) {
                 // if(!Array.isArray(data)) return;
-                console.log("checkPreCondition ;) checkPreCondition", value, name, type, data, items)
+                console.log("dyno ;)", "checkPreCondition ;) checkPreCondition", value, name, type, data, items)
                 const [a, b] = await checkPreCondition(name, value[name], items);
                 if (!deepEqual(data, b) && a) {
                     setData([...b])
@@ -829,7 +829,7 @@ const FormBuilderV1 = React.forwardRef(({ items,
     }
 
     const onSubmit = (data) => {
-        console.log("SUBMITFORM SUBMITFORM", data)
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM", data)
         return data;
     }
 
@@ -837,7 +837,7 @@ const FormBuilderV1 = React.forwardRef(({ items,
         //TODO: hot fix for double validations
         if (Object.keys(errors).length > 0) return false;
         const result = await trigger();
-        console.log("SUBMITFORM SUBMITFORM result trigger", result, errors)
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors)
         if (result === true) {
             return await getValues();
         } else {
@@ -871,15 +871,15 @@ const FormBuilderV1 = React.forwardRef(({ items,
                 delete newErrors[name]
             }
             // n = _.set({ a: n }, `a${item.refId}.error`, error).a;
-            // console.log("error", n, error, value)
+            // console.log("dyno ;)", "error", n, error, value)
         } else {
             delete newErrors[name]
         }
         // }
 
         errors.current = { ...newErrors } // {...errors.current ,...newErrors};
-        // console.log("errorolo", errors.current, originalErrors, _.isEqual(originalErrors, newErrors))
-        console.log(errors, "errrrrrrrrr", newErrors,)
+        // console.log("dyno ;)", "errorolo", errors.current, originalErrors, _.isEqual(originalErrors, newErrors))
+        console.log("dyno ;)", errors, "errrrrrrrrr", newErrors,)
         if (error.current !== originalErrors) {
         }
 
@@ -904,17 +904,17 @@ const FormBuilderV1 = React.forwardRef(({ items,
         myComponents.current[name].value = value
         //console.timeEnd('myComponentsFind')
 
-        console.log(myComponents.current, 'getValues', await getValuesPOC())
+        console.log("dyno ;)", myComponents.current, 'getValues', await getValuesPOC())
 
         //console.time('iam here')
         const [hasValidationChanged, result, error] = await validationOnce(name, value, [...data])
         const [hasPreconditionChanged, preResult] = await checkPreCondition(name, value, result)
-        // console.log(error, "asyncValidation", result, hasValidationChanged)
+        // console.log("dyno ;)", error, "asyncValidation", result, hasValidationChanged)
 
         if (hasValidationChanged === true || hasPreconditionChanged === true) {
             // if (hasPreconditionChanged === true) {
 
-            console.log(
+            console.log("dyno ;)", 
                 'lololololololololololoolol',
                 hasValidationChanged,
                 hasPreconditionChanged,
@@ -923,7 +923,7 @@ const FormBuilderV1 = React.forwardRef(({ items,
             setData([...preResult])
         }
 
-        // console.log("getValues", await getValues())
+        // console.log("dyno ;)", "getValues", await getValues())
         //console.timeEnd('iam here')
         // return [value, error]
     }
@@ -932,7 +932,7 @@ const FormBuilderV1 = React.forwardRef(({ items,
         // const hasCondition = watchingComponents.current[name];
         const hasCondition = watchingComponents.current.get(name)
 
-        console.log(data, "checkPreConditionInside", name, myComponents.current, hasCondition, watchingComponents.current);
+        console.log("dyno ;)", data, "checkPreConditionInside", name, myComponents.current, hasCondition, watchingComponents.current);
 
         // TODO: ;)
         // how to update the Array
@@ -945,7 +945,7 @@ const FormBuilderV1 = React.forwardRef(({ items,
         if (hasCondition !== undefined) {
             // for(let i = 0; i < hasCondition.length; i++){
             //     const touched = item.value == value;
-            //         console.log("hashas", _.get({a:n},`a${item.refId}.visible` ))
+            //         console.log("dyno ;)", "hashas", _.get({a:n},`a${item.refId}.visible` ))
             //         n = _.set({ a: n }, `a${item.refId}.visible`, touched).a;
 
             // }
@@ -958,7 +958,7 @@ const FormBuilderV1 = React.forwardRef(({ items,
                     // myComponents.current[item.name].visible = touched;
                     n = _.set({ a: n }, `a${item.refId}.visible`, touched).a
                     updated = true
-                    console.log(
+                    console.log("dyno ;)", 
                         'hashas',
                         await _.get({ a: n }, `a${item.refId}.visible`),
                         await touched,
@@ -973,7 +973,7 @@ const FormBuilderV1 = React.forwardRef(({ items,
         return [updated, [...n]]
     }
 
-    console.log('renderCount', renderCount++)
+    console.log("dyno ;)", 'renderCount', renderCount++)
     return (
         (data &&
             renderForm(

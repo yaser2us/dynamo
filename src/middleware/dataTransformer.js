@@ -3,12 +3,12 @@ import _ from "lodash";
 const dataTransformer = (data, name, obj) => (local) => {
     // const { getValues, dataStore } = obj.sharedItems || { getValues: undefined };
     // const values = { ...dataStore, ...(getValues() || {}) };
-    // console.log(data, values, 'getValues()()()')
+    // console.log("dyno ;)", data, values, 'getValues()()()')
     //
 
     const { getValues, dataStore } = local.sharedItems || { getValues: undefined };
     const values = { ...dataStore, ...(getValues && getValues() || {}) };
-    console.log(data, values, 'getValues()()()')
+    console.log("dyno ;)", data, values, 'getValues()()()')
 
 
     //Need to check later ;)
@@ -18,23 +18,23 @@ const dataTransformer = (data, name, obj) => (local) => {
 
     if (typeof data === "string") {
         if (data !== undefined && data.includes("$$")) {
-            console.log("blaherebla", data, values)
+            console.log("dyno ;)", "blaherebla", data, values)
             return _.get(values, data.substring(2));
         }
         // check fx first 
         if (data !== undefined && data.includes("fx")) {
-            console.log(data.slice(2), 'sliceeeeeee')
+            console.log("dyno ;)", data.slice(2), 'sliceeeeeee')
             try {
                 // const result = eval(data.slice(2));
                 const result = eval(`local.${data.slice(2)}`);
 
-                console.log(result, 'rrrrrrrsulttttttttt')
+                console.log("dyno ;)", result, 'rrrrrrrsulttttttttt')
                 if (typeof result === 'function') {
                     return result(values);
                 }
                 return result;
             } catch (error) {
-                console.log(error, 'rrrrrrrsulttttttttt errorororrororor')
+                console.log("dyno ;)", error, 'rrrrrrrsulttttttttt errorororrororor')
             }
         };
 
@@ -44,14 +44,14 @@ const dataTransformer = (data, name, obj) => (local) => {
             patternResult = patternResult.replace(/dx.*?\(.*?\)/g, (_, name) => {
 
                 try {
-                    console.log(_, name, 'pattern waaaaaalalala 2nd', patternResult)
+                    console.log("dyno ;)", _, name, 'pattern waaaaaalalala 2nd', patternResult)
                     const result = eval(`local.${_}`);
                     if (typeof result === 'function') {
                         return result(values);
                     }
                     return result;
                 } catch (error) {
-                    console.log(error, 'dxxxxxxxxxxxxdxdxxdxdxx')
+                    console.log("dyno ;)", error, 'dxxxxxxxxxxxxdxdxxdxdxx')
                     return _;
                 }
             });
@@ -60,8 +60,8 @@ const dataTransformer = (data, name, obj) => (local) => {
         patternResult = patternResult.replace(/\$\{(.*?)\}/g, (_, name) => {
 
             const result = values[name] || ''; //_.get(values, name);
-            console.log(values, 'valuesssssssssssssssssRGEX')
-            console.log(name, '------>>>>>>------', result, 'pattern waaaaaalalala only', patternResult)
+            console.log("dyno ;)", values, 'valuesssssssssssssssssRGEX')
+            console.log("dyno ;)", name, '------>>>>>>------', result, 'pattern waaaaaalalala only', patternResult)
 
             return result !== undefined && result//"";//field[name];
         });

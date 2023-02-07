@@ -132,7 +132,7 @@ export function createFormControlV3(props = {}) {
     };
     const setFieldValue = (name, value, options = {}, shouldRender) => {
         const field = get(_fields, name);
-        // console.log("setValuesetValue", field, field._f.ref.visible, value,_formValues)
+        // console.log("dyno ;)", "setValuesetValue", field, field._f.ref.visible, value,_formValues)
         if (field) {
             const _f = field._f;
             if (_f) {
@@ -230,7 +230,7 @@ export function createFormControlV3(props = {}) {
     const validateForm = async (_fields, shouldCheckValid, context = {
         valid: true,
     }) => {
-        // console.log("SUBMITFORM here", _fields)
+        // console.log("dyno ;)", "SUBMITFORM here", _fields)
         for (const name in _fields) {
             const field = _fields[name];
             if (field) {
@@ -241,7 +241,7 @@ export function createFormControlV3(props = {}) {
                     //To do for formId ;)
                     const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
                     // const fieldError = field._f.ref.formId === "ALL" &&  await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
-                    console.log(fieldError,"fieldError")
+                    console.log("dyno ;)", fieldError,"fieldError")
                     if (shouldCheckValid) {
                         if (fieldError[_f.name]) {
                             context.valid = false;
@@ -266,11 +266,11 @@ export function createFormControlV3(props = {}) {
         let error;
         let isValid;
         const field = get(_fields, name);
-        // console.log(field, "field from library Yasser ;) Thanks Allah :):)");
+        // console.log("dyno ;)", field, "field from library Yasser ;) Thanks Allah :):)");
         if (field) {
             let inputValue = inputType ? getFieldValue(field) : undefined;
             inputValue = isUndefined(inputValue) ? value : inputValue;
-            // console.log(inputValue, "field from library Yasser ;) inputValue :)");
+            // console.log("dyno ;)", inputValue, "field from library Yasser ;) inputValue :)");
             const isBlurEvent = type === EVENTS.BLUR;
             const { isOnBlur: isReValidateOnBlur, isOnChange: isReValidateOnChange } = getValidationModes(formOptions.reValidateMode);
             const shouldSkipValidation = (!hasValidation(field._f, field._f.mount) &&
@@ -323,7 +323,7 @@ export function createFormControlV3(props = {}) {
     };
     const _updateValidAndInputValue = (name, ref, shouldSkipValueAs) => {
         const field = get(_fields, name);
-        // console.log(name,ref, '_updateValidAndInputValue')
+        // console.log("dyno ;)", name,ref, '_updateValidAndInputValue')
         if (field) {
             const fieldValue = get(_formValues, name);
             const isValueUndefined = isUndefined(fieldValue);
@@ -390,7 +390,7 @@ export function createFormControlV3(props = {}) {
                 : result[0];
     };
     const _updateFormValues = (defaultValues, name = '') => {
-        console.log(defaultValues,"_updateFormValues")
+        console.log("dyno ;)", defaultValues,"_updateFormValues")
         for (const key in defaultValues) {
             const value = defaultValues[key];
             const fieldName = name + (name ? '.' : '') + key;
@@ -503,7 +503,7 @@ export function createFormControlV3(props = {}) {
         // _subjects.state.next({
         //     isValidating: true,
         // });
-        console.log("trigger", _formState.errors);
+        console.log("dyno ;)", "trigger", _formState.errors);
         if (formOptions.resolver) {
             const schemaResult = await executeResolverValidation(isUndefined(name) ? name : fieldNames);
             isValid = name
@@ -527,11 +527,11 @@ export function createFormControlV3(props = {}) {
             focusFieldBy(_fields, (key) => get(_formState.errors, key), name ? fieldNames : _names.mount);
         }
         _proxyFormState.isValid && _updateValid();
-        console.log("trigger", _formState.errors, "end");
+        console.log("dyno ;)", "trigger", _formState.errors, "end");
         return isValid;
     };
     const getValues = (fieldNames) => {
-        console.log(_formValues, _fields, "fdfdfdfdfdfd")
+        console.log("dyno ;)", _formValues, _fields, "fdfdfdfdfdfd")
         const values = Object.assign(Object.assign({}, _defaultValues), _formValues);
         return isUndefined(fieldNames)
             ? values
@@ -610,11 +610,11 @@ export function createFormControlV3(props = {}) {
     };
     const register = (name, options = {}) => {
         const field = get(_fields, name);
-        // console.log("registerRegister", field, name, _fields)
+        // console.log("dyno ;)", "registerRegister", field, name, _fields)
         set(_fields, name, {
             _f: Object.assign(Object.assign(Object.assign({}, (field && field._f ? field._f : { ref: { name } })), { name, mount: true }), options),
         });
-        console.log(Object.assign(Object.assign(Object.assign({}, (field && field._f ? field._f : { ref: { name } })), { name, mount: true }), options),"registerRegister after", field, name, _fields)
+        console.log("dyno ;)", Object.assign(Object.assign(Object.assign({}, (field && field._f ? field._f : { ref: { name } })), { name, mount: true }), options),"registerRegister after", field, name, _fields)
         if (options.value) {
             set(_formValues, name, options.value);
         }
@@ -653,7 +653,7 @@ export function createFormControlV3(props = {}) {
         }
         let hasNoPromiseError = true;
         let fieldValues = Object.assign({}, _formValues);
-        // console.log(_formValues,"_formValues")
+        // console.log("dyno ;)", _formValues,"_formValues")
         _subjects.state.next({
             isSubmitting: true,
         });
