@@ -3,7 +3,7 @@ import _ from "lodash";
 
 const rebuildHistory = (history = {}, to = 0, from = 0) => {
     const newHistory = [...history].slice(from, to);
-    console.log('rebuildHistory', newHistory, to)
+    console.log("dyno ;)", 'rebuildHistory', newHistory, to)
     return new Set(newHistory);
 }
 
@@ -46,10 +46,10 @@ export default function useHistory(init = { name: "" }) {
             setIndex(existing["x-index"])
             updateCurrentPage(pageName);
 
-            console.log("lolllllllllllllllllll", history, '99999', existing["x-index"], newHistory);
+            console.log("dyno ;)", "lolllllllllllllllllll", history, '99999', existing["x-index"], newHistory);
             return;
         }
-        console.log("histlori", value, _.set(states, pageName, value), state, history.size)
+        console.log("dyno ;)", "histlori", value, _.set(states, pageName, value), state, history.size)
         const newIndex = index + 1;
         const copy = _.cloneDeep(_.set(states, pageName, { ...value, "x-index": newIndex }));
         // setIndex(pageName);
@@ -58,9 +58,9 @@ export default function useHistory(init = { name: "" }) {
         updateHistory(history.add(pageName));
         setStates(copy);
         updateCurrentPage(pageName);
-        console.log('hissssstory', history)
-        console.log(value, 'drooooomemppppppphistlori', existing)
-        console.log(states, '31231232323132', state, currentPage, _.isEqual(existing, value))
+        console.log("dyno ;)", 'hissssstory', history)
+        console.log("dyno ;)", value, 'drooooomemppppppphistlori', existing)
+        console.log("dyno ;)", states, '31231232323132', state, currentPage, _.isEqual(existing, value))
     }
 
     const setStateOld = (value) => {
@@ -72,14 +72,14 @@ export default function useHistory(init = { name: "" }) {
         copy.push(value);
         setStates(copy);
         setIndex(copy.length - 1);
-        console.log(states, 'drooooomemppppppp', _.isEqual(state, value), copy, index)
+        console.log("dyno ;)", states, 'drooooomemppppppp', _.isEqual(state, value), copy, index)
     };
 
     const resetState = (init = { name: "" }) => {
         setIndex(0);
         setStates({});
         updateHistory([])
-        console.log(":::::resetState", history, states, index)
+        console.log("dyno ;)", ":::::resetState", history, states, index)
     };
 
     const goBack = (steps = 1, reset = false) => {
@@ -87,7 +87,7 @@ export default function useHistory(init = { name: "" }) {
             goBackByIndex(steps, reset);
             return;
         }
-        console.log('gobackbyname', steps)
+        console.log("dyno ;)", 'gobackbyname', steps)
         if(!states[steps]){
             throw "gobackbyname is not available ;)";
         }
@@ -96,11 +96,11 @@ export default function useHistory(init = { name: "" }) {
 
 
     const goBackByIndex = (steps = 1, reset = false) => {
-        console.log(steps, 'stepsssssss')
+        console.log("dyno ;)", steps, 'stepsssssss')
         const newIndex = Math.max(0, Number(index) - (Number(steps) || 1));
         const previousPageName = Object.keys(states)[newIndex - 1];
         // setIndex(Math.max(0, Number(index) - (Number(steps) || 1)));
-        console.log(Math.max(0, Number(index) - (Number(steps) || 1)), 'drooooomempppppppdrooooo45678mempppppppdrooooomemppppppp', index, previousPageName, states[previousPageName])
+        console.log("dyno ;)", Math.max(0, Number(index) - (Number(steps) || 1)), 'drooooomempppppppdrooooo45678mempppppppdrooooomemppppppp', index, previousPageName, states[previousPageName])
         updateCurrentPage(previousPageName);
         setIndex(newIndex);
         if (reset) {
@@ -110,7 +110,7 @@ export default function useHistory(init = { name: "" }) {
             // newHistory.map(page => copy = _.set(copy, states[page]))
             // setStates(copy);
             updateHistory(newHistory)
-            console.log(
+            console.log("dyno ;)", 
                 previousPageName,
                 newIndex,
                 'resetHardddddddd',
@@ -123,14 +123,14 @@ export default function useHistory(init = { name: "" }) {
     };
 
     const goBackByName = (steps = 1, reset = false) => {
-        console.log(steps, 'stepsssssss')
+        console.log("dyno ;)", steps, 'stepsssssss')
         const existingPage = _.get(states, steps);
 
 
         const newIndex = Math.max(0, Number(index) - (Number(steps) || 1));
         const previousPageName = Object.keys(states)[newIndex - 1];
         // setIndex(Math.max(0, Number(index) - (Number(steps) || 1)));
-        console.log(Math.max(0, Number(index) - (Number(steps) || 1)), 'drooooomempppppppdrooooo45678mempppppppdrooooomemppppppp', index, previousPageName, states[previousPageName])
+        console.log("dyno ;)", Math.max(0, Number(index) - (Number(steps) || 1)), 'drooooomempppppppdrooooo45678mempppppppdrooooomemppppppp', index, previousPageName, states[previousPageName])
         updateCurrentPage(previousPageName);
         setIndex(newIndex);
         if (reset) {
@@ -140,7 +140,7 @@ export default function useHistory(init = { name: "" }) {
             // newHistory.map(page => copy = _.set(copy, states[page]))
             // setStates(copy);
             updateHistory(newHistory)
-            console.log(
+            console.log("dyno ;)", 
                 previousPageName,
                 newIndex,
                 'resetHardddddddd',
@@ -159,7 +159,7 @@ export default function useHistory(init = { name: "" }) {
     const updatePage = (value) => {
         const existing = _.get(states, currentPage);
         existing.defaultValues = { ...value };
-        console.log(value, 'updatePage youuuuupppp', existing)
+        console.log("dyno ;)", value, 'updatePage youuuuupppp', existing)
     }
 
     return {

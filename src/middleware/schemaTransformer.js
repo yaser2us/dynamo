@@ -15,7 +15,7 @@ const schemaTransformation = (data, name, obj) => (local) => {
                 }
                 return result;
             } catch (error) {
-                console.log(error, "rrrrrrrsulttttttttt errorororrororor");
+                console.log("dyno ;)", error, "rrrrrrrsulttttttttt errorororrororor");
             }
         }
 

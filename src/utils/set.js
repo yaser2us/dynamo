@@ -3,7 +3,7 @@ import isObject from './isObject';
 import stringToPath from './stringToPath';
 export default function set(object, path, value) {
   let index = -1;
-  // console.log(isKey(path),stringToPath(path), "setset", object)
+  // console.log("dyno ;)", isKey(path),stringToPath(path), "setset", object)
   const tempPath = isKey(path) ? [path] : stringToPath(path);
   const length = tempPath.length;
   const lastIndex = length - 1;

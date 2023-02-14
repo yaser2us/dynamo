@@ -7,7 +7,7 @@ const schemaProxy = (item, extraValues = {}, extraFunctions = {}) => {
     const proxyHandler = {
         get(target, prop, receiver) {
             if (typeof target[prop] === "object" && target[prop] !== null) {
-                console.log(target[prop], "proxyHanlerrrrrrrr ;)");
+                console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr ;)");
                 return new Proxy(target[prop], proxyHandler);
             } else {
                 return schemaTransformation(

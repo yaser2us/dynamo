@@ -30,7 +30,7 @@ export function useForm(props = {}) {
     React.useEffect(() => {
         const formStateSubscription = control._subjects.state.subscribe({
             next(formState) {
-                // console.log("##1", formState,control._proxyFormState)
+                // console.log("dyno ;)", "##1", formState,control._proxyFormState)
                 if (shouldRenderFormState(formState, control._proxyFormState, true)) {
                     control._formState.val = Object.assign(Object.assign({}, control._formState.val), formState);
                     updateFormState(Object.assign({}, control._formState.val));
@@ -64,7 +64,7 @@ export function useForm(props = {}) {
                 (field._f.refs ? field._f.refs.every(live) : live(field._f.ref)) &&
                 unregisterFieldNames.push(name);
         }
-        console.log(unregisterFieldNames,'unregisterFieldNames',control._names,control)
+        console.log("dyno ;)", unregisterFieldNames,'unregisterFieldNames',control._names,control)
         unregisterFieldNames.length &&
             _formControl.current.unregister(unregisterFieldNames);
         control._names.unMount = new Set();

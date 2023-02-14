@@ -8,7 +8,7 @@ const setupProxy = (item, extraValues = {}, extraFunctions = {}) => {
     const y = Object.keys(proxyItems).map((el) => {
         if (el === "sharedItems") return;
         newSchema = _.set(newSchema, el, proxyItems[el]);
-        console.log(el, "flattttttttten");
+        console.log("dyno ;)", el, "flattttttttten");
     });
 
     return _.cloneDeep(newSchema);

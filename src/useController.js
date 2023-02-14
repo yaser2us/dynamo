@@ -8,7 +8,7 @@ import { useFormState } from './useFormState';
 export function useController(props) {
     const methods = useFormContext();
     const { name, control = methods.control, shouldUnregister, item } = props;
-    console.log(item, "useController");
+    console.log("dyno ;)", item, "useController");
     const [value, setInputStateValue] = React.useState(get(control._formValues, name, get(control._defaultValues, name, props.defaultValue)));
     const formState = useFormState({
         control: control || methods.control,
@@ -18,7 +18,7 @@ export function useController(props) {
     // TODO: move item from ref into item object seperately 
     // to prevent disable reaction about validation and submission
     const registerProps = control.register(name, Object.assign(Object.assign({}, {...props.rules, item: {...item} }), { value }));
-    // console.log(registerProps,"useController")
+    // console.log("dyno ;)", registerProps,"useController")
 
     const updateMounted = React.useCallback((name, value) => {
         const field = get(control._fields, name);
