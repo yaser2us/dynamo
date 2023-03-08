@@ -665,6 +665,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         getValues,
         setValue,
         triggerBackground,
+        triggerBackgroundOptimised,
         unregister,
         clearErrors,
         reset
@@ -695,7 +696,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     })
 
     React.useEffect(() => {
-        reset({...defaultValues})
+        reset({ ...defaultValues })
     }, [defaultValues]);
 
     const sharedItems = {
@@ -711,8 +712,18 @@ const FormBuilderNext = React.forwardRef(({ items,
         useFieldArray,
         useWatch,
         triggerBackground,
+        triggerBackgroundOptimised,
         unregister,
-        localFunction: { ...localFunction, triggerBackground: () => !_.isEmpty(errors), getValues },
+        localFunction: {
+            ...localFunction,
+            triggerBackground: () => !_.isEmpty(errors),
+            getValues,
+            triggerBackgroundOptimised: (formId) => {
+                // console.log(triggerBackground(), 'triggerSyncBackground()')
+                const result = triggerBackgroundOptimised(formId).then(r => r);
+                return result;
+            }
+        },
         dataStore,
         clearErrors
     }

@@ -230,35 +230,39 @@ export function createFormControlV4(props = {}) {
     };
     const validateForm = async (_fields, shouldCheckValid, context = {
         valid: true,
-    }) => {
-        // console.log("SUBMITFORM here", _fields)
+    }, formId = "ALL") => {
+        // console.log("SUBMITFORM here", formId)
         for (const name in _fields) {
             const field = _fields[name];
+            // console.log(field, 'iamfromherein-validation-lol-edward-log-;)---validateForm')
             if (field) {
                 const _f = field._f;
                 const val = omit(field, '_f');
                 // && field._f.ref.formId === "ALL"
                 if (_f) {
                     //To do for formId ;)
-                    const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
-                    // const fieldError = field._f.ref.formId === "ALL" &&  await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
-                    console.log(fieldError, "fieldError")
-                    if (shouldCheckValid) {
-                        if (fieldError[_f.name]) {
-                            context.valid = false;
-                            break;
+                    // console.log(_f,'formidddddd')
+                    if(_f.formId === formId || formId === "ALL"){
+                        const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
+                        // const fieldError = field._f.ref.formId === "ALL" &&  await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
+                        // console.log(fieldError, "fieldError")
+                        if (shouldCheckValid) {
+                            if (fieldError[_f.name]) {
+                                context.valid = false;
+                                break;
+                            }
                         }
-                    }
-                    else {
-                        if (fieldError[_f.name]) {
-                            context.valid = false;
+                        else {
+                            if (fieldError[_f.name]) {
+                                context.valid = false;
+                            }
+                            fieldError[_f.name]
+                                ? set(_formState.errors, _f.name, fieldError[_f.name])
+                                : unset(_formState.errors, _f.name);
+                                //Added to stop at first error
+                                //TODO: enhance as parameter 
+                                if (Object.keys(_formState.errors).length == 1) break;
                         }
-                        fieldError[_f.name]
-                            ? set(_formState.errors, _f.name, fieldError[_f.name])
-                            : unset(_formState.errors, _f.name);
-                            //Added to stop at first error
-                            //TODO: enhance as parameter 
-                            if (Object.keys(_formState.errors).length == 1) break;
                     }
                 }
                 val && (await validateForm(val, shouldCheckValid, context));
@@ -318,6 +322,7 @@ export function createFormControlV4(props = {}) {
                 isValid = isEmptyObject(errors);
             }
             else {
+                // console.log(field, 'edwardyasser')
                 error = (await validateField(field, get(_formValues, name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation))[name];
             }
             !isBlurEvent &&
@@ -511,7 +516,7 @@ export function createFormControlV4(props = {}) {
         // _subjects.state.next({
         //     isValidating: true,
         // });
-        console.log("trigger", _formState.errors);
+        // console.log("triggerBackgroundtriggerBackground", _formState.errors);
         if (formOptions.resolver) {
             const schemaResult = await executeResolverValidation(isUndefined(name) ? name : fieldNames);
             isValid = name
@@ -522,6 +527,7 @@ export function createFormControlV4(props = {}) {
             if (name) {
                 isValid = (await Promise.all(fieldNames.map(async (fieldName) => {
                     const field = get(_fields, fieldName);
+                    // console.log(field, 'iamfromherein-validation-lol-edward-log-;)')
                     return await validateForm(field._f ? { [fieldName]: field } : field);
                 }))).every(Boolean);
             }
@@ -535,11 +541,50 @@ export function createFormControlV4(props = {}) {
             focusFieldBy(_fields, (key) => get(_formState.errors, key), name ? fieldNames : _names.mount);
         }
         _proxyFormState.isValid && _updateValid();
-        console.log("trigger", _formState.errors, "end");
+        // console.log("trigger99999999", _formState.errors, "end", isValid);
+        return isValid;
+    };
+    const triggerBackgroundOptimised = async (formId) => {
+        // const fieldNames = convertToArrayPayload(name);
+        let isValid;
+        // _subjects.state.next({
+        //     isValidating: true,
+        // });
+        console.log("triggerBackgroundtriggerBackground", _formState.errors);
+        if (formOptions.resolver) {
+            // const schemaResult = await executeResolverValidation(isUndefined(name) ? name : fieldNames);
+            const schemaResult = await executeResolverValidation(fieldNames);
+            isValid = 
+                // name
+                // ? fieldNames.every((name) => !get(schemaResult, name))
+                // :
+                isEmptyObject(schemaResult);
+        }
+        else {
+            // if (name) {
+            //     isValid = (await Promise.all(fieldNames.map(async (fieldName) => {
+            //         const field = get(_fields, fieldName);
+            //         console.log(field, 'iamfromherein-validation-lol-edward-log-;)')
+            //         return await validateForm(field._f ? { [fieldName]: field } : field);
+            //     }))).every(Boolean);
+            // }
+            // else {
+                isValid = await validateForm(_fields, true,{
+                    valid: true,
+                }, formId);
+                // isValid = isEmptyObject(_formState.errors);
+            // }
+        }
+        // _subjects.state.next(Object.assign(Object.assign({}, (isString(name) ? { name } : {})), { errors: _formState.errors, isValidating: false }));
+        // if (options.shouldFocus && !isValid) {
+        //     // focusFieldBy(_fields, (key) => get(_formState.errors, key), name ? fieldNames : _names.mount);
+        // }
+        _proxyFormState.isValid && _updateValid();
+        // console.log("trigger99999999", _formState.errors, "end", isValid);
         return isValid;
     };
     const getValues = (fieldNames) => {
-        console.log(_formValues, _fields, "getValuesgetValues")
+        // console.log(_formValues, _fields, "getValuesgetValues")
         const values = Object.assign(Object.assign({}, _defaultValues), _formValues);
         return isUndefined(fieldNames)
             ? values
@@ -832,6 +877,7 @@ export function createFormControlV4(props = {}) {
         },
         trigger,
         triggerBackground,
+        triggerBackgroundOptimised,
         register,
         handleSubmit,
         watch,
