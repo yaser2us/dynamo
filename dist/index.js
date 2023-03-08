@@ -5,7 +5,7 @@ var React__default = _interopDefault(React);
 var _ = _interopDefault(require('lodash'));
 
 function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
+  _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -18,6 +18,7 @@ function _extends() {
 
     return target;
   };
+
   return _extends.apply(this, arguments);
 }
 
@@ -2920,6 +2921,12 @@ var dataTransformer = function dataTransformer(data, name, obj) {
             return result(values);
           }
 
+          if (result !== null && result !== void 0 && result.then) {
+            return result.then(function (response) {
+              return !response;
+            });
+          }
+
           return result;
         } catch (error) {
           console.log("dyno ;)", error, 'rrrrrrrsulttttttttt errorororrororor');
@@ -4252,72 +4259,80 @@ function createFormControlV4(props) {
     });
   };
 
-  var validateForm = function validateForm(_fields, shouldCheckValid, context) {
+  var validateForm = function validateForm(_fields, shouldCheckValid, context, formId) {
     if (context === void 0) {
       context = {
         valid: true
       };
     }
 
+    if (formId === void 0) {
+      formId = "ALL";
+    }
+
     try {
-      var _temp7 = function _temp7() {
+      var _temp8 = function _temp8() {
         return context.valid;
       };
 
       var _interrupt2 = false;
 
-      var _temp8 = _forIn(_fields, function (name) {
+      var _temp9 = _forIn(_fields, function (name) {
         var field = _fields[name];
 
-        var _temp4 = function () {
+        var _temp5 = function () {
           if (field) {
-            var _temp9 = function _temp9() {
-              function _temp(_validateForm) {
+            var _temp10 = function _temp10() {
+              function _temp2(_validateForm) {
                 _validateForm;
               }
 
-              return _val ? Promise.resolve(validateForm(_val, shouldCheckValid, context)).then(_temp) : _temp(_val);
+              return _val ? Promise.resolve(validateForm(_val, shouldCheckValid, context)).then(_temp2) : _temp2(_val);
             };
 
             var _f = field._f;
 
             var _val = omit(field, '_f');
 
-            var _temp10 = function () {
+            var _temp11 = function () {
               if (_f) {
-                return Promise.resolve(validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation)).then(function (fieldError) {
-                  console.log("dyno ;)", fieldError, "fieldError");
+                var _temp12 = function () {
+                  if (_f.formId === formId || formId === "ALL") {
+                    return Promise.resolve(validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation)).then(function (fieldError) {
+                      if (shouldCheckValid) {
+                        if (fieldError[_f.name]) {
+                          context.valid = false;
+                          _interrupt2 = true;
+                        }
+                      } else {
+                        if (fieldError[_f.name]) {
+                          context.valid = false;
+                        }
 
-                  if (shouldCheckValid) {
-                    if (fieldError[_f.name]) {
-                      context.valid = false;
-                      _interrupt2 = true;
-                    }
-                  } else {
-                    if (fieldError[_f.name]) {
-                      context.valid = false;
-                    }
+                        fieldError[_f.name] ? set(_formState.errors, _f.name, fieldError[_f.name]) : unset(_formState.errors, _f.name);
 
-                    fieldError[_f.name] ? set(_formState.errors, _f.name, fieldError[_f.name]) : unset(_formState.errors, _f.name);
-
-                    if (Object.keys(_formState.errors).length == 1) {
-                      _interrupt2 = true;
-                    }
+                        if (Object.keys(_formState.errors).length == 1) {
+                          _interrupt2 = true;
+                        }
+                      }
+                    });
                   }
-                });
+                }();
+
+                if (_temp12 && _temp12.then) return _temp12.then(function () {});
               }
             }();
 
-            return _temp10 && _temp10.then ? _temp10.then(_temp9) : _temp9(_temp10);
+            return _temp11 && _temp11.then ? _temp11.then(_temp10) : _temp10(_temp11);
           }
         }();
 
-        if (_temp4 && _temp4.then) return _temp4.then(function () {});
+        if (_temp5 && _temp5.then) return _temp5.then(function () {});
       }, function () {
         return _interrupt2;
       });
 
-      return Promise.resolve(_temp8 && _temp8.then ? _temp8.then(_temp7) : _temp7(_temp8));
+      return Promise.resolve(_temp9 && _temp9.then ? _temp9.then(_temp8) : _temp8(_temp9));
     } catch (e) {
       return Promise.reject(e);
     }
@@ -4337,7 +4352,7 @@ function createFormControlV4(props) {
       var field = get(_fields, name);
       return Promise.resolve(function () {
         if (field) {
-          var _temp13 = function _temp13() {
+          var _temp15 = function _temp15() {
             !_isBlurEvent && _subjects.watch.next({
               name: name,
               type: type,
@@ -4390,7 +4405,7 @@ function createFormControlV4(props) {
             isValidating: true
           });
 
-          var _temp14 = function () {
+          var _temp16 = function () {
             if (formOptions.resolver) {
               return Promise.resolve(executeResolver([name])).then(function (_ref3) {
                 var errors = _ref3.errors;
@@ -4415,7 +4430,7 @@ function createFormControlV4(props) {
             }
           }();
 
-          return _temp14 && _temp14.then ? _temp14.then(_temp13) : _temp13(_temp14);
+          return _temp16 && _temp16.then ? _temp16.then(_temp15) : _temp15(_temp16);
         }
       }());
     } catch (e) {
@@ -4619,7 +4634,7 @@ function createFormControlV4(props) {
     }
 
     try {
-      var _temp18 = function _temp18() {
+      var _temp20 = function _temp20() {
         _subjects.state.next(Object.assign(Object.assign({}, isString(name) ? {
           name: name
         } : {}), {
@@ -4630,31 +4645,32 @@ function createFormControlV4(props) {
         if (options.shouldFocus && !isValid) {
           focusFieldBy(_fields, function (key) {
             return get(_formState.errors, key);
-          }, name ? fieldNames : _names.mount);
+          }, name ? _fieldNames : _names.mount);
         }
 
         _proxyFormState.isValid && _updateValid();
         return isValid;
       };
 
-      var fieldNames = convertToArrayPayload(name);
+      var _fieldNames = convertToArrayPayload(name);
+
       var isValid;
 
       _subjects.state.next({
         isValidating: true
       });
 
-      var _temp19 = function () {
+      var _temp21 = function () {
         if (formOptions.resolver) {
-          return Promise.resolve(executeResolverValidation(isUndefined(name) ? name : fieldNames)).then(function (schemaResult) {
-            isValid = name ? fieldNames.every(function (name) {
+          return Promise.resolve(executeResolverValidation(isUndefined(name) ? name : _fieldNames)).then(function (schemaResult) {
+            isValid = name ? _fieldNames.every(function (name) {
               return !get(schemaResult, name);
             }) : isEmptyObject(schemaResult);
           });
         } else {
-          var _temp20 = function () {
+          var _temp22 = function () {
             if (name) {
-              return Promise.resolve(Promise.all(fieldNames.map(function (fieldName) {
+              return Promise.resolve(Promise.all(_fieldNames.map(function (fieldName) {
                 try {
                   var _ref5;
 
@@ -4673,11 +4689,11 @@ function createFormControlV4(props) {
             }
           }();
 
-          if (_temp20 && _temp20.then) return _temp20.then(function () {});
+          if (_temp22 && _temp22.then) return _temp22.then(function () {});
         }
       }();
 
-      return Promise.resolve(_temp19 && _temp19.then ? _temp19.then(_temp18) : _temp18(_temp19));
+      return Promise.resolve(_temp21 && _temp21.then ? _temp21.then(_temp20) : _temp20(_temp21));
     } catch (e) {
       return Promise.reject(e);
     }
@@ -4689,33 +4705,33 @@ function createFormControlV4(props) {
     }
 
     try {
-      var _temp24 = function _temp24() {
+      var _temp26 = function _temp26() {
         if (options.shouldFocus && !isValid) {
           focusFieldBy(_fields, function (key) {
             return get(_formState.errors, key);
-          }, name ? fieldNames : _names.mount);
+          }, name ? _fieldNames2 : _names.mount);
         }
 
         _proxyFormState.isValid && _updateValid();
-        console.log("dyno ;)", "trigger", _formState.errors, "end");
         return isValid;
       };
 
-      var fieldNames = convertToArrayPayload(name);
+      var _fieldNames2 = convertToArrayPayload(name);
+
       var isValid;
       console.log("dyno ;)", "trigger", _formState.errors);
 
-      var _temp25 = function () {
+      var _temp27 = function () {
         if (formOptions.resolver) {
-          return Promise.resolve(executeResolverValidation(isUndefined(name) ? name : fieldNames)).then(function (schemaResult) {
-            isValid = name ? fieldNames.every(function (name) {
+          return Promise.resolve(executeResolverValidation(isUndefined(name) ? name : _fieldNames2)).then(function (schemaResult) {
+            isValid = name ? _fieldNames2.every(function (name) {
               return !get(schemaResult, name);
             }) : isEmptyObject(schemaResult);
           });
         } else {
-          var _temp26 = function () {
+          var _temp28 = function () {
             if (name) {
-              return Promise.resolve(Promise.all(fieldNames.map(function (fieldName) {
+              return Promise.resolve(Promise.all(_fieldNames2.map(function (fieldName) {
                 try {
                   var _ref6;
 
@@ -4734,18 +4750,47 @@ function createFormControlV4(props) {
             }
           }();
 
-          if (_temp26 && _temp26.then) return _temp26.then(function () {});
+          if (_temp28 && _temp28.then) return _temp28.then(function () {});
         }
       }();
 
-      return Promise.resolve(_temp25 && _temp25.then ? _temp25.then(_temp24) : _temp24(_temp25));
+      return Promise.resolve(_temp27 && _temp27.then ? _temp27.then(_temp26) : _temp26(_temp27));
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+
+  var triggerBackgroundOptimised = function triggerBackgroundOptimised(formId) {
+    try {
+      var _temp31 = function _temp31() {
+        _proxyFormState.isValid && _updateValid();
+        return isValid;
+      };
+
+      var isValid;
+      console.log("dyno ;)", "triggerBackgroundtriggerBackground", _formState.errors);
+
+      var _temp32 = function () {
+        if (formOptions.resolver) {
+          return Promise.resolve(executeResolverValidation(fieldNames)).then(function (schemaResult) {
+            isValid = isEmptyObject(schemaResult);
+          });
+        } else {
+          return Promise.resolve(validateForm(_fields, true, {
+            valid: true
+          }, formId)).then(function (_validateForm5) {
+            isValid = _validateForm5;
+          });
+        }
+      }();
+
+      return Promise.resolve(_temp32 && _temp32.then ? _temp32.then(_temp31) : _temp31(_temp32));
     } catch (e) {
       return Promise.reject(e);
     }
   };
 
   var getValues = function getValues(fieldNames) {
-    console.log("dyno ;)", _formValues, _fields, "getValuesgetValues");
     var values = Object.assign(Object.assign({}, _defaultValues), _formValues);
     return isUndefined(fieldNames) ? values : isString(fieldNames) ? get(values, fieldNames) : fieldNames.map(function (name) {
       return get(values, name);
@@ -4931,8 +4976,8 @@ function createFormControlV4(props) {
 
         return Promise.resolve(_finallyRethrows(function () {
           return _catch(function () {
-            function _temp30() {
-              var _temp28 = function () {
+            function _temp36() {
+              var _temp34 = function () {
                 if (isEmptyObject(_formState.errors) && Object.keys(_formState.errors).every(function (name) {
                   return get(fieldValues, name);
                 })) {
@@ -4943,21 +4988,21 @@ function createFormControlV4(props) {
 
                   return Promise.resolve(onValid(fieldValues, e)).then(function () {});
                 } else {
-                  var _temp31 = function _temp31(_onInvalid) {
+                  var _temp37 = function _temp37(_onInvalid) {
                     _onInvalid;
                     formOptions.shouldFocusError && focusFieldBy(_fields, function (key) {
                       return get(_formState.errors, key);
                     }, _names.mount);
                   };
 
-                  return onInvalid ? Promise.resolve(onInvalid(_formState.errors, e)).then(_temp31) : _temp31(onInvalid);
+                  return onInvalid ? Promise.resolve(onInvalid(_formState.errors, e)).then(_temp37) : _temp37(onInvalid);
                 }
               }();
 
-              if (_temp28 && _temp28.then) return _temp28.then(function () {});
+              if (_temp34 && _temp34.then) return _temp34.then(function () {});
             }
 
-            var _temp29 = function () {
+            var _temp35 = function () {
               if (formOptions.resolver) {
                 return Promise.resolve(executeResolver()).then(function (_ref8) {
                   var errors = _ref8.errors,
@@ -4970,7 +5015,7 @@ function createFormControlV4(props) {
               }
             }();
 
-            return _temp29 && _temp29.then ? _temp29.then(_temp30) : _temp30(_temp29);
+            return _temp35 && _temp35.then ? _temp35.then(_temp36) : _temp36(_temp35);
           }, function (err) {
             hasNoPromiseError = false;
             throw err;
@@ -5138,6 +5183,7 @@ function createFormControlV4(props) {
     },
     trigger: trigger,
     triggerBackground: triggerBackground,
+    triggerBackgroundOptimised: triggerBackgroundOptimised,
     register: register,
     handleSubmit: handleSubmit,
     watch: watch,
@@ -5529,6 +5575,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       getValues = _useForm.getValues,
       setValue = _useForm.setValue,
       triggerBackground = _useForm.triggerBackground,
+      _triggerBackgroundOptimised = _useForm.triggerBackgroundOptimised,
       unregister = _useForm.unregister,
       clearErrors = _useForm.clearErrors,
       reset = _useForm.reset;
@@ -5549,12 +5596,20 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     useFieldArray: useFieldArray,
     useWatch: useWatch,
     triggerBackground: triggerBackground,
+    triggerBackgroundOptimised: _triggerBackgroundOptimised,
     unregister: unregister,
     localFunction: _extends({}, localFunction, {
       triggerBackground: function triggerBackground() {
         return !_.isEmpty(errors);
       },
-      getValues: getValues
+      getValues: getValues,
+      triggerBackgroundOptimised: function triggerBackgroundOptimised(formId) {
+        var result = _triggerBackgroundOptimised(formId).then(function (r) {
+          return r;
+        });
+
+        return result;
+      }
     }),
     dataStore: dataStore,
     clearErrors: clearErrors

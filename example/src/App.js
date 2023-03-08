@@ -392,6 +392,8 @@ const sample999 = {
 };
 
 
+const dddd = {  "dataModel": {},  "items": {    "root": {      "name": "root",      "items": [        "duitnowType",        "icTextbox",        "phoneTextbox"      ],      "visible": true    },    "duitnowType": {      "id": "duitnowType",      "type": "select",      "name": "duitnowType",      "label": "Type",      "value": "",      "visible": true,      "parent": [        "root",        "0"      ],      "defaultValue": "",      "header": "",      "tooltip": "",      "description": "",      "placeholder": "",      "valueType": "",      "suffix": "",      "prefix": "",      "inputType": "",      "disabled": false,      "watch": false,      "templateName": "",      "theme": "",      "optionLabelSchema": "",      "optionValueSchema": "",      "optionsSchema": "",      "options": [        {          "value": "army",          "label": "Army"        },        {          "value": "ic",          "label": "ic"        },        {          "value": "phone",          "label": "phone"        },        {          "value": "passport",          "label": "passport"        }      ]    },    "icTextbox": {      "id": "icTextbox",      "type": "text",      "name": "duitnowValue",      "label": "IC",      "value": "",      "visible": false,      "parent": [        "root",        "1"      ],      "defaultValue": "",      "header": "",      "tooltip": "",      "description": "",      "placeholder": "",      "valueType": "",      "suffix": "",      "prefix": "",      "inputType": "",      "disabled": false,      "watch": false,      "templateName": "",      "theme": "",      "preCondition": [        {          "name": "duitnowType",          "value": "ic",          "type": "eq"        }      ]    },    "phoneTextbox": {      "id": "phoneTextbox",      "type": "text",      "name": "duitnowValue",      "label": "Phone",      "value": "",      "visible": false,      "parent": [        "root",        "2"      ],      "defaultValue": "",      "header": "",      "tooltip": "",      "description": "",      "placeholder": "",      "valueType": "",      "suffix": "",      "prefix": "",      "inputType": "",      "disabled": false,      "watch": false,      "templateName": "",      "theme": ""    }  }}
+
 
 const realObject = {
   //recursive naming -
@@ -1115,7 +1117,7 @@ function App() {
     const item = resources.getItem();
 
     const { name } = item;
-    resources.clearErrors(name);
+    // resources.clearErrors(name);
 
     // resources.setValue("wathchMei", value);
 
@@ -1167,6 +1169,7 @@ function App() {
       disabled: (props) => (values) => Valid('wathchMei', '==', '90')(values),
       visible: true,
       rule: {
+        formId: "yasser",
         required: "I dont know your name yet hmmmmm.",
         min: {
           value: null,
@@ -1190,7 +1193,7 @@ function App() {
         },
         validate: {
           positiveNumber: "only positive number pls yeah :)",
-          lessThanHundred: "cant be less than hundred ;)",
+          // lessThanHundred: "cant be less than hundred ;)",
         },
         validateCompse: {
           letsComposeValidation: {
@@ -1226,25 +1229,46 @@ function App() {
       label: "Fieldset",
       value: "",
       visible: true,
-      items: ["wathchMei", "howAreYouThen", "submitME"],
+      isArray: false,
+      items: ["wathchMei", "howAreYouThen", "submitME", "submitME2","submitME3"],
     },
     submitME: {
       id: "submitME",
       type: "button",
       name: "submitME",
-      label: "Button",
+      label: "Trigger Background Textbox only",
       value: "",
-      disabled: "fxtriggerBackground()",
+      disabled: "fxtriggerBackgroundOptimised('yasser')",
+      visible: true,
+    },
+    submitME2: {
+      id: "submitME2",
+      type: "button",
+      name: "submitME2",
+      label: "Trigger Baackground Default",
+      value: "",
+      disabled: "fxtriggerBackgroundOptimised()",
+      visible: true,
+    },
+    submitME3: {
+      id: "submitME3",
+      type: "button",
+      name: "submitME3",
+      label: "Trigger Baackground DropDown only",
+      value: "",
+      // disabled: true,
+      disabled: "fxtriggerBackgroundOptimised('bank')",
       visible: true,
     },
     "howAreYouThen": {
       id: "howAreYouThen",
       type: "select",
       name: "howAreYouThen",
-      label: "wathchMei",
+      label: "wathchMei read from dataSource",
       options: "dataSource",
       visible: true,
       rule: {
+        formId: "bank",
         required: "Transfer select hello From Bank is required.",
         min: {
           value: null,
@@ -1292,7 +1316,7 @@ function App() {
       id: "wathchMei",
       type: "text",
       name: "wathchMei",
-      label: "watch me ;)",
+      label: "watch me ;) 9999",
       value: "",
       valueType: "",
       visible: true,
@@ -1352,8 +1376,8 @@ function App() {
         {sample110 && (
           <FormBuilderNext
             devMode={false}
-            key={`dynamo-${sample110.length}`}
-            name={`dynamo-${sample110.length}`}
+            // key={`dynamo-${dddd.items.length}`}
+            // name={`dynamo-${dddd.items.length}`}
             ref={myForm}
             items={sample110}
             // items={items}

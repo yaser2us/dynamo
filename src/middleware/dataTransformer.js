@@ -1,4 +1,7 @@
 import _ from "lodash";
+// const console = {
+//     log: () => null
+// }
 
 const dataTransformer = (data, name, obj) => (local) => {
     // const { getValues, dataStore } = obj.sharedItems || { getValues: undefined };
@@ -31,6 +34,12 @@ const dataTransformer = (data, name, obj) => (local) => {
                 console.log("dyno ;)", result, 'rrrrrrrsulttttttttt')
                 if (typeof result === 'function') {
                     return result(values);
+                }
+                if (result?.then) {
+                    return result.then(function(response) {
+                        // console.log(!tresult, "rrrrrrrsulttttttttt tresult")
+                        return !response
+                    })
                 }
                 return result;
             } catch (error) {
