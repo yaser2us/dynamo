@@ -104,7 +104,7 @@ export default async (field, inputValue, validateAllFieldCriteria, shouldUseNati
     }
     if (pattern && !isEmpty && isString(inputValue)) {
         const { value: patternValue, message } = getValueAndMessage(pattern);
-        console.log(isRegex(new RegExp(patternValue)), !inputValue.match(patternValue), patternValue, "patternValue")
+        console.log("dyno ;)", isRegex(new RegExp(patternValue)), !inputValue.match(patternValue), patternValue, "patternValue")
         if (isRegex(new RegExp(patternValue)) && !inputValue.match(patternValue)) {
             error[name] = Object.assign({ type: INPUT_VALIDATION_RULES.pattern, message,
                 ref }, appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message));

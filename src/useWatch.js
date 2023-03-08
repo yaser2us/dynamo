@@ -13,7 +13,7 @@ export function useWatch(props) {
     React.useEffect(() => {
         const watchSubscription = control._subjects.watch.subscribe({
             next: ({ name }) => {
-                console.log("##1 watchSubscription", name)
+                console.log("dyno ;)", "##1 watchSubscription", name)
                 return(!_name.current ||
                 !name ||
                 convertToArrayPayload(_name.current).some((fieldName) => name &&
