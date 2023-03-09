@@ -5540,23 +5540,9 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       localFunction = _ref7.localFunction,
       _ref7$defaultValues = _ref7.defaultValues,
       defaultValues = _ref7$defaultValues === void 0 ? {} : _ref7$defaultValues,
-      _ref7$devMode = _ref7.devMode,
-      devMode = _ref7$devMode === void 0 ? false : _ref7$devMode,
       _ref7$dataTransformer = _ref7.dataTransformer,
       dataTransformer$1 = _ref7$dataTransformer === void 0 ? dataTransformer : _ref7$dataTransformer,
       dataStore = _ref7.dataStore;
-
-  console.log = function () {
-    var log = console.log;
-    return function () {
-      var args = Array.from(arguments);
-
-      if (!args.includes("dyno ;)") || devMode) {
-        log.apply(console, args);
-      }
-    };
-  }();
-
   console.log("dyno ;)", defaultValues, "defaultValues");
 
   var _useForm = useForm$1({

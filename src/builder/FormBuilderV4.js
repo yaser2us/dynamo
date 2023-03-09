@@ -652,16 +652,16 @@ const FormBuilderNext = React.forwardRef(({ items,
     // if (devMode) {
     //     console.log = () => { };
     // }
-    console.log = (function() {
-        const log = console.log;
+    // console.log = (function() {
+    //     const log = console.log;
     
-        return function() {
-            const args = Array.from(arguments);
-            if (!args.includes("dyno ;)") || devMode) {
-                log.apply(console, args);
-            } 
-        }
-    })();
+    //     return function() {
+    //         const args = Array.from(arguments);
+    //         if (!args.includes("dyno ;)") || devMode) {
+    //             log.apply(console, args);
+    //         } 
+    //     }
+    // })();
     
     console.log("dyno ;)", defaultValues, "defaultValues")
 
