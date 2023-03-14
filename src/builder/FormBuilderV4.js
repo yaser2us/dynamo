@@ -830,7 +830,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     const getValuesPOC = async () => {
         //TODO: hot fix for double validations
         if (Object.keys(errors).length > 0) return false;
-        const result = await trigger();
+        const result = await triggerBackgroundOptimised()(true) //trigger();
         console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors)
         if (result === true) {
             return await getValues();

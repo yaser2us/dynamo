@@ -5771,7 +5771,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
   var getValuesPOC = function getValuesPOC() {
     try {
       if (Object.keys(errors).length > 0) return Promise.resolve(false);
-      return Promise.resolve(trigger()).then(function (result) {
+      return Promise.resolve(_triggerBackgroundOptimised()(true)).then(function (result) {
         console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
 
         if (result === true) {
