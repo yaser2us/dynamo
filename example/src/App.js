@@ -1156,8 +1156,71 @@ function App() {
   const sample110 = {
     root: {
       name: "root",
-      items: ["header", "whatsYourName", "container", "dataSource"],
+      items: ["header", "whatsYourName","whatsMyName", "container", "dataSource", "submitTrigger"],
       visible: true,
+    },
+    whatsMyName: {
+      id: "whatsMyName",
+      type: "text",
+      name: "whatsMyName",
+      label: "Whats my Name buddy? ${wathchMei}",
+      // label: (props) => (values) => `hi hi from f(x) ;)`,
+      // value: "",
+      disabled: (props) => (values) => Valid('wathchMei', '==', '90')(values),
+      visible: true,
+      rule: {
+        formId: "yasser",
+        required: "I dont know my name yet hmmmmm.",
+        min: {
+          value: null,
+          message: "",
+        },
+        max: {
+          value: null,
+          message: "",
+        },
+        minLength: {
+          value: 3,
+          message: "min 3",
+        },
+        maxLength: {
+          value: 3,
+          message: "max 3",
+        },
+        pattern: {
+          value: "",
+          message: "",
+        },
+        validate: {
+          positiveNumber: "only positive number pls yeah :)",
+          // lessThanHundred: "cant be less than hundred ;)",
+        },
+        validateCompse: {
+          letsComposeValidation: {
+            positiveNumber: "only positive number pls yeah :)",
+            lessThanHundred: "cant be less than hundred ;)"
+          }
+        },
+        deps: ["wathchMei"],
+        validate2121: {
+          positiveNumber: (value) => {
+            console.log(value, 'positiveNumber validatevalidatevalidatevalidate')
+            const result = parseFloat(value) > 0;
+            return result && result || "errororororororororoo"
+          },
+          lessThanHundred: (value) => {
+            console.log(value, 'lessThanHundred validatevalidatevalidatevalidate')
+            return parseFloat(value) < 200 || "less than 200"
+          },
+        },
+        validate1234: [
+          {
+            messages: "",
+            validation: "fxPositiveNumber"
+          }
+        ]
+      },
+      watch: false
     },
     whatsYourName: {
       id: "whatsYourName",
@@ -1165,11 +1228,11 @@ function App() {
       name: "whatsYourName",
       label: "Whats Your Name buddy? ${wathchMei}",
       // label: (props) => (values) => `hi hi from f(x) ;)`,
-      value: "",
+      // value: "",
       disabled: (props) => (values) => Valid('wathchMei', '==', '90')(values),
       visible: true,
       rule: {
-        formId: "yasser",
+        // formId: "yasser",
         required: "I dont know your name yet hmmmmm.",
         min: {
           value: null,
@@ -1230,7 +1293,7 @@ function App() {
       value: "",
       visible: true,
       isArray: false,
-      items: ["wathchMei", "howAreYouThen", "submitME", "submitME2","submitME3"],
+      items: ["wathchMei", "howAreYouThen", "submitME", "submitME2","submitME3", "submitMETrigger"],
     },
     submitME: {
       id: "submitME",
@@ -1258,6 +1321,26 @@ function App() {
       value: "",
       // disabled: true,
       disabled: "fxtriggerBackgroundOptimised('bank')",
+      visible: true,
+    },
+    submitMETrigger: {
+      id: "submitMETrigger",
+      type: "button",
+      name: "submitMETrigger",
+      label: "Trigger only",
+      value: "",
+      // disabled: true,
+      disabled: "fxtriggerGroup(['howAreYouThen','whatsYourName', 'whatsMyName'])",
+      visible: true,
+    },
+    submitTrigger: {
+      id: "submitTrigger",
+      type: "button",
+      name: "submitTrigger",
+      label: "Trigger whatsMyName",
+      value: "",
+      // disabled: true,
+      disabled: "fxtriggerGroup(['whatsMyName'])",
       visible: true,
     },
     "howAreYouThen": {

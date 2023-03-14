@@ -654,7 +654,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     // }
     // console.log = (function() {
     //     const log = console.log;
-    
+
     //     return function() {
     //         const args = Array.from(arguments);
     //         if (!args.includes("dyno ;)") || devMode) {
@@ -662,14 +662,14 @@ const FormBuilderNext = React.forwardRef(({ items,
     //         } 
     //     }
     // })();
-    
+
     console.log("dyno ;)", defaultValues, "defaultValues")
 
     const {
         register,
         handleSubmit,
         watch,
-        formState: { errors },
+        formState: { errors, isDirty, isValid },
         control,
         trigger,
         setFocus,
@@ -731,9 +731,32 @@ const FormBuilderNext = React.forwardRef(({ items,
             getValues,
             triggerBackgroundOptimised: (formId) => {
                 // console.log(triggerBackground(), 'triggerSyncBackground()')
-                const result = triggerBackgroundOptimised(formId).then(r => r);
+                const result = triggerBackgroundOptimised(formId)().then(r => r);
                 return result;
-            }
+            },
+            triggerGroup: async (resources) => {
+                const localErrors = await triggerBackgroundOptimised()(true);
+                // if (!isValid) return true;
+
+                // console.log(resources, errors, 'triggerreggirt',
+                //     isDirty,
+                //     '---=====----',
+                //     isValid,
+                //     localErrors
+                // )
+                let result = true;
+                for (let i = 0; i < resources.length; i++) {
+                    const item = resources[i];
+                    const isItemExist = localErrors[item];
+                    if (isItemExist) {
+                        // console.log(item, '------>', 'triggerreggirt', errors[item], 'found', result)
+                        result = false;
+                        break;
+                    }
+                }
+                // console.log('triggerreggirt ', result)
+                return result;
+            },
         },
         dataStore,
         clearErrors
@@ -888,7 +911,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         if (hasValidationChanged === true || hasPreconditionChanged === true) {
             // if (hasPreconditionChanged === true) {
 
-            console.log("dyno ;)", 
+            console.log("dyno ;)",
                 'lololololololololololoolol',
                 hasValidationChanged,
                 hasPreconditionChanged,

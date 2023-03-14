@@ -19,6 +19,8 @@ const Button = (props) => {
   useEffect(() => {
     if(disabled.then){
       disabled.then(response => setCd(response));
+    } else {
+      setCd(disabled)
     }
   }, [disabled]);
 
