@@ -5787,7 +5787,8 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     resetValues: resetValues,
     setValue: setValue,
     errors: errors,
-    reset: reset
+    reset: reset,
+    clearErrors: clearErrors
   };
 
   var validationOnce = function validationOnce(name, value, result) {
