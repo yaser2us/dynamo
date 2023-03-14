@@ -5768,7 +5768,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     setData(items);
   };
 
-  var getValuesPOC = function getValuesPOC() {
+  var getValuesBackground = function getValuesBackground() {
     try {
       if (Object.keys(errors).length > 0) return Promise.resolve(false);
       return Promise.resolve(_triggerBackgroundOptimised()(true)).then(function (result) {
@@ -5785,8 +5785,26 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     }
   };
 
+  var getValuesPOC = function getValuesPOC() {
+    try {
+      if (Object.keys(errors).length > 0) return Promise.resolve(false);
+      return Promise.resolve(trigger()).then(function (result) {
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
+
+        if (result === true) {
+          return Promise.resolve(getValues());
+        } else {
+          return false;
+        }
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+
   ref.current = {
     getValues: getValuesPOC,
+    getValuesBackground: getValuesBackground,
     resetValues: resetValues,
     setValue: setValue,
     errors: errors,
