@@ -270,6 +270,49 @@ export function createFormControlV4(props = {}) {
         }
         return context.valid;
     };
+    const validateFormBackground = async (_fields, shouldCheckValid, context = {
+        valid: true,
+    }, formId = "ALL") => {
+        // console.log("SUBMITFORM here", formId)
+        let localErrors = {};
+        for (const name in _fields) {
+            const field = _fields[name];
+            // console.log(field, 'iamfromherein-validation-lol-edward-log-;)---validateForm')
+            if (field) {
+                const _f = field._f;
+                const val = omit(field, '_f');
+                // && field._f.ref.formId === "ALL"
+                if (_f) {
+                    //To do for formId ;)
+                    // console.log(_f,'formidddddd')
+                    if(_f.formId === formId || formId === "ALL"){
+                        const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
+                        // const fieldError = field._f.ref.formId === "ALL" &&  await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
+                        console.log(fieldError, "fieldError")
+                        if (shouldCheckValid) {
+                            if (fieldError[_f.name]) {
+                                context.valid = false;
+                                break;
+                            }
+                        }
+                        else {
+                            if (fieldError[_f.name]) {
+                                context.valid = false;
+                            }
+                            fieldError[_f.name]
+                                ? set(localErrors, _f.name, fieldError[_f.name])
+                                : unset(localErrors, _f.name);
+                                //Added to stop at first error
+                                //TODO: enhance as parameter 
+                                // if (Object.keys(_formState.errors).length == 1) break;
+                        }
+                    }
+                }
+                val && (await validateForm(val, shouldCheckValid, context));
+            }
+        }
+        return localErrors;
+    };
     const handleChange = async ({ type, target, target: { value, name, type: inputType }, }) => {
         let error;
         let isValid;
@@ -544,7 +587,7 @@ export function createFormControlV4(props = {}) {
         // console.log("trigger99999999", _formState.errors, "end", isValid);
         return isValid;
     };
-    const triggerBackgroundOptimised = async (formId) => {
+    const triggerBackgroundOptimised = (formId = "ALL") => async (list = false) => {
         // const fieldNames = convertToArrayPayload(name);
         let isValid;
         // _subjects.state.next({
@@ -569,9 +612,16 @@ export function createFormControlV4(props = {}) {
             //     }))).every(Boolean);
             // }
             // else {
-                isValid = await validateForm(_fields, true,{
-                    valid: true,
-                }, formId);
+                if(list){
+                    isValid = await validateFormBackground(_fields, false,{
+                        valid: true,
+                    });
+                } else {
+                    isValid = await validateForm(_fields, true,{
+                        valid: true,
+                    }, formId);
+                }
+                
                 // isValid = isEmptyObject(_formState.errors);
             // }
         }
