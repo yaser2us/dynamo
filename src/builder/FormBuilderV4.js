@@ -827,7 +827,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         return data;
     }
 
-    const getValuesPOC = async () => {
+    const getValuesBackground = async () => {
         //TODO: hot fix for double validations
         if (Object.keys(errors).length > 0) return false;
         const result = await triggerBackgroundOptimised()(true) //trigger();
@@ -839,8 +839,21 @@ const FormBuilderNext = React.forwardRef(({ items,
         }
     }
 
+    const getValuesPOC = async () => {
+        //TODO: hot fix for double validations
+        if (Object.keys(errors).length > 0) return false;
+        const result = await trigger();
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors)
+        if (result === true) {
+            return await getValues();
+        } else {
+            return false;
+        }
+    }
+
     ref.current = {
         getValues: getValuesPOC,
+        getValuesBackground,
         resetValues: resetValues,
         setValue: setValue,
         errors: errors,
