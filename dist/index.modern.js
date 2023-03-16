@@ -5771,7 +5771,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       return Promise.resolve(_triggerBackgroundOptimised()(true)).then(function (result) {
         console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
 
-        if (result === true) {
+        if (Object.keys(result).length === 0) {
           return Promise.resolve(getValues());
         } else {
           return false;
