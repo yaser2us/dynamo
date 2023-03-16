@@ -832,7 +832,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         if (Object.keys(errors).length > 0) return false;
         const result = await triggerBackgroundOptimised()(true) //trigger();
         console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors)
-        if (result === true) {
+        if (_.isEmpty(result)) {
             return await getValues();
         } else {
             return false;
