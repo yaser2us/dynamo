@@ -2889,6 +2889,37 @@ function useHistory(init) {
   };
 }
 
+var jsonataOriginal = require('jsonata');
+
+var htmltotext = function htmltotext(value, options) {
+  return value + " yasserrrrrrrr";
+};
+
+var registerWithJSONATA = function registerWithJSONATA(expression) {
+  if (typeof expression === 'undefined' || typeof expression.registerFunction === 'undefined') {
+    throw new TypeError('Invalid JSONata Expression');
+  }
+
+  expression.registerFunction('htmltotext', function (value, options) {
+    return htmltotext(value);
+  }, '<s?o?:s>');
+};
+
+function jsonataExtended(expr, options) {
+  var expression = jsonataOriginal(expr, options);
+  registerWithJSONATA(expression);
+  return expression;
+}
+
+var transformer = function transformer(data, schema) {
+  try {
+    var expression = jsonataExtended(schema);
+    return Promise.resolve(expression.evaluate(data));
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
 var dataTransformer = function dataTransformer(data, name, obj) {
   return function (local) {
     var _ref = local.sharedItems || {
@@ -5643,7 +5674,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
   var _useForm = useForm$1({
     mode: 'onChange',
     shouldUnregister: true,
-    reValidateMode: 'onSubmit',
+    reValidateMode: 'onChange',
     defaultValues: defaultValues
   }),
       register = _useForm.register,
@@ -5681,6 +5712,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     triggerBackgroundOptimised: _triggerBackgroundOptimised,
     unregister: unregister,
     localFunction: _extends({}, localFunction, {
+      reset: reset,
       triggerBackground: function triggerBackground() {
         return !_.isEmpty(errors);
       },
@@ -5935,5 +5967,5 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
 FormBuilderNext$1.whyDidYouRender = true;
 FormBuilderNext$1.displayName = "FormBuilderNext";
 
-export { Controller, FormBuilderV1 as DynoBuilder, FormBuilderNext, FormBuilderNext$1 as FormBuilderV4, FormProvider, appendErrors, get, set, setupProxy, useController, useFieldArray, useForm, useFormContext, useFormState, useHistory, useWatch };
+export { Controller, FormBuilderV1 as DynoBuilder, FormBuilderNext, FormBuilderNext$1 as FormBuilderV4, FormProvider, appendErrors, get, set, setupProxy, transformer, useController, useFieldArray, useForm, useFormContext, useFormState, useHistory, useWatch };
 //# sourceMappingURL=index.modern.js.map
