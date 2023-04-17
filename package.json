@@ -52,6 +52,7 @@
     "dist"
   ],
   "dependencies": {
+    "jsonata": "^2.0.2",
     "lodash": "^4.17.21"
   }
 }
