@@ -649,19 +649,19 @@ const FormBuilderNext = React.forwardRef(({ items,
     dataStore
 }, ref) => {
 
-    if (!devMode) {
-        console.log = (function() {
-            const log = console.log;
+    // if (devMode) {
+    //     console.log = () => { };
+    // }
+    // console.log = (function() {
+    //     const log = console.log;
 
-            return function() {
-                const args = Array.from(arguments);
-                if (!args.includes("dyno ;)")) {
-                    log.apply(console, args);
-                } 
-            }
-        })();
-    }
-    
+    //     return function() {
+    //         const args = Array.from(arguments);
+    //         if (!args.includes("dyno ;)") || devMode) {
+    //             log.apply(console, args);
+    //         } 
+    //     }
+    // })();
 
     console.log("dyno ;)", defaultValues, "defaultValues")
 
@@ -683,7 +683,7 @@ const FormBuilderNext = React.forwardRef(({ items,
     } = useForm({
         mode: 'onChange',
         shouldUnregister: true,
-        reValidateMode: 'onSubmit',
+        reValidateMode: 'onChange',
         // resolver: async (data, context) => {
         //     const { error, value: values } = validationSchema.validate(data, {
         //         abortEarly: false,
@@ -727,6 +727,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         unregister,
         localFunction: {
             ...localFunction,
+            reset: reset,
             triggerBackground: () => !_.isEmpty(errors),
             getValues,
             triggerBackgroundOptimised: (formId) => {
@@ -797,14 +798,17 @@ const FormBuilderNext = React.forwardRef(({ items,
             // has better than get ;)
             // if (watchingComponents.current.get(name)) {
             if (watchingComponents.current.get(name)) {
+                const allValues = Object.assign(value, dataStore);
                 console.log("dyno ;)", "checkPreCondition ;) checkPreCondition", value, name, type, data, items)
-                const [a, b] = await checkPreCondition(name, value[name], items);
+                // const [a, b] = await checkPreCondition(name, value[name], items);
+                const [a, b] = await checkPreCondition(name, allValues[name], items);
+
                 if (!deepEqual(data, b) && a) {
                     setData({ ...b });
                     return;
                 }
             } else if (watchingComponents.current.has(name)) {
-                console.log("dyno ;)", watchingComponents.current.has(name), "before checkPreCondition ;) checkPreCondition", value, name, type, data, items)
+                console.log("dyno ;)", watchingComponents.current.has(name), "before checkPreCondition ;) checkPreCondition", value, name, type, { data }, items)
                 setData({ ...items });
                 return;
             }
@@ -851,9 +855,47 @@ const FormBuilderNext = React.forwardRef(({ items,
         }
     }
 
+    const getValuesWithoutValidation = async () => {
+        return await getValues();
+    }
+
     ref.current = {
+        getValuesByGroup: async (props) => {
+            const valid = await sharedItems.localFunction.triggerGroup(props);
+            if (valid) {
+                const result = await getValues();
+                return result;
+            }
+            return valid;
+
+        },
         getValues: getValuesPOC,
-        getValuesBackground,
+        getGroupValuesBackground: async (props) => {
+            console.log(props, 'getValuesBackgroundgetValuesBackgroundgetValuesBackground')
+            if (Array.isArray(props)) {
+                const valid = await sharedItems.localFunction.triggerGroup(props);
+                if (valid) {
+                    const result = await getValues();
+                    return result;
+                }
+                return valid;
+            }
+            return getValuesPOC();
+        },
+        getValuesBackground: async (validation = true) => {
+            if (validation) {
+                if (Object.keys(errors).length > 0) return false;
+                const result = await triggerBackgroundOptimised()(true);
+                console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors)
+                if (_.isEmpty(result)) {
+                    return await getValues();
+                } else {
+                    return false;
+                }
+            }
+            const result = await getValues();
+            return result;
+        },
         resetValues: resetValues,
         setValue: setValue,
         errors: errors,
