@@ -5770,8 +5770,9 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       try {
         return Promise.resolve(function () {
           if (watchingComponents.current.get(name)) {
+            var allValues = Object.assign(value, dataStore);
             console.log("dyno ;)", "checkPreCondition ;) checkPreCondition", value, name, type, data, items);
-            return Promise.resolve(checkPreCondition(name, value[name], items)).then(function (_ref9) {
+            return Promise.resolve(checkPreCondition(name, allValues[name], items)).then(function (_ref9) {
               var a = _ref9[0],
                   b = _ref9[1];
 
@@ -5780,7 +5781,9 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
               }
             });
           } else if (watchingComponents.current.has(name)) {
-            console.log("dyno ;)", watchingComponents.current.has(name), "before checkPreCondition ;) checkPreCondition", value, name, type, data, items);
+            console.log("dyno ;)", watchingComponents.current.has(name), "before checkPreCondition ;) checkPreCondition", value, name, type, {
+              data: data
+            }, items);
             setData(_extends({}, items));
             return;
           }
@@ -5795,23 +5798,6 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
   var resetValues = function resetValues() {
     myComponents.current = resetItems$2(items, 'name');
     setData(items);
-  };
-
-  var getValuesBackground = function getValuesBackground() {
-    try {
-      if (Object.keys(errors).length > 0) return Promise.resolve(false);
-      return Promise.resolve(_triggerBackgroundOptimised()(true)).then(function (result) {
-        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
-
-        if (_.isEmpty(result)) {
-          return Promise.resolve(getValues());
-        } else {
-          return false;
-        }
-      });
-    } catch (e) {
-      return Promise.reject(e);
-    }
   };
 
   var getValuesPOC = function getValuesPOC() {
@@ -5832,8 +5818,108 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
   };
 
   ref.current = {
+    getValuesByGroup: function (props) {
+      try {
+        return Promise.resolve(sharedItems.localFunction.triggerGroup(props)).then(function (valid) {
+          var _exit = false;
+
+          var _temp = function () {
+            if (valid) {
+              return Promise.resolve(getValues()).then(function (result) {
+                _exit = true;
+                return result;
+              });
+            }
+          }();
+
+          return _temp && _temp.then ? _temp.then(function (_result2) {
+            return _exit ? _result2 : valid;
+          }) : _exit ? _temp : valid;
+        });
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
     getValues: getValuesPOC,
-    getValuesBackground: getValuesBackground,
+    getGroupValuesBackground: function (props) {
+      try {
+        var _temp6 = function _temp6(_result3) {
+          return _exit4 ? _result3 : getValuesPOC();
+        };
+
+        var _exit4 = false;
+        console.log(props, 'getValuesBackgroundgetValuesBackgroundgetValuesBackground');
+
+        var _temp7 = function () {
+          if (Array.isArray(props)) {
+            return Promise.resolve(sharedItems.localFunction.triggerGroup(props)).then(function (valid) {
+              var _exit3 = false;
+
+              function _temp3(_result4) {
+                if (_exit3) return _result4;
+                _exit4 = true;
+                return valid;
+              }
+
+              var _temp2 = function () {
+                if (valid) {
+                  return Promise.resolve(getValues()).then(function (result) {
+                    _exit4 = true;
+                    return result;
+                  });
+                }
+              }();
+
+              return _temp2 && _temp2.then ? _temp2.then(_temp3) : _temp3(_temp2);
+            });
+          }
+        }();
+
+        return Promise.resolve(_temp7 && _temp7.then ? _temp7.then(_temp6) : _temp6(_temp7));
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
+    getValuesBackground: function (validation) {
+      if (validation === void 0) {
+        validation = true;
+      }
+
+      try {
+        var _temp10 = function _temp10(_result5) {
+          return _exit6 ? _result5 : Promise.resolve(getValues());
+        };
+
+        var _exit6 = false;
+
+        var _temp11 = function () {
+          if (validation) {
+            if (Object.keys(errors).length > 0) {
+              _exit6 = true;
+              return false;
+            }
+
+            return Promise.resolve(_triggerBackgroundOptimised()(true)).then(function (result) {
+              console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
+
+              if (_.isEmpty(result)) {
+                return Promise.resolve(getValues()).then(function (_await$getValues) {
+                  _exit6 = true;
+                  return _await$getValues;
+                });
+              } else {
+                _exit6 = true;
+                return false;
+              }
+            });
+          }
+        }();
+
+        return Promise.resolve(_temp11 && _temp11.then ? _temp11.then(_temp10) : _temp10(_temp11));
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
     resetValues: resetValues,
     setValue: setValue,
     errors: errors,
@@ -5903,7 +5989,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
 
   var checkPreCondition = function checkPreCondition(name, value, result) {
     try {
-      var _temp3 = function _temp3() {
+      var _temp14 = function _temp14() {
         return [updated, n];
         return [updated, _extends({}, n)];
       };
@@ -5915,11 +6001,11 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
 
       var updated = false;
 
-      var _temp4 = function () {
+      var _temp15 = function () {
         if (hasCondition !== undefined) {
           return Promise.resolve(hasCondition.map(function (item) {
             try {
-              var _temp6 = function _temp6(touched) {
+              var _temp17 = function _temp17(touched) {
                 var i = n[item.refId];
                 console.log("dyno ;)", n["accountNo"], "accountNoaccountNo", '-----', i);
 
@@ -5933,7 +6019,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
 
               var _item$type2 = item === null || item === void 0 ? void 0 : item.type;
 
-              return Promise.resolve(_item$type2 ? Promise.resolve(validationResolver[item.type](item, realValue)).then(_temp6) : _temp6(_item$type2));
+              return Promise.resolve(_item$type2 ? Promise.resolve(validationResolver[item.type](item, realValue)).then(_temp17) : _temp17(_item$type2));
             } catch (e) {
               return Promise.reject(e);
             }
@@ -5941,7 +6027,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
         }
       }();
 
-      return Promise.resolve(_temp4 && _temp4.then ? _temp4.then(_temp3) : _temp3(_temp4));
+      return Promise.resolve(_temp15 && _temp15.then ? _temp15.then(_temp14) : _temp14(_temp15));
     } catch (e) {
       return Promise.reject(e);
     }
