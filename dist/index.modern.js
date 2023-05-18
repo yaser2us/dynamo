@@ -5423,8 +5423,23 @@ var renderComponentInd$1 = function renderComponentInd(name, data, _ref) {
   });
 
   if (selectedComponent === undefined$1) return null;
-  if ((selectedComponent === null || selectedComponent === void 0 ? void 0 : selectedComponent.visible) === false) return null;
-  return renderComponentForm$1(selectedComponent, updateReference, myComponents, getValues, _extends({}, errors), ControlledComponents, components, managedCallback, undefined$1, sharedItems, index, data, parent, dataTransformer);
+  var proxyHandler = {
+    get: function get(target, prop, receiver) {
+      if (typeof target[prop] === "object" && target[prop] !== null) {
+        console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
+        return new Proxy(target[prop], proxyHandler);
+      }
+
+      return dataTransformer(target[prop], prop, target)(_extends({}, sharedItems.localFunction, {
+        sharedItems: sharedItems
+      }));
+    }
+  };
+  var proxyItem = new Proxy(_extends({}, selectedComponent, {
+    sharedItems: sharedItems
+  }), proxyHandler);
+  if ((proxyItem === null || proxyItem === void 0 ? void 0 : proxyItem.visible) === false) return null;
+  return renderComponentForm$1(proxyItem, updateReference, myComponents, getValues, _extends({}, errors), ControlledComponents, components, managedCallback, undefined$1, sharedItems, index, data, parent, dataTransformer);
 };
 
 var renderComponentForm$1 = function renderComponentForm(item, updateReference, myControl, getValue, errorss, ControlledComponents, components, managedCallback, parentName, sharedItems, index, data, parent, dataTransformer) {
@@ -5556,24 +5571,9 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
         }, "+"));
       }
 
-      var proxyHandler = {
-        get: function get(target, prop, receiver) {
-          if (typeof target[prop] === "object" && target[prop] !== null) {
-            console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
-            return new Proxy(target[prop], proxyHandler);
-          }
-
-          return dataTransformer(target[prop], prop, target)(_extends({}, sharedItems.localFunction, {
-            sharedItems: sharedItems
-          }));
-        }
-      };
-      var proxyItem = new Proxy(_extends({}, item, {
-        sharedItems: sharedItems
-      }), proxyHandler);
       var Component = components(item.type, {
         field: field,
-        item: proxyItem,
+        item: item,
         name: name,
         index: index,
         managedCallback: managedCallback,
@@ -5666,9 +5666,25 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       localFunction = _ref7.localFunction,
       _ref7$defaultValues = _ref7.defaultValues,
       defaultValues = _ref7$defaultValues === void 0 ? {} : _ref7$defaultValues,
+      _ref7$devMode = _ref7.devMode,
+      devMode = _ref7$devMode === void 0 ? false : _ref7$devMode,
       _ref7$dataTransformer = _ref7.dataTransformer,
       dataTransformer$1 = _ref7$dataTransformer === void 0 ? dataTransformer : _ref7$dataTransformer,
       dataStore = _ref7.dataStore;
+
+  if (!devMode) {
+    console.log = function () {
+      var log = console.log;
+      return function () {
+        var args = Array.from(arguments);
+
+        if (!args.includes("dyno ;)")) {
+          log.apply(console, args);
+        }
+      };
+    }();
+  }
+
   console.log("dyno ;)", defaultValues, "defaultValues");
 
   var _useForm = useForm$1({
@@ -5771,7 +5787,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
         return Promise.resolve(function () {
           if (watchingComponents.current.get(name)) {
             var allValues = Object.assign(value, dataStore);
-            console.log("dyno ;)", "checkPreCondition ;) checkPreCondition", value, name, type, data, items);
+            console.log("dyno ;)", "origincheckPreCondition ;) checkPreCondition", value, name, type, data, items);
             return Promise.resolve(checkPreCondition(name, allValues[name], items)).then(function (_ref9) {
               var a = _ref9[0],
                   b = _ref9[1];
