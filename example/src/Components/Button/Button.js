@@ -25,7 +25,7 @@ const Button = (props) => {
   }, [disabled]);
 
   const onClick = () => {
-    managedCallback({ item: undefined, actionType: action?.actionURL });
+    managedCallback({ item: item, actionType: action?.actionURL });
   }
 
   return (

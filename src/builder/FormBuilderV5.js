@@ -41,14 +41,38 @@ const renderComponentInd = (name, data, { updateReference,
 ) => {
 
     const selectedComponent = { ...data[name], givenName };
-    //Add givenName here ;)
+    // Add givenName here ;)
     // selectedComponent.givenName = givenName;
 
+
     if (selectedComponent === undefined) return null;
+    // if (proxyItem === undefined) return null;
+
+    //proxy here ;)
+    const proxyHandler = {
+        get(target, prop, receiver) {
+            if (typeof target[prop] === "object" && target[prop] !== null) {
+                console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
+                return new Proxy(target[prop], proxyHandler);
+            }
+            return dataTransformer(target[prop], prop, target)({
+                ...sharedItems.localFunction,
+                sharedItems: sharedItems,
+                // ...sharedItems
+            });
+        }
+    };
+
+    const proxyItem = new Proxy({
+        ...selectedComponent,
+        sharedItems: sharedItems
+    }, proxyHandler);
     // debugger;
-    if (selectedComponent?.visible === false) return null
+    // if (selectedComponent?.visible === false) return null
+    if (proxyItem?.visible === false) return null
+
     return renderComponentForm(
-        selectedComponent,
+        proxyItem,
         updateReference,
         myComponents,
         getValues,
@@ -247,25 +271,25 @@ const renderComponentForm = (
                         </div>
                 }
 
-                //proxy here ;)
-                const proxyHandler = {
-                    get(target, prop, receiver) {
-                        if (typeof target[prop] === "object" && target[prop] !== null) {
-                            console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
-                            return new Proxy(target[prop], proxyHandler);
-                        }
-                        return dataTransformer(target[prop], prop, target)({
-                            ...sharedItems.localFunction,
-                            sharedItems: sharedItems,
-                            // ...sharedItems
-                        });
-                    }
-                };
+                // //proxy here ;)
+                // const proxyHandler = {
+                //     get(target, prop, receiver) {
+                //         if (typeof target[prop] === "object" && target[prop] !== null) {
+                //             console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
+                //             return new Proxy(target[prop], proxyHandler);
+                //         }
+                //         return dataTransformer(target[prop], prop, target)({
+                //             ...sharedItems.localFunction,
+                //             sharedItems: sharedItems,
+                //             // ...sharedItems
+                //         });
+                //     }
+                // };
 
-                const proxyItem = new Proxy({
-                    ...item,
-                    sharedItems: sharedItems
-                }, proxyHandler);
+                // const proxyItem = new Proxy({
+                //     ...item,
+                //     sharedItems: sharedItems
+                // }, proxyHandler);
 
 
                 //end of proxy
@@ -273,7 +297,8 @@ const renderComponentForm = (
 
                 const Component = components(item.type, {
                     field,
-                    item: proxyItem,//item,
+                    // item: proxyItem,//item,
+                    item,
                     name,
                     index,
                     managedCallback,
@@ -649,19 +674,18 @@ const FormBuilderNext = React.forwardRef(({ items,
     dataStore
 }, ref) => {
 
-    // if (devMode) {
-    //     console.log = () => { };
-    // }
-    // console.log = (function() {
-    //     const log = console.log;
+    if (!devMode) {
+        console.log = (function() {
+            const log = console.log;
 
-    //     return function() {
-    //         const args = Array.from(arguments);
-    //         if (!args.includes("dyno ;)") || devMode) {
-    //             log.apply(console, args);
-    //         } 
-    //     }
-    // })();
+            return function() {
+                const args = Array.from(arguments);
+                if (!args.includes("dyno ;)")) {
+                    log.apply(console, args);
+                } 
+            }
+        })();
+    }
 
     console.log("dyno ;)", defaultValues, "defaultValues")
 
@@ -799,7 +823,7 @@ const FormBuilderNext = React.forwardRef(({ items,
             // if (watchingComponents.current.get(name)) {
             if (watchingComponents.current.get(name)) {
                 const allValues = Object.assign(value, dataStore);
-                console.log("dyno ;)", "checkPreCondition ;) checkPreCondition", value, name, type, data, items)
+                console.log("dyno ;)", "origincheckPreCondition ;) checkPreCondition", value, name, type, data, items)
                 // const [a, b] = await checkPreCondition(name, value[name], items);
                 const [a, b] = await checkPreCondition(name, allValues[name], items);
 

@@ -937,77 +937,81 @@ function App() {
   };
 
   const managedCallback = async ({ item, actionType = "partial" }) => {
-    if (item && actionType === "partial") {
-      const result = await axios.get(item?.action?.actionURL);
-      console.log("hereeeeeeeeeeeeeeeeeeeee", result);
-      return { ...result.data };
-      // .then(res => {
-      //   console.log(res.data, "formioioioioio, locallll");
-      //   return {...res.data};
-      // }).catch(err => console.log(err));
-    } else if (item && actionType === "merge") {
-      const result = await axios.get(item?.action?.actionURL);
-      console.time(`lololololo ${item.id}`, items);
+    // if (item && actionType === "partial") {
+    //   const result = await axios.get(item?.action?.actionURL);
+    //   console.log("hereeeeeeeeeeeeeeeeeeeee", result);
+    //   return { ...result.data };
+    //   // .then(res => {
+    //   //   console.log(res.data, "formioioioioio, locallll");
+    //   //   return {...res.data};
+    //   // }).catch(err => console.log(err));
+    // } else if (item && actionType === "merge") {
+    //   const result = await axios.get(item?.action?.actionURL);
+    //   console.time(`lololololo ${item.id}`, items);
 
-      item.items = result?.data?.items?.root?.items;
+    //   item.items = result?.data?.items?.root?.items;
 
-      let newItems = result.data.items;
-      delete newItems.root;
+    //   let newItems = result.data.items;
+    //   delete newItems.root;
 
-      let oio = {
-        root: items.root,
-        ...itemsRefs?.current,
-        [item.id]: item,
-        ...newItems,
-      };
+    //   let oio = {
+    //     root: items.root,
+    //     ...itemsRefs?.current,
+    //     [item.id]: item,
+    //     ...newItems,
+    //   };
 
-      setItems(updateItemsRefs(oio));
+    //   setItems(updateItemsRefs(oio));
 
-      // pppppp = {
-      //   ...{
-      //     ...items,
-      //     [item.id]: item,
-      //     ...newItems,
-      //   },
-      //   ...itemsRefs?.current,
-      // };
+    //   // pppppp = {
+    //   //   ...{
+    //   //     ...items,
+    //   //     [item.id]: item,
+    //   //     ...newItems,
+    //   //   },
+    //   //   ...itemsRefs?.current,
+    //   // };
 
-      // setItems(pppppp);
-      // setItems((prevState) => {
-      //   // Object.assign would also work
-      //   console.log(pppppp, 'ertyuiortyuityu', prevState)
-      //   return {
-      //     ...{
-      //       ...items,
-      //       [item.id]: item,
-      //       ...newItems,
-      //     }
-      //   };
-      // });
-      console.timeEnd(`lololololo ${item.id}`, items);
-      console.log(`lololololo ${item.id}`, items);
+    //   // setItems(pppppp);
+    //   // setItems((prevState) => {
+    //   //   // Object.assign would also work
+    //   //   console.log(pppppp, 'ertyuiortyuityu', prevState)
+    //   //   return {
+    //   //     ...{
+    //   //       ...items,
+    //   //       [item.id]: item,
+    //   //       ...newItems,
+    //   //     }
+    //   //   };
+    //   // });
+    //   console.timeEnd(`lololololo ${item.id}`, items);
+    //   console.log(`lololololo ${item.id}`, items);
 
-      // setTimeout(() => {
-      //   setItems({
-      //     ...items,
-      //     [item.id]: item,
-      //     ...newItems,
-      //   });
-      // }, 1000);
+    //   // setTimeout(() => {
+    //   //   setItems({
+    //   //     ...items,
+    //   //     [item.id]: item,
+    //   //     ...newItems,
+    //   //   });
+    //   // }, 1000);
 
-      return pppppp;
-    } else if (item && actionType === "update") {
-      setItems(item);
-      console.log(`lololololo update ${item.id}`, items);
+    //   return pppppp;
+    // } else if (item && actionType === "update") {
+    //   setItems(item);
+    //   console.log(`lololololo update ${item.id}`, items);
 
-      return items;
-      // return;
-    }
+    //   return items;
+    //   // return;
+    // }
 
     //Get dynamo form values
-    const formData = await myForm.current.getValues();
-    console.log(myForm.current, 'setValue')
+    const schema = _.cloneDeep(item?.action?.schema);
 
+    console.log(myForm.current, 'setValuesetValue', item?.action?.validations, schema )
+
+    const formData = await myForm.current.getGroupValuesBackground(item?.action?.validations);
+
+    alert(JSON.stringify(formData))
     if (!_.isEmpty(myForm.current.errors)) {
       alert(myForm.current.errors[Object.keys(myForm.current.errors)[0]].message);
       myForm.current.errors[Object.keys(myForm.current.errors)[0]].ref.focus();
@@ -1166,7 +1170,7 @@ function App() {
       label: "Whats my Name buddy? ${wathchMei}",
       // label: (props) => (values) => `hi hi from f(x) ;)`,
       // value: "",
-      disabled: (props) => (values) => Valid('wathchMei', '==', '90')(values),
+      disabled: (props) => (values) => Valid('wathchMei', '==', '900')(values),
       visible: true,
       rule: {
         formId: "yasser",
@@ -1226,14 +1230,14 @@ function App() {
       id: "whatsYourName",
       type: "text",
       name: "whatsYourName",
-      label: "Whats Your Name buddy? ${wathchMei}",
+      label: "Whats heloooooo Name buddy? ${wathchMei}",
       // label: (props) => (values) => `hi hi from f(x) ;)`,
       // value: "",
-      disabled: (props) => (values) => Valid('wathchMei', '==', '90')(values),
-      visible: true,
+      visible: "fxValid('whatsMyName', '==', '900')",
+      // visible: false,
       rule: {
         // formId: "yasser",
-        required: "I dont know your name yet hmmmmm.",
+        required: "I dont know your name yet ${whatsMyName}",
         min: {
           value: null,
           message: "",
@@ -1244,7 +1248,7 @@ function App() {
         },
         minLength: {
           value: 3,
-          message: "min 3",
+          message: "errororororo Whats heloooooo Name buddy? ${wathchMei}",
         },
         maxLength: {
           value: 3,
@@ -1283,6 +1287,13 @@ function App() {
           }
         ]
       },
+      // "preCondition": [
+      //   {
+      //     "name": "whatsMyName",
+      //     "value": "900",
+      //     "type": "eq"
+      //   }
+      // ],
       watch: false
     },
     "container": {
@@ -1340,7 +1351,19 @@ function App() {
       label: "Trigger whatsMyName",
       value: "",
       // disabled: true,
-      disabled: "fxtriggerGroup(['whatsMyName'])",
+      disabled: "fxtriggerGroup(['whatsMyName', 'whatsYourName'])",
+      action: {
+        validations: ['whatsMyName'],
+        schema: {
+          "wow": "fxValid('whatsMyName', '==', '900')",
+          "bla": "$$whatsYourName",
+          yasser: {
+            nasser: {
+              "bla": "$$whatsYourName"
+            }
+          }
+        }
+      },
       visible: true,
     },
     "howAreYouThen": {
@@ -1403,7 +1426,15 @@ function App() {
       value: "",
       valueType: "",
       visible: true,
+      // visible: "fxValid('whatsYourName', '==', '900')",
       disabled: false,
+      // "preCondition": [
+      //   {
+      //     "name": "whatsYourName",
+      //     "value": "900",
+      //     "type": "eq"
+      //   }
+      // ],
       rule: {
         required: "Transfer From Bank is required.",
         min: {
@@ -1427,7 +1458,7 @@ function App() {
           message: "",
         },
       },
-      watch: true
+      watch: false
     },
   };
 
@@ -1458,7 +1489,7 @@ function App() {
         </p>
         {sample110 && (
           <FormBuilderNext
-            devMode={false}
+            devMode={true}
             // key={`dynamo-${dddd.items.length}`}
             // name={`dynamo-${dddd.items.length}`}
             ref={myForm}
