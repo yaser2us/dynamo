@@ -8,7 +8,12 @@ export * from './useFormContext';
 export * from './useFormState';
 export * from './useWatch';
 export * from './utils';
-export { useHistory, transformer } from './tools';
+export { 
+    useHistory, 
+    transformer, 
+    useStateWithHistory, 
+    useNavigatableObjectsArray 
+} from './tools';
 
 export { setupProxy } from './middleware';
 export { DynoBuilder, FormBuilderNext, FormBuilderV4 } from "./builder"

@@ -1,7 +1,14 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 // 1: install this dynamo
-import { DynoBuilder, FormBuilderV4 as FormBuilderNext, schemaProxy, setupProxy } from "dynamo";
+import {
+  DynoBuilder,
+  FormBuilderV4 as FormBuilderNext,
+  schemaProxy,
+  setupProxy,
+  useStateWithHistory,
+  useNavigatableObjectsArray
+} from "dynamo";
 
 // import 'dynamo/dist/index.css'
 import Select from "react-select";
@@ -20,7 +27,8 @@ import LocalPagination from "./Components/Fieldset/LocalPagination";
 import Label from "./Components/Label/Label";
 import ConfirmationButton from "./Components/Button/ConfirmationButton";
 import AsyncBlock from "./Components/AsyncBlock/AsyncBlock";
-
+import { generate } from 'astring'
+import { parse } from "acorn";
 const sample = {
   root: {
     name: "root",
@@ -392,7 +400,7 @@ const sample999 = {
 };
 
 
-const dddd = {  "dataModel": {},  "items": {    "root": {      "name": "root",      "items": [        "duitnowType",        "icTextbox",        "phoneTextbox"      ],      "visible": true    },    "duitnowType": {      "id": "duitnowType",      "type": "select",      "name": "duitnowType",      "label": "Type",      "value": "",      "visible": true,      "parent": [        "root",        "0"      ],      "defaultValue": "",      "header": "",      "tooltip": "",      "description": "",      "placeholder": "",      "valueType": "",      "suffix": "",      "prefix": "",      "inputType": "",      "disabled": false,      "watch": false,      "templateName": "",      "theme": "",      "optionLabelSchema": "",      "optionValueSchema": "",      "optionsSchema": "",      "options": [        {          "value": "army",          "label": "Army"        },        {          "value": "ic",          "label": "ic"        },        {          "value": "phone",          "label": "phone"        },        {          "value": "passport",          "label": "passport"        }      ]    },    "icTextbox": {      "id": "icTextbox",      "type": "text",      "name": "duitnowValue",      "label": "IC",      "value": "",      "visible": false,      "parent": [        "root",        "1"      ],      "defaultValue": "",      "header": "",      "tooltip": "",      "description": "",      "placeholder": "",      "valueType": "",      "suffix": "",      "prefix": "",      "inputType": "",      "disabled": false,      "watch": false,      "templateName": "",      "theme": "",      "preCondition": [        {          "name": "duitnowType",          "value": "ic",          "type": "eq"        }      ]    },    "phoneTextbox": {      "id": "phoneTextbox",      "type": "text",      "name": "duitnowValue",      "label": "Phone",      "value": "",      "visible": false,      "parent": [        "root",        "2"      ],      "defaultValue": "",      "header": "",      "tooltip": "",      "description": "",      "placeholder": "",      "valueType": "",      "suffix": "",      "prefix": "",      "inputType": "",      "disabled": false,      "watch": false,      "templateName": "",      "theme": ""    }  }}
+const dddd = { "dataModel": {}, "items": { "root": { "name": "root", "items": ["duitnowType", "icTextbox", "phoneTextbox"], "visible": true }, "duitnowType": { "id": "duitnowType", "type": "select", "name": "duitnowType", "label": "Type", "value": "", "visible": true, "parent": ["root", "0"], "defaultValue": "", "header": "", "tooltip": "", "description": "", "placeholder": "", "valueType": "", "suffix": "", "prefix": "", "inputType": "", "disabled": false, "watch": false, "templateName": "", "theme": "", "optionLabelSchema": "", "optionValueSchema": "", "optionsSchema": "", "options": [{ "value": "army", "label": "Army" }, { "value": "ic", "label": "ic" }, { "value": "phone", "label": "phone" }, { "value": "passport", "label": "passport" }] }, "icTextbox": { "id": "icTextbox", "type": "text", "name": "duitnowValue", "label": "IC", "value": "", "visible": false, "parent": ["root", "1"], "defaultValue": "", "header": "", "tooltip": "", "description": "", "placeholder": "", "valueType": "", "suffix": "", "prefix": "", "inputType": "", "disabled": false, "watch": false, "templateName": "", "theme": "", "preCondition": [{ "name": "duitnowType", "value": "ic", "type": "eq" }] }, "phoneTextbox": { "id": "phoneTextbox", "type": "text", "name": "duitnowValue", "label": "Phone", "value": "", "visible": false, "parent": ["root", "2"], "defaultValue": "", "header": "", "tooltip": "", "description": "", "placeholder": "", "valueType": "", "suffix": "", "prefix": "", "inputType": "", "disabled": false, "watch": false, "templateName": "", "theme": "" } } }
 
 
 const realObject = {
@@ -867,6 +875,69 @@ function App() {
 
   const itemsRefs = useRef({});
 
+  //history 
+  const [count, setCount, { history, pointer, back, forward, go }] = useStateWithHistory(1)
+
+  const dd = [
+    { id: 1, name: 'Object 1' },
+    { id: 2, name: 'Object 2', type: "secondary" },
+    { id: 3, name: 'Object 3', type: "secondary" }
+  ];
+
+  const navigatableArray = useNavigatableObjectsArray(dd, 'id', 2, true, false);
+
+  const handleInsertObject = () => {
+    const newObject = { id: `4`, name: `Object duplication ${Date.now()}`, type: "secondary" };
+    const insertIndex = 2; // Insert at index 2
+    navigatableArray.insertObject(newObject, insertIndex, false, true);
+  };
+
+  const handleUpdateObject = () => {
+    const newObject = { id: `4`, name: `Object duplication ${Date.now()}`, type: "secondary" };
+    navigatableArray.updateCurrent(newObject);
+  };
+
+  const handleUpdateObjectById = () => {
+    const newObject = { id: 2, name: `Object updated by id 4 ${Date.now()}`, type: "secondary" };
+    navigatableArray.updateObjectById(newObject);
+  };
+
+  const handleInsertObjectAtEnd = () => {
+    const randomNumber = Math.floor(Math.random() * 2) + 1;
+    console.log(randomNumber);
+
+    const newObject = { id: `${Date.now()}`, name: `Object bla bro ha lalala ${Date.now()}`,
+    ...(randomNumber === 1 && {type : "primary"}),
+    // type: randomNumber === 1 ? "secondary" : "primary" 
+  };
+    navigatableArray.insertObject(newObject);
+  };
+
+  // const NavigatableObjectsArray = function (arr, field, id) {
+  //   const cur = arr.map((e) => e[field]).indexOf(id);
+  //   let nextId = cur + 1;
+  //   let previousId = cur - 1;
+
+  //   arr.next = (function () { return (nextId >= this.length) ? false : this[nextId]; });
+  //   arr.current = (function () { return (cur >= this.length) ? false : this[cur]; });
+  //   arr.previous = (function () { return (previousId < 0) ? false : this[previousId]; });
+  //   arr.goToStart = (function () { return NavigatableObjectsArray(this, field, this[0][field]) });
+  //   arr.goTo = (function (id) { const index = this.map((e) => e[field]).indexOf(id); return (index < 0) ? false : NavigatableObjectsArray(this, field, this[index][field]) });
+  //   arr.goNext = (function () { return (nextId >= this.length) ? false : NavigatableObjectsArray(this, field, this[nextId][field]) });
+  //   arr.goBack = (function () { return (previousId < 0) ? false : NavigatableObjectsArray(this, field, this[previousId][field]) });
+  //   arr.goToEnd = (function () { return NavigatableObjectsArray(this, field, this[(this.length - 1)][field]) });
+  //   return arr;
+  // };
+
+  var code = "Valid('33','hihi hihi')"
+  // Parse it into an AST
+  var ast = parse(code, { ecmaVersion: 6 })
+  // Format it into a code string
+  var formattedCode = generate(ast)
+  // Check it
+  console.log(code === formattedCode ? 'generate It works!' : 'generate Something went wrong…', ast)
+
+
   React.useEffect(() => {
     const fetchProducts = () => {
       axios
@@ -1007,7 +1078,7 @@ function App() {
     //Get dynamo form values
     const schema = _.cloneDeep(item?.action?.schema);
 
-    console.log(myForm.current, 'setValuesetValue', item?.action?.validations, schema )
+    console.log(myForm.current, 'setValuesetValue', item?.action?.validations, schema)
 
     const formData = await myForm.current.getGroupValuesBackground(item?.action?.validations);
 
@@ -1160,7 +1231,7 @@ function App() {
   const sample110 = {
     root: {
       name: "root",
-      items: ["header", "whatsYourName","whatsMyName", "container", "dataSource", "submitTrigger"],
+      items: ["header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
       visible: true,
     },
     whatsMyName: {
@@ -1304,7 +1375,7 @@ function App() {
       value: "",
       visible: true,
       isArray: false,
-      items: ["wathchMei", "howAreYouThen", "submitME", "submitME2","submitME3", "submitMETrigger"],
+      items: ["wathchMei", "howAreYouThen", "submitME", "submitME2", "submitME3", "submitMETrigger"],
     },
     submitME: {
       id: "submitME",
@@ -1514,6 +1585,59 @@ function App() {
           <b>Result ;)</b>
           <pre>{JSON.stringify(data, null, 2)}</pre>
         </fieldset>
+      </div>
+      {/* <div>
+        <div>{count}</div>
+        <div>{history.join(", ")}</div>
+        <div>Pointer - {pointer}</div>
+        <button onClick={() => setCount(currentCount => currentCount * 2)}>
+          Double
+        </button>
+        <button onClick={() => setCount(currentCount => currentCount + 1)}>
+          Increment
+        </button>
+        <button onClick={back}>Back</button>
+        <button onClick={forward}>Forward</button>
+        <button onClick={() => go(2)}>Go To Index 2</button>
+      </div> */}
+      <div>
+        <button onClick={() => navigatableArray.goToStart()}>Go to Start</button>
+        <button onClick={() => navigatableArray.goNext()}>Go Next</button>
+        <button onClick={() => navigatableArray.goTo(3, true)}>Go Yasser</button>
+        <button onClick={() => navigatableArray.goBack()}>Go Back</button>
+        <button onClick={() => navigatableArray.goToEnd()}>Go to End</button>
+        <button onClick={() => handleInsertObject()}>Insert Object at Index</button>
+        <button onClick={() => handleInsertObjectAtEnd()}>Insert Object at End</button>
+        <button onClick={() => navigatableArray.goToIndex(10, true)}>Go to 10 ;)</button>
+        <button onClick={() => navigatableArray.removeObjectByIndex(10)}>Remove Object By Index to 10</button>
+        <button onClick={() => navigatableArray.removeObjectByName('4')}>Remove By Name 4</button>
+        <button onClick={() => navigatableArray.removeAll()}>Remove all, i mean it :)</button>
+        <button onClick={() => handleUpdateObject()}>update current 3></button>
+        <button onClick={() => handleUpdateObjectById()}>update by ID 4></button>
+        <button onClick={() => navigatableArray.goBackToPrimary()}>Go Back To Primary</button>
+        <button onClick={() => navigatableArray.goForwardToType()}>Go Forward To Primary</button>
+        <button onClick={() => navigatableArray.removeObjectByIndex(navigatableArray.currentIndex)}>Remove current one la</button>
+
+        <h1>
+          indexes: {navigatableArray.history.length}
+        </h1>
+        <h2>
+          Current Object: {navigatableArray.current()?.name}
+          <br/>
+          Current Index: {navigatableArray.currentIndex}
+        </h2>
+        <ul>
+          {navigatableArray.history.map(obj => {
+            if (navigatableArray.current()?.name === obj.name) {
+              return (
+                <li key={obj.id}><strong>{obj.name}</strong> <i>{obj.type}</i></li>
+              )
+            }
+            return <li key={obj.id}>{obj.name} <i>{obj.type}</i></li>
+          }
+          )
+          }
+        </ul>
       </div>
     </>
   );
