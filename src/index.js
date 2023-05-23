@@ -15,5 +15,5 @@ export {
     useDynamoHistory 
 } from './tools';
 
-export { setupProxy } from './middleware';
+export { setupProxy, actionsRunner } from './middleware';
 export { DynoBuilder, FormBuilderNext, FormBuilderV4 } from "./builder"

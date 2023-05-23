@@ -3004,6 +3004,22 @@ var setupProxy = function setupProxy(item, extraValues, extraFunctions) {
   return _.cloneDeep(newSchema);
 };
 
+function actionsRunner(action, localFunction, item, dataStore) {
+  var resultPromise = Promise.resolve(item);
+  var _loop = function _loop(functionName) {
+    var config = action[functionName];
+    var asyncFunction = localFunction[functionName];
+    resultPromise = resultPromise.then(function (result) {
+      console.log(functionName, asyncFunction, 'dyno actionsRunner', result);
+      return asyncFunction(config)(dataStore)(result);
+    });
+  };
+  for (var functionName in action) {
+    _loop(functionName);
+  }
+  return resultPromise;
+}
+
 var defaultValidationResolver = {
   noteq: function (item, value) {
     try {
@@ -5562,5 +5578,5 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
 FormBuilderNext$1.whyDidYouRender = true;
 FormBuilderNext$1.displayName = "FormBuilderNext";
 
-export { Controller, FormBuilderV1 as DynoBuilder, FormBuilderNext, FormBuilderNext$1 as FormBuilderV4, FormProvider, appendErrors, get, set, setupProxy, transformer, useController, useDynamoHistory, useFieldArray, useForm, useFormContext, useFormState, useHistory, useStateWithHistory, useWatch };
+export { Controller, FormBuilderV1 as DynoBuilder, FormBuilderNext, FormBuilderNext$1 as FormBuilderV4, FormProvider, actionsRunner, appendErrors, get, set, setupProxy, transformer, useController, useDynamoHistory, useFieldArray, useForm, useFormContext, useFormState, useHistory, useStateWithHistory, useWatch };
 //# sourceMappingURL=index.modern.js.map
