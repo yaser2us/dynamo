@@ -3007,6 +3007,22 @@ var setupProxy = function setupProxy(item, extraValues, extraFunctions) {
   return _.cloneDeep(newSchema);
 };
 
+function actionsRunner(action, localFunction, item, dataStore) {
+  var resultPromise = Promise.resolve(item);
+  var _loop = function _loop(functionName) {
+    var config = action[functionName];
+    var asyncFunction = localFunction[functionName];
+    resultPromise = resultPromise.then(function (result) {
+      console.log(functionName, asyncFunction, 'dyno actionsRunner', result);
+      return asyncFunction(config)(dataStore)(result);
+    });
+  };
+  for (var functionName in action) {
+    _loop(functionName);
+  }
+  return resultPromise;
+}
+
 var defaultValidationResolver = {
   noteq: function (item, value) {
     try {
@@ -5570,6 +5586,7 @@ exports.DynoBuilder = FormBuilderV1;
 exports.FormBuilderNext = FormBuilderNext;
 exports.FormBuilderV4 = FormBuilderNext$1;
 exports.FormProvider = FormProvider;
+exports.actionsRunner = actionsRunner;
 exports.appendErrors = appendErrors;
 exports.get = get;
 exports.set = set;

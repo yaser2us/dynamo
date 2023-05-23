@@ -7,7 +7,8 @@ import {
   schemaProxy,
   setupProxy,
   useStateWithHistory,
-  useDynamoHistory
+  useDynamoHistory,
+  actionsRunner
 } from "dynamo";
 
 // import 'dynamo/dist/index.css'
@@ -1213,7 +1214,7 @@ function App() {
 
     if (item && item.action && typeof item.action === 'object') {
       const allLocalFunction = myForm.current.localFunction;
-      chainAsyncFunctions(item.action, allLocalFunction, { item }, dataStore)
+      actionsRunner(item.action, allLocalFunction, { item }, dataStore)
         // chainAsyncFunctions(item.action, localFunction, {item})
         .then((lastResult) => {
 
