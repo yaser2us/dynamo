@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import useNavigatableObjectsArray from './useNavigatableObjectsArray';
+import useNavigatableObjectsArray from './useDynamoHistory';
 
 describe('useNavigatableObjectsArray', () => {
   test('should initialize with the correct initial array and current index', () => {

@@ -12,7 +12,7 @@ export {
     useHistory, 
     transformer, 
     useStateWithHistory, 
-    useNavigatableObjectsArray 
+    useDynamoHistory 
 } from './tools';
 
 export { setupProxy } from './middleware';

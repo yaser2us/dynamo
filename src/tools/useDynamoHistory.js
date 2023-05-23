@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useNavigatableObjectsArray = (initialArr, field, id, preventDuplicates = false, replaceDuplicate = false) => {
+const useDynamoHistory = (initialArr, field, id, preventDuplicates = false, replaceDuplicate = false) => {
   if (!Array.isArray(initialArr)) {
     throw new Error('initialArr must be an array.');
   }
@@ -269,6 +269,15 @@ const useNavigatableObjectsArray = (initialArr, field, id, preventDuplicates = f
     }
   };
 
+  const getHistory = () => {
+    const historyDict = {};
+    history.forEach((obj, index) => {
+      const objId = obj[field];
+      historyDict[objId] = obj;
+    });
+    return historyDict;
+  };
+
   return {
     history,
     currentIndex,
@@ -294,11 +303,12 @@ const useNavigatableObjectsArray = (initialArr, field, id, preventDuplicates = f
     updateCurrent,
     goBackToPrimary,
     updateObjectById,
-    goForwardToType
+    goForwardToType,
+    getHistory
   };
 };
 
-export default useNavigatableObjectsArray;
+export default useDynamoHistory;
 
 // import { useState, useEffect } from 'react';
 
