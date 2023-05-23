@@ -924,7 +924,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         setValue: setValue,
         errors: errors,
         reset,
-        clearErrors
+        clearErrors,
+        localFunction: sharedItems.localFunction
     }
 
     const validationOnce = async (name, value, result) => {
