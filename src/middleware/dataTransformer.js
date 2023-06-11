@@ -4,7 +4,7 @@ import _ from "lodash";
 // }
 
 const debug = (...args) => {
-    // console.log(...args)
+    console.log("dynamo transformerrrrr ->", ...args)
 }
 const dataTransformer = (data, name, obj) => (local) => {
     // const { getValues, dataStore } = obj.sharedItems || { getValues: undefined };
