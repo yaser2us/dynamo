@@ -2491,53 +2491,6 @@ var transformer = function transformer(data, schema) {
   }
 };
 
-function useStateWithHistory(defaultValue, _temp) {
-  var _ref = _temp === void 0 ? {} : _temp,
-    _ref$capacity = _ref.capacity,
-    capacity = _ref$capacity === void 0 ? 100 : _ref$capacity;
-  var _useState = React.useState(defaultValue),
-    value = _useState[0],
-    setValue = _useState[1];
-  var historyRef = React.useRef([value]);
-  var pointerRef = React.useRef(0);
-  var set = React.useCallback(function (v) {
-    var resolvedValue = typeof v === "function" ? v(value) : v;
-    if (historyRef.current[pointerRef.current] !== resolvedValue) {
-      if (pointerRef.current < historyRef.current.length - 1) {
-        historyRef.current.splice(pointerRef.current + 1);
-      }
-      historyRef.current.push(resolvedValue);
-      while (historyRef.current.length > capacity) {
-        historyRef.current.shift();
-      }
-      pointerRef.current = historyRef.current.length - 1;
-    }
-    setValue(resolvedValue);
-  }, [capacity, value]);
-  var back = React.useCallback(function () {
-    if (pointerRef.current <= 0) return;
-    pointerRef.current--;
-    setValue(historyRef.current[pointerRef.current]);
-  }, []);
-  var forward = React.useCallback(function () {
-    if (pointerRef.current >= historyRef.current.length - 1) return;
-    pointerRef.current++;
-    setValue(historyRef.current[pointerRef.current]);
-  }, []);
-  var go = React.useCallback(function (index) {
-    if (index < 0 || index > historyRef.current.length - 1) return;
-    pointerRef.current = index;
-    setValue(historyRef.current[pointerRef.current]);
-  }, []);
-  return [value, set, {
-    history: historyRef.current,
-    pointer: pointerRef.current,
-    back: back,
-    forward: forward,
-    go: go
-  }];
-}
-
 var useDynamoHistory = function useDynamoHistory(initialArr, field, id, preventDuplicates, replaceDuplicate) {
   if (preventDuplicates === void 0) {
     preventDuplicates = false;
@@ -2857,7 +2810,13 @@ var useDynamoHistory = function useDynamoHistory(initialArr, field, id, preventD
   };
 };
 
-var debug = function debug() {};
+var debug = function debug() {
+  var _console;
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+  (_console = console).log.apply(_console, ["dynamo transformerrrrr ->"].concat(args));
+};
 var dataTransformer = function dataTransformer(data, name, obj) {
   return function (local) {
     var _ref = local.sharedItems || {
@@ -2866,12 +2825,14 @@ var dataTransformer = function dataTransformer(data, name, obj) {
       getValues = _ref.getValues,
       dataStore = _ref.dataStore;
     var values = _extends({}, dataStore, getValues && getValues() || {});
+    debug("dyno ;)", data, values, 'getValues()()()');
     if (typeof data === "string") {
       if (data !== undefined && data.includes("$$")) {
+        debug("dyno ;)", "blaherebla", data, values);
         return _.get(values, data.substring(2));
       }
       if (data !== undefined && data.includes("fx")) {
-        debug("dyno ;)", data.slice(2));
+        debug("dyno ;)", data.slice(2), 'sliceeeeeee');
         try {
           var result = eval("local." + data.slice(2));
           debug("dyno ;)", result, 'rrrrrrrsulttttttttt');
@@ -2885,6 +2846,7 @@ var dataTransformer = function dataTransformer(data, name, obj) {
           }
           return result;
         } catch (error) {
+          debug("dyno ;)", error, 'rrrrrrrsulttttttttt errorororrororor');
         }
       }
       var patternResult = data;
@@ -2898,6 +2860,7 @@ var dataTransformer = function dataTransformer(data, name, obj) {
             }
             return _result;
           } catch (error) {
+            debug("dyno ;)", error, 'dxxxxxxxxxxxxdxdxxdxdxx');
             return _;
           }
         });
@@ -5599,6 +5562,5 @@ exports.useForm = useForm;
 exports.useFormContext = useFormContext;
 exports.useFormState = useFormState;
 exports.useHistory = useHistory;
-exports.useStateWithHistory = useStateWithHistory;
 exports.useWatch = useWatch;
 //# sourceMappingURL=index.js.map
