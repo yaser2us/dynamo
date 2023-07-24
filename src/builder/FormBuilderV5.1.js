@@ -69,7 +69,7 @@ const renderComponentInd = (name, data, { updateReference,
     }, proxyHandler);
     // debugger;
     // if (selectedComponent?.visible === false) return null
-    // name === "howAreYouThen" && console.log(proxyItem?.visible, 'Vaaaaala Result proxyItem?.visible', name, proxyItem?.visible === false)
+    name === "howAreYouThen" && console.log(proxyItem?.visible, 'Vaaaaala Result proxyItem?.visible', name, proxyItem?.visible === false)
     if (proxyItem?.visible === false) return null
 
     return renderComponentForm(
@@ -199,7 +199,7 @@ const renderComponentForm = (
             control={control}
             item={item}
             rules={{ ...item.rule } || validation}
-            // eventBus={sharedItems?.eventBus}
+            eventBus={sharedItems?.eventBus}
             render={({ field }) => {
 
                 if (item.isArray) {
@@ -400,7 +400,7 @@ const renderForm = (
                     control={control}
                     item={item}
                     rules={item.rule || validation}
-                    // eventBus={sharedItems?.eventBus}
+                    eventBus={sharedItems?.eventBus}
                     render={({ field }) => {
 
                         if (item.isArray) {
@@ -674,8 +674,8 @@ const FormBuilderNext = React.forwardRef(({ items,
     defaultValues = {},
     devMode = false,
     dataTransformer = defaultDataTransformer,
-    dataStore
-    // eventBus
+    dataStore,
+    eventBus
 }, ref) => {
 
     if (!devMode) {
@@ -691,74 +691,6 @@ const FormBuilderNext = React.forwardRef(({ items,
         })();
     }
 
-    //proxy here ;)
-    const proxyHandler = {
-        get(target, prop, receiver) {
-            if (typeof target[prop] === "object" && target[prop] !== null) {
-                console.log("dyno ;)", target[prop], "dddproxyHanlerrrrrrrr me ;)");
-                return new Proxy(target[prop], proxyHandler);
-            }
-            return dataTransformer(target[prop], prop, target)({
-                ...localFunction,
-                sharedItems: { dataStore },
-                // ...sharedItems
-            });
-        }
-    };
-
-    const proxyDefaultValues = new Proxy({
-        ...defaultValues
-    }, proxyHandler);
-
-    console.log("dyno ;)", defaultValues, "defaultValues", {...proxyDefaultValues}, dataStore, proxyDefaultValues.whatsMyName)
-
-
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors, isDirty, isValid },
-        control,
-        trigger,
-        setFocus,
-        getValues,
-        setValue,
-        triggerBackground,
-        triggerBackgroundOptimised,
-        unregister,
-        clearErrors,
-        reset
-    } = useForm({
-        mode: 'onChange',
-        shouldUnregister: true,
-        reValidateMode: 'onChange',
-        // resolver: async (data, context) => {
-        //     const { error, value: values } = validationSchema.validate(data, {
-        //         abortEarly: false,
-        //     });
-
-        //     if (!error) return { values: values, errors: {} };
-
-        //     return {
-        //         values: {},
-        //         errors: error.details.reduce(
-        //             (previous, currentError) => ({
-        //                 ...previous,
-        //                 [currentError.path[0]]: currentError,
-        //             }),
-        //             {},
-        //         ),
-        //     };
-        // },,
-        // criteriaMode: "firstError",
-        defaultValues: {...proxyDefaultValues}
-    })
-
-    React.useEffect(() => {
-        reset({ ...proxyDefaultValues })
-    }, [defaultValues]);
-
-    // Shared Items
     const sharedItems = {
         register,
         handleSubmit,
@@ -810,9 +742,80 @@ const FormBuilderNext = React.forwardRef(({ items,
             },
         },
         dataStore,
-        // eventBus,
+        eventBus,
         clearErrors
     }
+
+    //proxy here ;)
+    const proxyHandler = {
+        get(target, prop, receiver) {
+            if (typeof target[prop] === "object" && target[prop] !== null) {
+                console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
+                return new Proxy(target[prop], proxyHandler);
+            }
+            return dataTransformer(target[prop], prop, target)({
+                ...localFunction,
+                sharedItems: sharedItems,
+                // ...sharedItems
+            });
+        }
+    };
+
+    const proxyDefaultValues = new Proxy({
+        ...defaultValues,
+        sharedItems: sharedItems
+    }, proxyHandler);
+
+    console.log("dyno ;)", defaultValues, "defaultValues")
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors, isDirty, isValid },
+        control,
+        trigger,
+        setFocus,
+        getValues,
+        setValue,
+        triggerBackground,
+        triggerBackgroundOptimised,
+        unregister,
+        clearErrors,
+        reset
+    } = useForm({
+        mode: 'onChange',
+        shouldUnregister: true,
+        reValidateMode: 'onChange',
+        // resolver: async (data, context) => {
+        //     const { error, value: values } = validationSchema.validate(data, {
+        //         abortEarly: false,
+        //     });
+
+        //     if (!error) return { values: values, errors: {} };
+
+        //     return {
+        //         values: {},
+        //         errors: error.details.reduce(
+        //             (previous, currentError) => ({
+        //                 ...previous,
+        //                 [currentError.path[0]]: currentError,
+        //             }),
+        //             {},
+        //         ),
+        //     };
+        // },,
+        // criteriaMode: "firstError",
+        // defaultValues: defaultValues
+        defaultValues: defaultValues
+    })
+
+    React.useEffect(() => {
+        reset({ ...defaultValues })
+    }, [defaultValues]);
+
+
+
     // console.log("dyno ;)", typeof errors, 'hereeeeeeeeeerroooooors')
 
     const myComponents = React.useRef()

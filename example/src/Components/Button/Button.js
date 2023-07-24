@@ -7,14 +7,8 @@ import { useEffect } from 'react';
 const Button = (props) => {
   const { item, error, managedCallback, name, sharedItems } = props;
   const { label, action, disabled = false } = item || { label: "Submit" };
-  // const disabled = false;// error && Object.keys(error).length > 0 || false;
 
   const [cd, setCd] = useState(disabled)
-
-  console.log(disabled, 'buttooonnnnnndisabled',
-    error,
-    // sharedItems?.localFunction?.triggerBackground()
-  )
 
   useEffect(() => {
     if(disabled.then){
@@ -24,7 +18,9 @@ const Button = (props) => {
     }
   }, [disabled]);
 
-  const onClick = () => {
+  const onClick = (e) => {
+    e.preventDefault();
+    console.log(e, 'eeeeeeeee')
     managedCallback({ item: item, actionType: action?.actionURL });
   }
 

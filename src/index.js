@@ -11,7 +11,6 @@ export * from './utils';
 export { 
     useHistory, 
     transformer, 
-    useStateWithHistory, 
     useDynamoHistory 
 } from './tools';
 

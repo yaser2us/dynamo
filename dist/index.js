@@ -2810,13 +2810,6 @@ var useDynamoHistory = function useDynamoHistory(initialArr, field, id, preventD
   };
 };
 
-var debug = function debug() {
-  var _console;
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-  (_console = console).log.apply(_console, ["dynamo transformerrrrr ->"].concat(args));
-};
 var dataTransformer = function dataTransformer(data, name, obj) {
   return function (local) {
     var _ref = local.sharedItems || {
@@ -2825,42 +2818,58 @@ var dataTransformer = function dataTransformer(data, name, obj) {
       getValues = _ref.getValues,
       dataStore = _ref.dataStore;
     var values = _extends({}, dataStore, getValues && getValues() || {});
-    debug("dyno ;)", data, values, 'getValues()()()');
     if (typeof data === "string") {
+      var ExpRE = /^\s*\{\{([\s\S]*)\}\}\s*$/;
+      var matched = data.match(ExpRE);
+      if (matched) {
+        console.log("dyno ;)", name, 'me getValues()()()');
+        try {
+          var result = new Function('$root', "with($root) { return (" + matched[1] + "); }")(_extends({}, values, {
+            local: local
+          }));
+          return result;
+        } catch (error) {
+          console.log(error, '{{ error transformer }}');
+          return data;
+        }
+      }
       if (data !== undefined && data.includes("$$")) {
-        debug("dyno ;)", "blaherebla", data, values);
+        console.log("dyno ;)", "blaherebla", data, dataStore, _.get(values, data.substring(2)));
         return _.get(values, data.substring(2));
       }
       if (data !== undefined && data.includes("fx")) {
-        debug("dyno ;)", data.slice(2), 'sliceeeeeee');
+        console.log("dyno ;)", data.slice(2), 'sliceeeeeee');
         try {
-          var result = eval("local." + data.slice(2));
-          debug("dyno ;)", result, 'rrrrrrrsulttttttttt');
-          if (typeof result === 'function') {
-            return result(values);
+          var _result = eval("local." + data.slice(2));
+          if (typeof _result === 'function') {
+            console.log("dyno ;)", _result, 'rrrrrrrsulttttttttt function');
+            return _result(values);
           }
-          if (result !== null && result !== void 0 && result.then) {
-            return result.then(function (response) {
-              return !response;
+          if (_result !== null && _result !== void 0 && _result.then) {
+            console.log("dyno ;)", _result, 'rrrrrrrsulttttttttt function.then');
+            return _result.then(function (response) {
+              console.log("dyno ;)", response, 'rrrrrrrsulttttttttt [2] function.then result');
+              return response;
             });
           }
-          return result;
+          console.log("dyno ;)", _result, 'rrrrrrrsulttttttttt [3] function.then lol');
+          return _result;
         } catch (error) {
-          debug("dyno ;)", error, 'rrrrrrrsulttttttttt errorororrororor');
+          console.log("dyno ;)", name, '----->', error, 'rrrrrrrsulttttttttt errorororrororor');
         }
       }
       var patternResult = data;
       if (data !== undefined && data.includes("dx")) {
         patternResult = patternResult.replace(/dx.*?\(.*?\)/g, function (_, name) {
           try {
-            debug("dyno ;)", _, name, 'pattern waaaaaalalala 2nd', patternResult);
-            var _result = eval("local." + _);
-            if (typeof _result === 'function') {
-              return _result(values);
+            console.log("dyno ;)", _, name, 'pattern waaaaaalalala 2nd', patternResult);
+            var _result2 = eval("local." + _);
+            if (typeof _result2 === 'function') {
+              return _result2(values);
             }
-            return _result;
+            return _result2;
           } catch (error) {
-            debug("dyno ;)", error, 'dxxxxxxxxxxxxdxdxxdxdxx');
+            console.log("dyno ;)", error, 'dxxxxxxxxxxxxdxdxxdxdxx');
             return _;
           }
         });
@@ -4121,7 +4130,6 @@ function createFormControlV4(props) {
                 var _temp8 = function () {
                   if (_f.formId === formId || formId === "ALL") {
                     return Promise.resolve(validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation)).then(function (fieldError) {
-                      console.log(fieldError, "fieldError");
                       if (shouldCheckValid) {
                         if (fieldError[_f.name]) {
                           context.valid = false;
@@ -5206,12 +5214,26 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       };
     }();
   }
-  console.log("dyno ;)", defaultValues, "defaultValues");
+  var proxyHandler = {
+    get: function get(target, prop, receiver) {
+      if (typeof target[prop] === "object" && target[prop] !== null) {
+        console.log("dyno ;)", target[prop], "dddproxyHanlerrrrrrrr me ;)");
+        return new Proxy(target[prop], proxyHandler);
+      }
+      return dataTransformer$1(target[prop], prop, target)(_extends({}, localFunction, {
+        sharedItems: {
+          dataStore: dataStore
+        }
+      }));
+    }
+  };
+  var proxyDefaultValues = new Proxy(_extends({}, defaultValues), proxyHandler);
+  console.log("dyno ;)", defaultValues, "defaultValues", _extends({}, proxyDefaultValues), dataStore, proxyDefaultValues.whatsMyName);
   var _useForm = useForm$1({
       mode: 'onChange',
       shouldUnregister: true,
       reValidateMode: 'onChange',
-      defaultValues: defaultValues
+      defaultValues: _extends({}, proxyDefaultValues)
     }),
     register = _useForm.register,
     handleSubmit = _useForm.handleSubmit,
@@ -5229,7 +5251,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     clearErrors = _useForm.clearErrors,
     reset = _useForm.reset;
   React__default.useEffect(function () {
-    reset(_extends({}, defaultValues));
+    reset(_extends({}, proxyDefaultValues));
   }, [defaultValues]);
   var sharedItems = {
     register: register,
@@ -5256,6 +5278,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
         var result = _triggerBackgroundOptimised(formId)().then(function (r) {
           return r;
         });
+        console.log('yasssss', result);
         return result;
       },
       triggerGroup: function (resources) {

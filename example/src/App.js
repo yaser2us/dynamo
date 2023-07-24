@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 // 1: install this dynamo
 import {
@@ -6,9 +6,9 @@ import {
   FormBuilderV4 as FormBuilderNext,
   schemaProxy,
   setupProxy,
-  useStateWithHistory,
   useDynamoHistory,
-  actionsRunner
+  actionsRunner,
+  transformer
 } from "dynamo";
 
 // import 'dynamo/dist/index.css'
@@ -16,6 +16,7 @@ import Select from "react-select";
 import _ from "lodash";
 import R from "ramda";
 import "./App.css";
+// import jsonpath from "jsonpath";
 
 import Button from "./Components/Button/Button";
 import Text from "./Components/Textbox/Text";
@@ -28,8 +29,116 @@ import LocalPagination from "./Components/Fieldset/LocalPagination";
 import Label from "./Components/Label/Label";
 import ConfirmationButton from "./Components/Button/ConfirmationButton";
 import AsyncBlock from "./Components/AsyncBlock/AsyncBlock";
-import { generate } from 'astring'
-import { parse } from "acorn";
+import { Hook } from "./Components/Hook"
+// import { generate } from 'astring'
+// import { parse } from "acorn";
+// function useEventBus() {
+//   const listenersRef = useRef({});
+
+//   function subscribe(eventName, callback) {
+//     if (!listenersRef.current[eventName]) {
+//       listenersRef.current[eventName] = [];
+//     }
+//     listenersRef.current[eventName].push(callback);
+//   }
+
+//   function emit(eventName, data) {
+//     const listeners = listenersRef.current[eventName];
+//     if (listeners) {
+//       listeners.forEach(callback => callback(data));
+//     }
+//   }
+
+//   return { subscribe, emit };
+// }
+
+// npm link ../node_modules/react
+// Custom hook for managing the event bus
+function useEventBus() {
+  const listenersRef = useRef({});
+
+  function subscribe(eventName, callback) {
+    if (!listenersRef.current[eventName]) {
+      listenersRef.current[eventName] = [];
+    }
+    listenersRef.current[eventName].push(callback);
+  }
+
+  function unsubscribe(eventName, callback) {
+    const listeners = listenersRef.current[eventName];
+    if (listeners) {
+      listenersRef.current[eventName] = listeners.filter(
+        listener => listener !== callback
+      );
+    }
+  }
+
+  function emit(eventName, data) {
+    const listeners = listenersRef.current[eventName];
+    if (listeners) {
+      listeners.forEach(callback => callback(data));
+    }
+  }
+
+  return { subscribe, unsubscribe, emit };
+}
+
+function SenderComponent({ eventBus }) {
+  useEffect(() => {
+    setInterval(() => {
+      eventBus.emit('whatsYourName', 'Hello from SenderComponent! wow3' + Date.now());
+    }, 20000);
+  }, [eventBus]);
+
+  console.log("SenderComponent ;)")
+  return <div>Sender Component</div>;
+}
+
+const ioi = {
+  "required": "it is required heheh",
+                "min": {
+                    "value": null,
+                    "message": ""
+                },
+                "max": {
+                    "value": null,
+                    "message": ""
+                },
+                "minLength": {
+                    "value": null,
+                    "message": ""
+                },
+                "maxLength": {
+                    "value": null,
+                    "message": ""
+                },
+                "pattern": {
+                    "value": "",
+                    "message": ""
+                }
+}
+
+function useAsync(getMethod, params) {
+  const [value, setValue] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  async function getResource() {
+    try {
+      setLoading(true);
+      const result = await getMethod(...params);
+      setValue(result);
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    getResource();
+  }, params);
+
+  return { result: value, error, loading };
+}
 
 const serverURL = "http://54.169.175.134:3033/";
 const developmentURL = "http://localhost:3033/";
@@ -38,17 +147,55 @@ let pppppp = {};
 //from 942 to
 function App() {
 
+  const eventBus = useEventBus();
+
+  // const a = {
+  //   b: 7434242342,
+  //   c: 333333
+  // }
+
+  // console.log('brrrrrnnnnnnnn',jsonpath.query(a,""))
+//      label: "Whats my Name buddy? 313 and more ${cache.home.defaultValues.whatsMyName} basket ${basket.whatsMyName}",
+
   const sample110 = {
     root: {
       name: "root",
-      items: ["header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
+      items: ["didMountToGetSomething", "header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
       visible: true,
+    },
+    didMountToGetSomething: {
+      id: "didMountToGetSomething",
+      type: "hook",
+      name: "didMountToGetSomething",
+      label: "",
+      value: "",
+      visible: true,
+      defaultValue: "",
+      header: "",
+      tooltip: "",
+      description: "",
+      placeholder: "",
+      valueType: "",
+      suffix: "",
+      prefix: "",
+      inputType: "",
+      disabled: false,
+      watch: false,
+      templateName: "",
+      theme: "",
+      action: {
+        VValid: {
+          condition: "whatsMyName = \'900\'",
+          destination: "dataStore.poh"
+        }
+      }
     },
     whatsMyName: {
       id: "whatsMyName",
       type: "text",
       name: "whatsMyName",
-      label: "Whats my Name buddy? ${wathchMei}",
+      label: "Hariiiiiii? ${wathchMei}",
+      label1: "Whats my Name buddy? 313 and more ${cache.home.defaultValues.whatsMyName} basket ${basket.whatsMyName}",
       // label: (props) => (values) => `hi hi from f(x) ;)`,
       // value: "",
       disabled: (props) => (values) => Valid('wathchMei', '==', '900')(values),
@@ -105,18 +252,41 @@ function App() {
           }
         ]
       },
-      watch: false
+      watch: true,
+      defaultValue: "$$lol"
     },
     whatsYourName: {
       id: "whatsYourName",
       type: "text",
       name: "whatsYourName",
-      label: "Whats heloooooo Name buddy? ${wathchMei}",
+      label: "900 Whats ${poh} ---- heloooooo Name boooooooooooo  buddy? ${wathchMei}",
       // label: (props) => (values) => `hi hi from f(x) ;)`,
       // value: "",
-      visible: "fxValid('whatsMyName', '==', '900')",
-      // visible: false,
+      // label: "dxVValid(\"whatsMyName = \'900\'\")",
+      "value": "",
+            "visible": true,
+            "parent": [
+                "form",
+                "0"
+            ],
+            "defaultValue": "",
+            "header": "",
+            "tooltip": "",
+            "description": "",
+            "placeholder": "",
+            "valueType": "",
+            "suffix": "",
+            "prefix": "",
+            "inputType": "",
+            "disabled": false,
+            "watch": false,
+            "templateName": "",
+            "theme": "",
+      visible: true,
       rule: {
+        ...ioi
+      },
+      rule999: {
         // formId: "yasser",
         required: "I dont know your name yet ${whatsMyName}",
         min: {
@@ -200,7 +370,7 @@ function App() {
       id: "submitME2",
       type: "button",
       name: "submitME2",
-      label: "Trigger Baackground Default",
+      label: "dxtriggerBackgroundOptimised()",
       value: "",
       disabled: "fxtriggerBackgroundOptimised()",
       visible: true,
@@ -229,10 +399,10 @@ function App() {
       id: "submitTrigger",
       type: "button",
       name: "submitTrigger",
-      label: "Trigger whatsMyName",
+      label: "Trigger 4434343 whatsMyName",
       value: "",
       // disabled: true,
-      disableds: "fxtriggerGroup(['whatsMyName', 'whatsYourName'])",
+      // disableds: "fxtriggerGroup(['whatsMyName', 'whatsYourName'])",
       action: {
         getGroupValuesBackground: {},
         alertPopup: {},
@@ -258,10 +428,16 @@ function App() {
       name: "howAreYouThen",
       label: "wathchMei read from dataSource",
       options: "dataSource",
-      visible: true,
+      // visible: true,
+      // visible: "$$bobo",
+      visible: "{{ whatsYourName == '300' && whatsMyName == '800' }}",
+      visible33: "{{whatsMyName === '909' && whatsYourName === '500'}}",
+      visibled: "fxValid(\"{{whatsMyName === \'9009\'\\ && whatsYourName === '500'}}\")",
+      disabled: "fxValid('whatsYourName','==','1900')",
+      // visible: "fxValid('whatsYourName','==','900')",
       rule: {
         formId: "bank",
-        required: "Transfer select hello From Bank is required.",
+        // required: "Transfer select hello From Bank is required.",
         min: {
           value: null,
           message: "",
@@ -351,14 +527,42 @@ function App() {
   const sample313 = {
     root: {
       name: "root",
-      items: ["header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
+      items: ["didMountToGetSomething", "header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
       visible: true,
+    },
+    didMountToGetSomething: {
+      id: "didMountToGetSomething",
+      type: "hook",
+      name: "didMountToGetSomething",
+      label: "",
+      value: "",
+      visible: true,
+      defaultValue: "",
+      header: "",
+      tooltip: "",
+      description: "",
+      placeholder: "",
+      valueType: "",
+      suffix: "",
+      prefix: "",
+      inputType: "",
+      disabled: false,
+      watch: false,
+      templateName: "",
+      theme: "",
+      action: {
+        VValid: {
+          condition: "whatsMyName = \'900\'",
+          destination: "dataStore.poh"
+        }
+      }
     },
     whatsMyName: {
       id: "whatsMyName",
       type: "text",
       name: "whatsMyName",
-      label: "Whats my Name buddy? 313 and more ${cache.home.defaultValues.whatsMyName}",
+      label2: "Hariiiiiii? ${wathchMei}",
+      label: "Whats my Name buddy? 313 and more ${cache.home.defaultValues.whatsMyName} basket ${basket.whatsMyName}",
       // label: (props) => (values) => `hi hi from f(x) ;)`,
       // value: "",
       disabled: (props) => (values) => Valid('wathchMei', '==', '900')(values),
@@ -415,17 +619,17 @@ function App() {
           }
         ]
       },
-      watch: false
+      watch: true
     },
     whatsYourName: {
       id: "whatsYourName",
       type: "text",
       name: "whatsYourName",
-      label: "Whats heloooooo Name buddy? ${wathchMei}",
+      label: "900 Whats ${poh} ---- heloooooo Name boooooooooooo  buddy? ${wathchMei}",
       // label: (props) => (values) => `hi hi from f(x) ;)`,
       // value: "",
-      visible: "fxValid('whatsMyName', '==', '900')",
-      // visible: false,
+      // label: "dxVValid(\"whatsMyName = \'900\'\")",
+      visible: true,
       rule: {
         // formId: "yasser",
         required: "I dont know your name yet ${whatsMyName}",
@@ -510,7 +714,7 @@ function App() {
       id: "submitME2",
       type: "button",
       name: "submitME2",
-      label: "Trigger Baackground Default",
+      label: "dxtriggerBackgroundOptimised()",
       value: "",
       disabled: "fxtriggerBackgroundOptimised()",
       visible: true,
@@ -542,8 +746,13 @@ function App() {
       label: "Trigger whatsMyName",
       value: "",
       // disabled: true,
-      disabled: "fxtriggerGroup(['whatsMyName', 'whatsYourName'])",
+      disableds: "fxtriggerGroup(['whatsMyName', 'whatsYourName'])",
       action: {
+        getGroupValuesBackground: {},
+        alertPopup: {},
+        updateHistory: {}
+      },
+      actionlol: {
         validations: ['whatsMyName'],
         schema: {
           "wow": "fxValid('whatsMyName', '==', '900')",
@@ -563,7 +772,13 @@ function App() {
       name: "howAreYouThen",
       label: "wathchMei read from dataSource",
       options: "dataSource",
-      visible: true,
+      // visible: false,
+      // visible: "$$bobo",
+      visible: "{{ whatsMyName !== '9009' }}",
+      visiblessss: "{{whatsMyName === '9009' && whatsYourName === '500'}}",
+      visibled: "fxValid(\"{{whatsMyName === \'9009\'\\ && whatsYourName === '500'}}\")",
+      disabled: "fxValid('whatsYourName','==','1900')",
+      // visible: "fxValid('whatsYourName','==','900')",
       rule: {
         formId: "bank",
         required: "Transfer select hello From Bank is required.",
@@ -653,316 +868,17 @@ function App() {
     },
   };
 
-  const sample777 = {
-    root: {
-      name: "root",
-      items: ["header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
-      visible: true,
-    },
-    whatsMyName: {
-      id: "whatsMyName",
-      type: "text",
-      name: "whatsMyName",
-      label: "Whats my Name buddy? 777 and more and thanks ALLAH ${wathchMei}",
-      // label: (props) => (values) => `hi hi from f(x) ;)`,
-      // value: "",
-      disabled: (props) => (values) => Valid('wathchMei', '==', '900')(values),
-      visible: true,
-      rule: {
-        formId: "yasser",
-        required: "I dont know my name yet hmmmmm.",
-        min: {
-          value: null,
-          message: "",
-        },
-        max: {
-          value: null,
-          message: "",
-        },
-        minLength: {
-          value: 3,
-          message: "min 3",
-        },
-        maxLength: {
-          value: 3,
-          message: "max 3",
-        },
-        pattern: {
-          value: "",
-          message: "",
-        },
-        validate: {
-          positiveNumber: "only positive number pls yeah :)",
-          // lessThanHundred: "cant be less than hundred ;)",
-        },
-        validateCompse: {
-          letsComposeValidation: {
-            positiveNumber: "only positive number pls yeah :)",
-            lessThanHundred: "cant be less than hundred ;)"
-          }
-        },
-        deps: ["wathchMei"],
-        validate2121: {
-          positiveNumber: (value) => {
-            console.log(value, 'positiveNumber validatevalidatevalidatevalidate')
-            const result = parseFloat(value) > 0;
-            return result && result || "errororororororororoo"
-          },
-          lessThanHundred: (value) => {
-            console.log(value, 'lessThanHundred validatevalidatevalidatevalidate')
-            return parseFloat(value) < 200 || "less than 200"
-          },
-        },
-        validate1234: [
-          {
-            messages: "",
-            validation: "fxPositiveNumber"
-          }
-        ]
-      },
-      watch: false
-    },
-    whatsYourName: {
-      id: "whatsYourName",
-      type: "text",
-      name: "whatsYourName",
-      label: "Whats heloooooo Name buddy? ${wathchMei}",
-      // label: (props) => (values) => `hi hi from f(x) ;)`,
-      // value: "",
-      visible: "fxValid('whatsMyName', '==', '900')",
-      // visible: false,
-      rule: {
-        // formId: "yasser",
-        required: "I dont know your name yet ${whatsMyName}",
-        min: {
-          value: null,
-          message: "",
-        },
-        max: {
-          value: null,
-          message: "",
-        },
-        minLength: {
-          value: 3,
-          message: "errororororo Whats heloooooo Name buddy? ${wathchMei}",
-        },
-        maxLength: {
-          value: 3,
-          message: "max 3",
-        },
-        pattern: {
-          value: "",
-          message: "",
-        },
-        validate: {
-          positiveNumber: "only positive number pls yeah :)",
-          // lessThanHundred: "cant be less than hundred ;)",
-        },
-        validateCompse: {
-          letsComposeValidation: {
-            positiveNumber: "only positive number pls yeah :)",
-            lessThanHundred: "cant be less than hundred ;)"
-          }
-        },
-        deps: ["wathchMei"],
-        validate2121: {
-          positiveNumber: (value) => {
-            console.log(value, 'positiveNumber validatevalidatevalidatevalidate')
-            const result = parseFloat(value) > 0;
-            return result && result || "errororororororororoo"
-          },
-          lessThanHundred: (value) => {
-            console.log(value, 'lessThanHundred validatevalidatevalidatevalidate')
-            return parseFloat(value) < 200 || "less than 200"
-          },
-        },
-        validate1234: [
-          {
-            messages: "",
-            validation: "fxPositiveNumber"
-          }
-        ]
-      },
-      // "preCondition": [
-      //   {
-      //     "name": "whatsMyName",
-      //     "value": "900",
-      //     "type": "eq"
-      //   }
-      // ],
-      watch: false
-    },
-    "container": {
-      id: "container",
-      type: "fieldset",
-      name: "container",
-      label: "Fieldset",
-      value: "",
-      visible: true,
-      isArray: false,
-      items: ["wathchMei", "howAreYouThen", "submitME", "submitME2", "submitME3", "submitMETrigger"],
-    },
-    submitME: {
-      id: "submitME",
-      type: "button",
-      name: "submitME",
-      label: "Trigger Background Textbox only",
-      value: "",
-      disabled: "fxtriggerBackgroundOptimised('yasser')",
-      visible: true,
-    },
-    submitME2: {
-      id: "submitME2",
-      type: "button",
-      name: "submitME2",
-      label: "Trigger Baackground Default",
-      value: "",
-      disabled: "fxtriggerBackgroundOptimised()",
-      visible: true,
-    },
-    submitME3: {
-      id: "submitME3",
-      type: "button",
-      name: "submitME3",
-      label: "Trigger Baackground DropDown only",
-      value: "",
-      // disabled: true,
-      disabled: "fxtriggerBackgroundOptimised('bank')",
-      visible: true,
-    },
-    submitMETrigger: {
-      id: "submitMETrigger",
-      type: "button",
-      name: "submitMETrigger",
-      label: "Trigger only",
-      value: "",
-      // disabled: true,
-      disabled: "fxtriggerGroup(['howAreYouThen','whatsYourName', 'whatsMyName'])",
-      visible: true,
-    },
-    submitTrigger: {
-      id: "submitTrigger",
-      type: "button",
-      name: "submitTrigger",
-      label: "Trigger whatsMyName",
-      value: "",
-      // disabled: true,
-      disabled: "fxtriggerGroup(['whatsMyName', 'whatsYourName'])",
-      action: {
-        validations: ['whatsMyName'],
-        schema: {
-          "wow": "fxValid('whatsMyName', '==', '900')",
-          "bla": "$$whatsYourName",
-          yasser: {
-            nasser: {
-              "bla": "$$whatsYourName"
-            }
-          }
-        }
-      },
-      visible: true,
-    },
-    "howAreYouThen": {
-      id: "howAreYouThen",
-      type: "select",
-      name: "howAreYouThen",
-      label: "wathchMei read from dataSource",
-      options: "dataSource",
-      visible: true,
-      rule: {
-        formId: "bank",
-        required: "Transfer select hello From Bank is required.",
-        min: {
-          value: null,
-          message: "",
-        },
-        max: {
-          value: null,
-          message: "",
-        },
-        minLength: {
-          value: null,
-          message: "",
-        },
-        maxLength: {
-          value: null,
-          message: "",
-        },
-        pattern: {
-          value: "",
-          message: "",
-        },
-      },
-      preCondition: [
 
-      ]
-    },
-    "header": {
-      id: "header",
-      type: "label",
-      name: "header",
-      label: "Example of Watch & DataSource",
-      value: "Value",
-      visible: true,
-    },
-    "dataSource": {
-      id: "dataSource",
-      type: "dataSource",
-      name: "dataSource",
-      label: "wathchMei",
-      value: "Value",
-      visible: true,
-      watch: true
-    },
-    wathchMei: {
-      id: "wathchMei",
-      type: "text",
-      name: "wathchMei",
-      label: "watch me ;) 9999",
-      value: "",
-      valueType: "",
-      visible: true,
-      // visible: "fxValid('whatsYourName', '==', '900')",
-      disabled: false,
-      // "preCondition": [
-      //   {
-      //     "name": "whatsYourName",
-      //     "value": "900",
-      //     "type": "eq"
-      //   }
-      // ],
-      rule: {
-        required: "Transfer From Bank is required.",
-        min: {
-          value: null,
-          message: "",
-        },
-        max: {
-          value: null,
-          message: "",
-        },
-        minLength: {
-          value: null,
-          message: "",
-        },
-        maxLength: {
-          value: null,
-          message: "",
-        },
-        pattern: {
-          value: "",
-          message: "",
-        },
-      },
-      watch: false
-    },
-  };
+
 
   //form data store
   const [data, setData] = useState("hihihihihihih");
   const [products, setProducts] = useState();
   const [options, setOptions] = useState();
-  const [dataStore, setDataStore] = useState({});
+  const [dataStore, setDataStore] = useState({
+    poh: false,
+    lol: 'yasser'
+  });
 
   const [shouldUnregister, setShouldUnregister] = useState(false);
   //Access to form
@@ -971,16 +887,14 @@ function App() {
   // const [items, setItems] = useState(sample);
   const [items, setItems] = useState();
   const [defaultValues, updateDefaults] = useState({
-    wathchMei: "Edwarddddddddddd 0)"
+    wathchMei: "Edwarddddddddddd 0)",
+    // bobo: () async => await VValid('whatsMyName = \'900\'');
   });
 
 
   const [preparedValueTypes, setPreparedValueTypes] = useState();
 
   const itemsRefs = useRef({});
-
-  //history 
-  const [count, setCount, { history, pointer, back, forward, go }] = useStateWithHistory(1)
 
   const dd = [
     { id: 1, name: 'Object 1' },
@@ -1035,13 +949,13 @@ function App() {
   //   return arr;
   // };
 
-  var code = "Valid('33','hihi hihi')"
-  // Parse it into an AST
-  var ast = parse(code, { ecmaVersion: 6 })
-  // Format it into a code string
-  var formattedCode = generate(ast)
-  // Check it
-  console.log(code === formattedCode ? 'generate It works!' : 'generate Something went wrong…', ast)
+  // var code = "Valid('33','hihi hihi')"
+  // // Parse it into an AST
+  // var ast = parse(code, { ecmaVersion: 6 })
+  // // Format it into a code string
+  // var formattedCode = generate(ast)
+  // // Check it
+  // console.log(code === formattedCode ? 'generate It works!' : 'generate Something went wrong…', ast)
 
 
   React.useEffect(() => {
@@ -1064,19 +978,114 @@ function App() {
     fetchProducts();
   }, []);
 
-  const Valid = (a, b, c) => (values) => {
+  //hi Edward ${name}
+  //$$name
+  //fxValid('name','bla','boom')
+  // now all in one can be below
+  //{{ inside this anything}}
+  //{{name}} is eqal to => $$name
+  //{{dx(\"hi Edward ${name}}\"} is eqal to => hi Edward ${name}
+  //{{ Valid('name','bla','boom')}} or {{ name.length > 90 }} any conditions
+
+  const condition = "{{a === 1120 && dx(\"hi yasser ${a} ${b.c[2]} from ${d}\")}}";
+  const ExpRE = /^\s*\{\{([\s\S]*)\}\}\s*$/
+  const matched = condition.match(ExpRE)
+  if (matched) {
+    const result = new Function('$root', `with($root) { return (${matched[1]}); }`)(
+      {
+        a: '1120',
+        b: {
+          c: [
+            220,
+            330,
+            440
+          ]
+        },
+        d: "hellooooo mate ;)",
+        dx: (props) => {
+          const func = new Function('$root', "with($root) return `" + props + "`;")
+          return func({
+            a: 110,
+            b: {
+              c: [
+                220,
+                330,
+                440
+              ]
+            },
+            d: "hellooooo mate ;)",
+          })
+        }
+      }
+    )
+    console.log("prprprprpr", result);
+  }
+
+
+  const Valid = (a) => (values) => {
+    const ExpRE = /^\s*\{\{([\s\S]*)\}\}\s*$/
+    const matched = a.match(ExpRE)
+    if (!matched) return false
     if (!values) return false;
-    const aValue = values[a] || 0;
+    // const aValue = values[a] || 0;
     try {
-      const result = eval(`${aValue} ${b} ${c}`);
-      console.log(a, b, c, values, 'VALIDDDDDDDDDD', result)
+      const result = new Function('$root', `with($root) { return (${matched[1]}); }`)(
+        values
+      )
+      // const result = eval(`${aValue} ${b} ${c}`);
+      console.log(a, values, 'VALIDDDDDDDDDD', result)
       return result
     } catch (error) {
-      return eval(`0 ${b} 0`);
+      return false;
     }
   }
 
+  const VValid = config => dataStore => async data => {
+    // const VValid = (condition) => async (values) => {
+    return new Promise(async (resolve, reject) => {
+      const formData = await myForm.current.getValuesBackground(false);
+
+      const { condition, destination } = config;
+      console.log(condition, "Vaaaaala", formData);
+      if (!formData) return false;
+      try {
+        // await transformer(values, condition).then(res => {
+        //     console.log(res, "Vaaaaala Result", condition);
+
+        //     resolve(res);
+        // })
+
+        const resultt = new Function('$root', `with($root) { return (whatsMyName === '900'); }`)(
+          formData
+        )
+
+        // const result =  await transformer(formData, condition);
+        const result = transformer(formData, condition).then(response => {
+          console.log(response, 'emittttt')
+          eventBus.emit('whatsYourName', {
+            visible: response
+          });
+        });
+
+        console.log(resultt, "Vaaaaala Result ---------<o>------", condition, _.set(data, destination, result));
+        // return result;
+        resolve(resultt);
+
+        // resolve({
+        //   ...data,
+        //   ..._.set(data, destination, result),
+        // });
+
+      } catch (error) {
+        console.log(error, "Vaaaaala error");
+        resolve(false);
+        // return false;
+      }
+    })
+  }
+
   const newComponents = {
+    hook: (props) => <Hook {...props} />,
     text: (props) => <Text {...props} />,
     checkbox: (props) => <Checkbox {...props} />,
     switch: (props) => <Switch {...props} />,
@@ -1115,8 +1124,9 @@ function App() {
 
   const getGroupValuesBackground = config => dataStore => async data => {
     return new Promise(async (resolve, reject) => {
-      const formData = await myForm.current.getGroupValuesBackground(data.item?.action?.validations);
-      console.log("getValues", formData);
+      const formData = await myForm.current.getValues();
+      // const formData = await myForm.current.getGroupValuesBackground(data.item?.action?.validations);
+      console.log("getValuesgetValuesgetValues", formData);
       resolve(formData)
     })
   }
@@ -1124,11 +1134,20 @@ function App() {
   const alertPopup = config => dataStore => async data => {
     return new Promise(async (resolve, reject) => {
       // Async processing
-      if (!_.isEmpty(myForm.current.errors)) {
-        alert(myForm.current.errors[Object.keys(myForm.current.errors)[0]].message);
+      const formData = await myForm.current.getValues();
+      console.log("getValuesgetValuesgetValues", formData);
+      if(!formData){
         reject('helllooooo errrororo is there')
+      } else {
+        alert("dsdsd")
+
+        if (!_.isEmpty(myForm.current.errors)) {
+          alert(myForm.current.errors[Object.keys(myForm.current.errors)[0]].message);
+          reject('helllooooo errrororo is there')
+        }
+        resolve(data)
       }
-      resolve(data)
+      
     });
   }
 
@@ -1217,7 +1236,7 @@ function App() {
       actionsRunner(item.action, allLocalFunction, { item }, dataStore)
         // chainAsyncFunctions(item.action, localFunction, {item})
         .then((lastResult) => {
-
+          // setDataStore(lastResult?.dataStore);
           console.log('Last result:', lastResult);
         })
         .catch((error) => {
@@ -1392,6 +1411,8 @@ function App() {
         ...navigatableArray.getHistory()
       },
       ...dataStore,
+      // ...navigatableArray.getBasket(),
+
     }
     console.log(result, 'getDataStore')
     return result;
@@ -1491,6 +1512,8 @@ function App() {
   }
 
   const localFunction = {
+    // dxVValid: VValid,
+    VValid,
     Valid: Valid,
     positiveNumber: positiveNumber,
     lessThanHundred: lessThanHundred,
@@ -1551,6 +1574,8 @@ function App() {
   //     console.error('An error occurred:', error);
   //   });
 
+
+  console.log(getDataStore(), 'getDataStore')
 
 
   return (
@@ -1621,8 +1646,8 @@ function App() {
       />
       <div className="fieldd" style={{ padding: "2rem", marginTop: "2rem" }}>
         <p onClick={() => {
-          updateDefaults({
-            wathchMei: "Yasser" + Date.now()
+          setDataStore({
+            lol: "Yasser" + Date.now()
           })
           // myForm.current.reset({
           //   wathchMei: "Yasser"
@@ -1631,10 +1656,15 @@ function App() {
         }}>
           hi hihiihhihhihh
         </p>
+        <SenderComponent eventBus={eventBus}
+        />
         {sample110 && (
           <FormBuilderNext
             devMode={true}
-            dataStore={getDataStore()}
+            // eventBus={eventBus}
+            dataStore={{
+              ...dataStore,
+              ...getDataStore()}}
             key={`${navigatableArray.current().name}`}
             // name={`dynamo-${dddd.items.length}`}
             ref={myForm}
@@ -1647,7 +1677,9 @@ function App() {
             components={renderComponent}
             managedCallback={managedCallback}
             validationResolver={validationResolver}
-            defaultValues={navigatableArray.current().defaultValues}
+            defaultValues={{
+              "whatsMyName": "$$lol"
+            }}
           />
         )}
       </div>

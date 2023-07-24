@@ -43,7 +43,7 @@ const Dropdown = (props) => {
 
   const { child, error, name, item, field, managedCallback, sharedItems } = props;
   const errorMsg = error && error[name] && error[name].message || ""
-  const { label, options, placeholder, description } = item || { label: "" };
+  const { label, options, placeholder, description, disabled, theme } = item || { label: "" };
   const { getValues } = sharedItems;
   const [ existingOptions, setExistingOptions] = useState(getValues(options));
 
@@ -114,7 +114,7 @@ const Dropdown = (props) => {
         {...field}
         onChange={customOnChange}
         components={{ Option }}
-        isDisabled={!getValues("wathchMei")}
+        isDisabled={disabled}
       />
       <Error {...props} />
     </>

@@ -288,7 +288,7 @@ export function createFormControlV4(props = {}) {
                     if(_f.formId === formId || formId === "ALL"){
                         const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
                         // const fieldError = field._f.ref.formId === "ALL" &&  await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
-                        console.log(fieldError, "fieldError")
+                        // console.log(fieldError, "fieldError")
                         if (shouldCheckValid) {
                             if (fieldError[_f.name]) {
                                 context.valid = false;

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Error } from "../Error"
 
-import "./Checkbox.css";
+// import "./Checkbox.css";
 const Checkbox = (props) => {
   const { item, field } = props;
   const { label } = item || { label: "" };
