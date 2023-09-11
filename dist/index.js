@@ -2816,15 +2816,20 @@ var dataTransformer = function dataTransformer(data, name, obj) {
         getValues: undefined
       },
       getValues = _ref.getValues,
-      dataStore = _ref.dataStore;
-    var values = _extends({}, dataStore, getValues && getValues() || {});
+      dataStore = _ref.dataStore,
+      _ref$index = _ref.index,
+      index = _ref$index === void 0 ? 1 : _ref$index;
+    var values = _extends({}, dataStore, getValues && getValues() || {}, {
+      index: index,
+      displayIndex: index + 1
+    });
     if (typeof data === "string") {
       var ExpRE = /^\s*\{\{([\s\S]*)\}\}\s*$/;
       var matched = data.match(ExpRE);
       if (matched) {
         console.log("dyno ;)", name, 'me getValues()()()');
         try {
-          var result = new Function('$root', "with($root) { return (" + matched[1] + "); }")(_extends({}, values, {
+          var result = new Function('root', "return root." + matched[1])(_extends({}, values, {
             local: local
           }));
           return result;
@@ -2840,7 +2845,9 @@ var dataTransformer = function dataTransformer(data, name, obj) {
       if (data !== undefined && data.includes("fx")) {
         console.log("dyno ;)", data.slice(2), 'sliceeeeeee');
         try {
-          var _result = eval("local." + data.slice(2));
+          var _result = new Function('root', "return root." + data.slice(2))(_extends({}, values, {
+            local: local
+          }));
           if (typeof _result === 'function') {
             console.log("dyno ;)", _result, 'rrrrrrrsulttttttttt function');
             return _result(values);
@@ -4041,7 +4048,8 @@ function createFormControlV4(props) {
   var validateForm = function validateForm(_fields, shouldCheckValid, context, formId) {
     if (context === void 0) {
       context = {
-        valid: true
+        valid: true,
+        triggerAll: true
       };
     }
     if (formId === void 0) {
@@ -4079,7 +4087,7 @@ function createFormControlV4(props) {
                           context.valid = false;
                         }
                         fieldError[_f.name] ? set(_formState.errors, _f.name, fieldError[_f.name]) : unset(_formState.errors, _f.name);
-                        if (Object.keys(_formState.errors).length == 1) {
+                        if (context.triggerAll === false && Object.keys(_formState.errors).length == 1) {
                           _interrupt = true;
                         }
                       }
@@ -4452,12 +4460,20 @@ function createFormControlV4(props) {
       return Promise.reject(e);
     }
   };
-  var triggerBackground = function triggerBackground(name, options) {
+  var triggerCustom = function triggerCustom(options, name) {
     if (options === void 0) {
-      options = {};
+      options = {
+        triggerAll: false
+      };
     }
     try {
       var _temp21 = function _temp21() {
+        _subjects.state.next(Object.assign(Object.assign({}, isString(name) ? {
+          name: name
+        } : {}), {
+          errors: _formState.errors,
+          isValidating: false
+        }));
         if (options.shouldFocus && !isValid) {
           focusFieldBy(_fields, function (key) {
             return get(_formState.errors, key);
@@ -4468,7 +4484,9 @@ function createFormControlV4(props) {
       };
       var _fieldNames2 = convertToArrayPayload(name);
       var isValid;
-      console.log("dyno ;)", "trigger", _formState.errors);
+      _subjects.state.next({
+        isValidating: true
+      });
       var _temp20 = function () {
         if (formOptions.resolver) {
           return Promise.resolve(executeResolverValidation(isUndefined(name) ? name : _fieldNames2)).then(function (schemaResult) {
@@ -4491,8 +4509,10 @@ function createFormControlV4(props) {
                 isValid = _Promise$all2.every(Boolean);
               });
             } else {
-              return Promise.resolve(validateForm(_fields, true)).then(function (_validateForm4) {
-                isValid = _validateForm4;
+              return Promise.resolve(validateForm(_fields, false, {
+                triggerAll: options.triggerAll
+              })).then(function () {
+                isValid = isEmptyObject(_formState.errors);
               });
             }
           }();
@@ -4500,6 +4520,58 @@ function createFormControlV4(props) {
         }
       }();
       return Promise.resolve(_temp20 && _temp20.then ? _temp20.then(_temp21) : _temp21(_temp20));
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+  var triggerBackground = function triggerBackground(name, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    try {
+      var _temp24 = function _temp24() {
+        if (options.shouldFocus && !isValid) {
+          focusFieldBy(_fields, function (key) {
+            return get(_formState.errors, key);
+          }, name ? _fieldNames3 : _names.mount);
+        }
+        _proxyFormState.isValid && _updateValid();
+        return isValid;
+      };
+      var _fieldNames3 = convertToArrayPayload(name);
+      var isValid;
+      console.log("dyno ;)", "trigger", _formState.errors);
+      var _temp23 = function () {
+        if (formOptions.resolver) {
+          return Promise.resolve(executeResolverValidation(isUndefined(name) ? name : _fieldNames3)).then(function (schemaResult) {
+            isValid = name ? _fieldNames3.every(function (name) {
+              return !get(schemaResult, name);
+            }) : isEmptyObject(schemaResult);
+          });
+        } else {
+          var _temp22 = function () {
+            if (name) {
+              return Promise.resolve(Promise.all(_fieldNames3.map(function (fieldName) {
+                try {
+                  var _ref7;
+                  var field = get(_fields, fieldName);
+                  return Promise.resolve(validateForm(field._f ? (_ref7 = {}, _ref7[fieldName] = field, _ref7) : field));
+                } catch (e) {
+                  return Promise.reject(e);
+                }
+              }))).then(function (_Promise$all3) {
+                isValid = _Promise$all3.every(Boolean);
+              });
+            } else {
+              return Promise.resolve(validateForm(_fields, true)).then(function (_validateForm5) {
+                isValid = _validateForm5;
+              });
+            }
+          }();
+          if (_temp22 && _temp22.then) return _temp22.then(function () {});
+        }
+      }();
+      return Promise.resolve(_temp23 && _temp23.then ? _temp23.then(_temp24) : _temp24(_temp23));
     } catch (e) {
       return Promise.reject(e);
     }
@@ -4513,19 +4585,19 @@ function createFormControlV4(props) {
         list = false;
       }
       try {
-        var _temp24 = function _temp24() {
+        var _temp27 = function _temp27() {
           _proxyFormState.isValid && _updateValid();
           return isValid;
         };
         var isValid;
         console.log("dyno ;)", "triggerBackgroundtriggerBackground", _formState.errors);
-        var _temp23 = function () {
+        var _temp26 = function () {
           if (formOptions.resolver) {
             return Promise.resolve(executeResolverValidation(fieldNames)).then(function (schemaResult) {
               isValid = isEmptyObject(schemaResult);
             });
           } else {
-            var _temp22 = function () {
+            var _temp25 = function () {
               if (list) {
                 return Promise.resolve(validateFormBackground(_fields, false, {
                   valid: true
@@ -4535,15 +4607,15 @@ function createFormControlV4(props) {
               } else {
                 return Promise.resolve(validateForm(_fields, true, {
                   valid: true
-                }, formId)).then(function (_validateForm6) {
-                  isValid = _validateForm6;
+                }, formId)).then(function (_validateForm7) {
+                  isValid = _validateForm7;
                 });
               }
             }();
-            if (_temp22 && _temp22.then) return _temp22.then(function () {});
+            if (_temp25 && _temp25.then) return _temp25.then(function () {});
           }
         }();
-        return Promise.resolve(_temp23 && _temp23.then ? _temp23.then(_temp24) : _temp24(_temp23));
+        return Promise.resolve(_temp26 && _temp26.then ? _temp26.then(_temp27) : _temp27(_temp26));
       } catch (e) {
         return Promise.reject(e);
       }
@@ -4675,9 +4747,9 @@ function createFormControlV4(props) {
     }), {
       onChange: handleChange,
       onBlur: handleChange,
-      ref: function ref(_ref7) {
-        if (_ref7) {
-          registerFieldRef(name, _ref7, options);
+      ref: function ref(_ref8) {
+        if (_ref8) {
+          registerFieldRef(name, _ref8, options);
         } else {
           var _field = get(_fields, name, {});
           var _shouldUnregister = formOptions.shouldUnregister || options.shouldUnregister;
@@ -4703,8 +4775,8 @@ function createFormControlV4(props) {
         });
         return Promise.resolve(_finallyRethrows(function () {
           return _catch(function () {
-            function _temp28() {
-              var _temp26 = function () {
+            function _temp31() {
+              var _temp29 = function () {
                 if (isEmptyObject(_formState.errors) && Object.keys(_formState.errors).every(function (name) {
                   return get(fieldValues, name);
                 })) {
@@ -4714,22 +4786,22 @@ function createFormControlV4(props) {
                   });
                   return Promise.resolve(onValid(fieldValues, e)).then(function () {});
                 } else {
-                  var _temp25 = function _temp25(_onInvalid) {
+                  var _temp28 = function _temp28(_onInvalid) {
                     _onInvalid;
                     formOptions.shouldFocusError && focusFieldBy(_fields, function (key) {
                       return get(_formState.errors, key);
                     }, _names.mount);
                   };
-                  return onInvalid ? Promise.resolve(onInvalid(_formState.errors, e)).then(_temp25) : _temp25(onInvalid);
+                  return onInvalid ? Promise.resolve(onInvalid(_formState.errors, e)).then(_temp28) : _temp28(onInvalid);
                 }
               }();
-              if (_temp26 && _temp26.then) return _temp26.then(function () {});
+              if (_temp29 && _temp29.then) return _temp29.then(function () {});
             }
-            var _temp27 = function () {
+            var _temp30 = function () {
               if (formOptions.resolver) {
-                return Promise.resolve(executeResolver()).then(function (_ref8) {
-                  var errors = _ref8.errors,
-                    values = _ref8.values;
+                return Promise.resolve(executeResolver()).then(function (_ref9) {
+                  var errors = _ref9.errors,
+                    values = _ref9.values;
                   _formState.errors = errors;
                   fieldValues = values;
                 });
@@ -4737,7 +4809,7 @@ function createFormControlV4(props) {
                 return Promise.resolve(validateForm(_fields)).then(function () {});
               }
             }();
-            return _temp27 && _temp27.then ? _temp27.then(_temp28) : _temp28(_temp27);
+            return _temp30 && _temp30.then ? _temp30.then(_temp31) : _temp31(_temp30);
           }, function (err) {
             hasNoPromiseError = false;
             throw err;
@@ -4876,6 +4948,7 @@ function createFormControlV4(props) {
     trigger: trigger,
     triggerBackground: triggerBackground,
     triggerBackgroundOptimised: triggerBackgroundOptimised,
+    triggerCustom: triggerCustom,
     register: register,
     handleSubmit: handleSubmit,
     watch: watch,
@@ -4984,7 +5057,9 @@ var renderComponentInd$1 = function renderComponentInd(name, data, _ref) {
         return new Proxy(target[prop], proxyHandler);
       }
       return dataTransformer(target[prop], prop, target)(_extends({}, sharedItems.localFunction, {
-        sharedItems: sharedItems
+        sharedItems: _extends({}, sharedItems, {
+          index: index
+        })
       }));
     }
   };
@@ -5056,7 +5131,9 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
     key: item.isArray === true && name + "container" || name,
     name: item.isArray === true && name + "container" || name,
     control: control,
-    item: item,
+    item: _extends({}, item, {
+      index: index
+    }),
     rules: _extends({}, item.rule) || validation,
     render: function render(_ref3) {
       var field = _ref3.field;
@@ -5064,11 +5141,12 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
         console.log("dyno ;)", name, item.items, "useFieldArray");
         var _useFieldArray = useFieldArray({
             control: control,
-            name: name
+            name: name,
+            rules: _extends({}, item.rule) || validation
           }),
           fields = _useFieldArray.fields,
           append = _useFieldArray.append,
-          remove = _useFieldArray.remove;
+          _remove = _useFieldArray.remove;
         child = /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("ul", null, fields.map(function (el, index) {
           return /*#__PURE__*/React__default.createElement("li", {
             key: el.id
@@ -5079,7 +5157,9 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
               control: control,
               render: function render(_ref4) {
                 console.log("dyno ;)", name + "." + index + "." + element, '`${name}.${index}.${element}`');
-                return renderComponentInd$1(element, data, {
+                return renderComponentInd$1(element, _extends({}, data, {
+                  index: index
+                }), {
                   updateReference: updateReference,
                   myControl: myControl,
                   getValue: getValue,
@@ -5088,7 +5168,12 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
                   components: components,
                   managedCallback: managedCallback,
                   parentName: (item === null || item === void 0 ? void 0 : item.items) && name || undefined,
-                  sharedItems: sharedItems,
+                  sharedItems: _extends({}, sharedItems, {
+                    append: append,
+                    remove: function remove() {
+                      return _remove(index);
+                    }
+                  }),
                   index: index,
                   data: data,
                   parent: {
@@ -5104,7 +5189,7 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
           }), /*#__PURE__*/React__default.createElement("button", {
             type: "button",
             onClick: function onClick() {
-              return remove(index);
+              return _remove(index);
             }
           }, "-"));
         })), /*#__PURE__*/React__default.createElement("button", {
@@ -5228,7 +5313,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     }
   };
   var proxyDefaultValues = new Proxy(_extends({}, defaultValues), proxyHandler);
-  console.log("dyno ;)", defaultValues, "defaultValues", _extends({}, proxyDefaultValues), dataStore, proxyDefaultValues.whatsMyName);
+  console.log("dyno ;)", defaultValues, "defaultValues", _extends({}, proxyDefaultValues), dataStore);
   var _useForm = useForm$1({
       mode: 'onChange',
       shouldUnregister: true,
@@ -5247,6 +5332,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     setValue = _useForm.setValue,
     triggerBackground = _useForm.triggerBackground,
     _triggerBackgroundOptimised = _useForm.triggerBackgroundOptimised,
+    triggerCustom = _useForm.triggerCustom,
     unregister = _useForm.unregister,
     clearErrors = _useForm.clearErrors,
     reset = _useForm.reset;
@@ -5348,11 +5434,16 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     myComponents.current = resetItems$2(items, 'name');
     setData(items);
   };
-  var getValuesPOC = function getValuesPOC() {
+  var getValuesPOC = function getValuesPOC(options) {
+    if (options === void 0) {
+      options = {
+        triggerAll: false
+      };
+    }
     try {
       if (Object.keys(errors).length > 0) return Promise.resolve(false);
-      return Promise.resolve(trigger()).then(function (result) {
-        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors);
+      return Promise.resolve(triggerCustom(options)).then(function (result) {
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors, options);
         if (result === true) {
           return Promise.resolve(getValues());
         } else {
@@ -5384,7 +5475,9 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
         return Promise.reject(e);
       }
     },
-    getValues: getValuesPOC,
+    getValues: function getValues(options) {
+      return getValuesPOC(options);
+    },
     getGroupValuesBackground: function (props) {
       try {
         var _temp5 = function _temp5(_result3) {

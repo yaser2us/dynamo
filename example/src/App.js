@@ -1,5 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
+
+import {
+  createShared,
+  createDeepShared,
+  createComputed,
+  createComputedAsync,
+  useShared,
+  useComputed,
+} from 'helux';
+
 // 1: install this dynamo
 import {
   DynoBuilder,
@@ -96,26 +106,26 @@ function SenderComponent({ eventBus }) {
 
 const ioi = {
   "required": "it is required heheh",
-                "min": {
-                    "value": null,
-                    "message": ""
-                },
-                "max": {
-                    "value": null,
-                    "message": ""
-                },
-                "minLength": {
-                    "value": null,
-                    "message": ""
-                },
-                "maxLength": {
-                    "value": null,
-                    "message": ""
-                },
-                "pattern": {
-                    "value": "",
-                    "message": ""
-                }
+  "min": {
+    "value": null,
+    "message": ""
+  },
+  "max": {
+    "value": null,
+    "message": ""
+  },
+  "minLength": {
+    "value": null,
+    "message": ""
+  },
+  "maxLength": {
+    "value": null,
+    "message": ""
+  },
+  "pattern": {
+    "value": "",
+    "message": ""
+  }
 }
 
 function useAsync(getMethod, params) {
@@ -155,20 +165,86 @@ function App() {
   // }
 
   // console.log('brrrrrnnnnnnnn',jsonpath.query(a,""))
-//      label: "Whats my Name buddy? 313 and more ${cache.home.defaultValues.whatsMyName} basket ${basket.whatsMyName}",
+  //      label: "Whats my Name buddy? 313 and more ${cache.home.defaultValues.whatsMyName} basket ${basket.whatsMyName}",
 
   const sample110 = {
     root: {
       name: "root",
-      items: ["didMountToGetSomething", "header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
+      items: ["containerDynamic", "submitTrigger"],
+      // items: ["didMountToGetSomething", "header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
       visible: true,
+    },
+    "containerDynamic": {
+      id: "containerDynamic",
+      type: "fieldset",
+      name: "containerDynamic",
+      label: "Fieldset",
+      value: "",
+      visible: true,
+      isArray: true,
+      items: ["wathchMei", "submitME3"],
+      defaultValue: [{}, {}, {}],
+      rule32: {
+        required: "I dont know my name yet hmmmmm.",
+        // minLength: {
+        //   value: 3,
+        //   message: "3 is min",
+        // },
+        maxLength: {
+          value: null,
+          message: "",
+        },
+        min: {
+          value: null,
+          message: "",
+        },
+        max: {
+          value: null,
+          message: "",
+        },
+        pattern: {
+          value: "",
+          message: "",
+        },
+        validate4444: {
+          amISame: {
+            message: "A & B is not same",
+            compareTo: "whatsYourName",
+            method: "eq"
+          }
+        },
+        validateCompse: {
+          letsComposeValidation: {
+            positiveNumber: "only positive number pls yeah :)",
+            lessThanHundred: "cant be less than hundred ;)"
+          }
+        },
+        // deps: ["wathchMei"],
+        validate2121: {
+          positiveNumber: (value) => {
+            console.log(value, 'positiveNumber validatevalidatevalidatevalidate')
+            const result = parseFloat(value) > 0;
+            return result && result || "errororororororororoo"
+          },
+          lessThanHundred: (value) => {
+            console.log(value, 'lessThanHundred validatevalidatevalidatevalidate')
+            return parseFloat(value) < 200 || "less than 200"
+          },
+        },
+        validate1234: [
+          {
+            messages: "",
+            validation: "fxPositiveNumber"
+          }
+        ]
+      }
     },
     didMountToGetSomething: {
       id: "didMountToGetSomething",
       type: "hook",
       name: "didMountToGetSomething",
       label: "",
-      value: "",
+      value: "$$whatsYourName",
       visible: true,
       defaultValue: "",
       header: "",
@@ -184,9 +260,11 @@ function App() {
       templateName: "",
       theme: "",
       action: {
-        VValid: {
-          condition: "whatsMyName = \'900\'",
-          destination: "dataStore.poh"
+        isItReallySame: {
+          compareFrom: "whatsMyName",
+          compareTo: "whatsYourName",
+          message: "A & B is not same",
+          method: "eq"
         }
       }
     },
@@ -201,7 +279,6 @@ function App() {
       disabled: (props) => (values) => Valid('wathchMei', '==', '900')(values),
       visible: true,
       rule: {
-        formId: "yasser",
         required: "I dont know my name yet hmmmmm.",
         min: {
           value: null,
@@ -224,8 +301,11 @@ function App() {
           message: "",
         },
         validate: {
-          positiveNumber: "only positive number pls yeah :)",
-          // lessThanHundred: "cant be less than hundred ;)",
+          amISame: {
+            message: "A & B is not same",
+            compareTo: "whatsYourName",
+            method: "eq"
+          }
         },
         validateCompse: {
           letsComposeValidation: {
@@ -264,24 +344,24 @@ function App() {
       // value: "",
       // label: "dxVValid(\"whatsMyName = \'900\'\")",
       "value": "",
-            "visible": true,
-            "parent": [
-                "form",
-                "0"
-            ],
-            "defaultValue": "",
-            "header": "",
-            "tooltip": "",
-            "description": "",
-            "placeholder": "",
-            "valueType": "",
-            "suffix": "",
-            "prefix": "",
-            "inputType": "",
-            "disabled": false,
-            "watch": false,
-            "templateName": "",
-            "theme": "",
+      "visible": true,
+      "parent": [
+        "form",
+        "0"
+      ],
+      "defaultValue": "",
+      "header": "",
+      "tooltip": "",
+      "description": "",
+      "placeholder": "",
+      "valueType": "",
+      "suffix": "",
+      "prefix": "",
+      "inputType": "",
+      "disabled": false,
+      "watch": false,
+      "templateName": "",
+      "theme": "",
       visible: true,
       rule: {
         ...ioi
@@ -345,7 +425,7 @@ function App() {
       //     "type": "eq"
       //   }
       // ],
-      watch: false
+      watch: true
     },
     "container": {
       id: "container",
@@ -381,8 +461,11 @@ function App() {
       name: "submitME3",
       label: "Trigger Baackground DropDown only",
       value: "",
-      // disabled: true,
-      disabled: "fxtriggerBackgroundOptimised('bank')",
+      action: {
+        append: "43"
+      },
+      disabled: false,
+      // disabled: "fxtriggerBackgroundOptimised('bank')",
       visible: true,
     },
     submitMETrigger: {
@@ -399,14 +482,18 @@ function App() {
       id: "submitTrigger",
       type: "button",
       name: "submitTrigger",
-      label: "Trigger 4434343 whatsMyName",
+      label: "{{ containerDynamic !== [{},{}] && 'brrrrrr9999' || 'yooooooooowo' }}",
+      // label: "mememem",
       value: "",
-      // disabled: true,
-      // disableds: "fxtriggerGroup(['whatsMyName', 'whatsYourName'])",
+      // disabled: false,
+      disabled: "fxtriggerBackgroundOptimised()",
       action: {
-        getGroupValuesBackground: {},
-        alertPopup: {},
-        updateHistory: {}
+        append: "",
+        // zublihere: {
+        //   yasser: 110
+        // },
+        // alertPopup: {},
+        // updateHistory: {}
       },
       actionlol: {
         validations: ['whatsMyName'],
@@ -436,8 +523,8 @@ function App() {
       disabled: "fxValid('whatsYourName','==','1900')",
       // visible: "fxValid('whatsYourName','==','900')",
       rule: {
-        formId: "bank",
-        // required: "Transfer select hello From Bank is required.",
+        // formId: "bank",
+        required: "Transfer select hello From Bank is required.",
         min: {
           value: null,
           message: "",
@@ -484,7 +571,7 @@ function App() {
       id: "wathchMei",
       type: "text",
       name: "wathchMei",
-      label: "watch me ;) 9999",
+      label: "watch ${displayIndex} me ;) 9999",
       value: "",
       valueType: "",
       visible: true,
@@ -498,7 +585,7 @@ function App() {
       //   }
       // ],
       rule: {
-        required: "Transfer From Bank is required.",
+        required: "Transfer ${displayIndex} From Bank is required.",
         min: {
           value: null,
           message: "",
@@ -525,9 +612,14 @@ function App() {
   };
 
   const sample313 = {
+    rootOld: {
+      name: "root",
+      items: ["containerDynamic", "didMountToGetSomething", "header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
+      visible: true,
+    },
     root: {
       name: "root",
-      items: ["didMountToGetSomething", "header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
+      items: ["containerDynamic"],
       visible: true,
     },
     didMountToGetSomething: {
@@ -691,6 +783,16 @@ function App() {
       // ],
       watch: false
     },
+    "containerDynamic": {
+      id: "containerDynamic",
+      type: "fieldset",
+      name: "containerDynamic",
+      label: "Fieldset",
+      value: "",
+      visible: true,
+      isArray: true,
+      items: ["wathchMei"],
+    },
     "container": {
       id: "container",
       type: "fieldset",
@@ -699,7 +801,7 @@ function App() {
       value: "",
       visible: true,
       isArray: false,
-      items: ["wathchMei", "howAreYouThen", "submitME", "submitME2", "submitME3", "submitMETrigger"],
+      items: ["howAreYouThen", "submitME", "submitME2", "submitME3", "submitMETrigger"],
     },
     submitME: {
       id: "submitME",
@@ -772,7 +874,7 @@ function App() {
       name: "howAreYouThen",
       label: "wathchMei read from dataSource",
       options: "dataSource",
-      // visible: false,
+      visible: true,
       // visible: "$$bobo",
       visible: "{{ whatsMyName !== '9009' }}",
       visiblessss: "{{whatsMyName === '9009' && whatsYourName === '500'}}",
@@ -933,6 +1035,115 @@ function App() {
     navigatableArray.insertObject(newDynamoPage);
   };
 
+
+
+  function executeQuery(inputObj, query) {
+    if (typeof inputObj !== 'object' || inputObj === null) {
+      throw new Error('inputObj should be a valid object.');
+    }
+
+    if (typeof query !== 'string') {
+      throw new Error('query should be a string.');
+    }
+
+    // Parse the query and get the requested fields
+    const requestedFields = parseQuery(query);
+
+    // Create a helper function to filter fields from the input object
+    function filterFields(obj, fields) {
+      const filteredObject = {};
+
+      for (const field in fields) {
+        if (obj.hasOwnProperty(field)) {
+          const value = obj[field];
+
+          if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+            // Recursively filter nested objects
+            filteredObject[field] = filterFields(value, fields[field]);
+          } else {
+            filteredObject[field] = value;
+          }
+        }
+      }
+
+      return filteredObject;
+    }
+
+    // Execute the filtering and return the result
+    const result = filterFields(inputObj, requestedFields);
+    return result;
+  }
+
+  function parseQuery(query) {
+    const fields = {};
+    const regex = /([a-zA-Z_][a-zA-Z0-9_]*)\s*{([^}]*)}/g;
+    let match;
+
+    while ((match = regex.exec(query))) {
+      const fieldName = match[1];
+      const subQuery = match[2];
+      const nestedFields = subQuery.trim().split(',');
+      fields[fieldName] = parseSubQuery(nestedFields);
+    }
+
+    return fields;
+  }
+
+  function parseSubQuery(nestedFields) {
+    const subFields = {};
+
+    for (const field of nestedFields) {
+      if (field.includes('{')) {
+        // Handle nested sub-queries recursively
+        const nestedRegex = /([a-zA-Z_][a-zA-Z0-9_]*)\s*{([^}]*)}/g;
+        const nestedMatch = nestedRegex.exec(field);
+        if (nestedMatch) {
+          const fieldName = nestedMatch[1];
+          const subQuery = nestedMatch[2];
+          const nestedFields = subQuery.trim().split(',');
+          subFields[fieldName] = parseSubQuery(nestedFields);
+        }
+      } else {
+        // Handle regular fields
+        subFields[field] = true;
+      }
+    }
+
+    return subFields;
+  }
+
+
+
+  // Example usage
+
+  const localData = {
+    person: {
+      name: 'John Doe',
+      age: 30,
+      address: {
+        city: 'New York',
+        country: 'USA'
+      }
+    }
+  };
+
+  const query = `{
+    person {
+      name
+      address {
+        city
+      }
+    }
+  }`;
+
+  // const result = executeQuery(localData, query);
+  // console.log(result);
+
+
+  const result = executeQuery(localData, query);
+  console.log(result, 'bolllllaaaaaaaa');
+
+
   // const NavigatableObjectsArray = function (arr, field, id) {
   //   const cur = arr.map((e) => e[field]).indexOf(id);
   //   let nextId = cur + 1;
@@ -1022,6 +1233,7 @@ function App() {
   }
 
 
+  //fxValid
   const Valid = (a) => (values) => {
     const ExpRE = /^\s*\{\{([\s\S]*)\}\}\s*$/
     const matched = a.match(ExpRE)
@@ -1084,6 +1296,40 @@ function App() {
     })
   }
 
+  function shouldCacheUrl(url, cacheableUrls) {
+    const urlObj = new URL(url);
+
+    // Check if the URL matches any of the cacheable URLs in the list
+    return cacheableUrls.some(cacheableUrl => {
+      const cacheableUrlObj = new URL(cacheableUrl);
+      const cacheableSearchParams = cacheableUrlObj.searchParams;
+      const urlSearchParams = urlObj.searchParams;
+
+      // Compare each query parameter in the cacheable URL
+      for (const [param, value] of cacheableSearchParams) {
+        if (urlSearchParams.get(param) !== value) {
+          return false; // URL doesn't match
+        }
+      }
+
+      return true; // All query parameters match
+    });
+  }
+
+  // List of cacheable URLs
+  const cacheableUrls = [
+    'https://example.com/api/data?type=cacheableType&cacheable=true',
+    // Add more cacheable URLs as needed
+  ];
+
+  // Test URL
+  const testUrl = 'https://example.com/api/data?type=cacheableType&cacheable=true&haveExtra=323232';
+
+  // Check if the test URL should be cached
+  const shouldCache = shouldCacheUrl(testUrl, cacheableUrls);
+  console.log('Should cache:', shouldCache);
+
+
   const newComponents = {
     hook: (props) => <Hook {...props} />,
     text: (props) => <Text {...props} />,
@@ -1131,23 +1377,52 @@ function App() {
     })
   }
 
+  const append = config => dataStore => async data => {
+    return new Promise(async (resolve, reject) => {
+      const formData = await myForm.current.getValuesBackground(false);
+      const { wathcingField = "containerDynamic" } = config;
+      // data.append({});
+        await data.sharedItems.setValue(wathcingField, [...formData[wathcingField], {}], {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true
+      })
+      // const formData = await myForm.current.getGroupValuesBackground(data.item?.action?.validations);
+      console.log("getValuesgetValuesgetValues", data.item);
+      resolve(formData)
+    })
+  }
+
+
+
+  const zublihere = config => dataStore => async data => {
+    return new Promise(async (resolve, reject) => {
+      const { yasser } = config;
+      // const formData = await myForm.current.getValues();
+      // const formData = await myForm.current.getGroupValuesBackground(data.item?.action?.validations);
+      console.log("zublihereeeeeeeeee", { ...data, dataStore: { ...data.dataStore, yasser } });
+      resolve({ ...data, dataStore: { ...dataStore, ...data.dataStore, yasser } })
+    })
+  }
   const alertPopup = config => dataStore => async data => {
     return new Promise(async (resolve, reject) => {
       // Async processing
-      const formData = await myForm.current.getValues();
+      const formData = await myForm.current.getValues({triggerAll: true});
       console.log("getValuesgetValuesgetValues", formData);
-      if(!formData){
+      if (formData) {
         reject('helllooooo errrororo is there')
       } else {
         alert("dsdsd")
 
         if (!_.isEmpty(myForm.current.errors)) {
-          alert(myForm.current.errors[Object.keys(myForm.current.errors)[0]].message);
+          // alert(myForm.current.errors);
+          console.log(myForm.current.errors,'myForm.current.errors')
+
           reject('helllooooo errrororo is there')
         }
-        resolve(data)
+        resolve({ ...data })
       }
-      
+
     });
   }
 
@@ -1233,11 +1508,17 @@ function App() {
 
     if (item && item.action && typeof item.action === 'object') {
       const allLocalFunction = myForm.current.localFunction;
-      actionsRunner(item.action, allLocalFunction, { item }, dataStore)
+
+      console.log({ sharedItems: { ...item.sharedItems }, item, index: item.index }, "shaed")
+
+      actionsRunner(item.action, { ...allLocalFunction, ...item.sharedItems }, {
+        item,
+        sharedItems: { ...item.sharedItems }
+      }, dataStore)
         // chainAsyncFunctions(item.action, localFunction, {item})
         .then((lastResult) => {
-          // setDataStore(lastResult?.dataStore);
-          console.log('Last result:', lastResult);
+          setDataStore(lastResult?.dataStore);
+          console.log('Last result:', lastResult, dataStore);
         })
         .catch((error) => {
           console.error('An error occurred:', error);
@@ -1368,6 +1649,70 @@ function App() {
     return result && result || error
   }
 
+  // validate: {
+  //   positiveNumber: "only positive number pls yeah :)",
+  //   amISame: {
+  //     message: "A & B is not same",
+  //     compareTo: "whatsYourName",
+  //     method: "eq"
+  //   }
+  // }
+  const amISame = (error) => (resources) => async (value) => {
+    const { message, compareTo, method } = error;
+    const formData = await resources.getValues(compareTo);
+
+    console.log("amISamelalalalal", value)
+    let result = true;
+
+    switch (method) {
+      case "greater":
+        result = parseFloat(value) > parseFloat(formData);
+        break;
+
+      default:
+        result = parseFloat(value) == parseFloat(formData);
+    }
+
+    return result || message
+  }
+
+  //isItReallySame
+
+  const isItReallySame = (error) => (resources) => async (value) => {
+    return new Promise(async (resolve, reject) => {
+      const { message, compareTo, compareFrom, method } = error;
+      const formData = await myForm.current.getValuesBackground(false);
+
+      let result = true;
+
+      switch (method) {
+        case "greater":
+          // result = parseFloat(value) > parseFloat(formData);
+          break;
+
+        default:
+          result = parseFloat(formData[compareTo]) == parseFloat(formData[compareFrom]);
+      }
+
+      // if(!result){
+      myForm.current.setValue(compareFrom, "");
+      // }
+
+      console.log("isItReallySamellalalllaal", formData, formData[compareTo], formData[compareFrom])
+      console.log("isItReallySamellalalllaal -----------> ", result)
+
+
+
+
+      resolve(result)
+      // || message
+
+    })
+  }
+
+
+
+
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const lessThanHundred = (error) => (resources) => async (value) => {
@@ -1429,7 +1774,7 @@ function App() {
               ...item,
             }
           })
-          resolve(dataStore);
+          resolve({ ...item });
         });
       };
     }
@@ -1515,6 +1860,8 @@ function App() {
     // dxVValid: VValid,
     VValid,
     Valid: Valid,
+    amISame,
+    isItReallySame,
     positiveNumber: positiveNumber,
     lessThanHundred: lessThanHundred,
     letsComposeValidation: letsComposeValidation,
@@ -1522,8 +1869,10 @@ function App() {
     asyncFunction2,
     asyncFunction3,
     getGroupValuesBackground,
+    append,
     alertPopup,
-    updateHistory
+    updateHistory,
+    zublihere
   }
 
   // Call the async functions in order with initial input value
@@ -1664,7 +2013,8 @@ function App() {
             // eventBus={eventBus}
             dataStore={{
               ...dataStore,
-              ...getDataStore()}}
+              ...getDataStore()
+            }}
             key={`${navigatableArray.current().name}`}
             // name={`dynamo-${dddd.items.length}`}
             ref={myForm}
@@ -1678,7 +2028,8 @@ function App() {
             managedCallback={managedCallback}
             validationResolver={validationResolver}
             defaultValues={{
-              "whatsMyName": "$$lol"
+              "whatsMyName": "$$lol",
+              "containerDynamic": [{}, {}, {}]
             }}
           />
         )}

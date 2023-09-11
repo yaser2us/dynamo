@@ -43,7 +43,7 @@ const defaultOptions = {
 const isWindowUndefined = typeof window === 'undefined';
 export function createFormControlV4(props = {}) {
     let formOptions = Object.assign(Object.assign({}, defaultOptions), props);
-    console.log("dyno ;)", formOptions,'formOptions')
+    console.log("dyno ;)", formOptions, 'formOptions')
     let _delayCallback;
     let _formState = {
         isDirty: false,
@@ -230,8 +230,9 @@ export function createFormControlV4(props = {}) {
     };
     const validateForm = async (_fields, shouldCheckValid, context = {
         valid: true,
+        triggerAll: true
     }, formId = "ALL") => {
-        // console.log("SUBMITFORM here", formId)
+        // console.log("SUBMITFORM here", _fields, context)
         for (const name in _fields) {
             const field = _fields[name];
             // console.log(field, 'iamfromherein-validation-lol-edward-log-;)---validateForm')
@@ -242,7 +243,7 @@ export function createFormControlV4(props = {}) {
                 if (_f) {
                     //To do for formId ;)
                     // console.log(_f,'formidddddd')
-                    if(_f.formId === formId || formId === "ALL"){
+                    if (_f.formId === formId || formId === "ALL") {
                         const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
                         // const fieldError = field._f.ref.formId === "ALL" &&  await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
                         // console.log(fieldError, "fieldError")
@@ -259,9 +260,10 @@ export function createFormControlV4(props = {}) {
                             fieldError[_f.name]
                                 ? set(_formState.errors, _f.name, fieldError[_f.name])
                                 : unset(_formState.errors, _f.name);
-                                //Added to stop at first error
-                                //TODO: enhance as parameter 
-                                if (Object.keys(_formState.errors).length == 1) break;
+                            //Added to stop at first error
+                            //TODO: enhance as parameter 
+                            //Done
+                            if (context.triggerAll === false && Object.keys(_formState.errors).length == 1) break;
                         }
                     }
                 }
@@ -285,7 +287,7 @@ export function createFormControlV4(props = {}) {
                 if (_f) {
                     //To do for formId ;)
                     // console.log(_f,'formidddddd')
-                    if(_f.formId === formId || formId === "ALL"){
+                    if (_f.formId === formId || formId === "ALL") {
                         const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
                         // const fieldError = field._f.ref.formId === "ALL" &&  await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
                         // console.log(fieldError, "fieldError")
@@ -302,9 +304,9 @@ export function createFormControlV4(props = {}) {
                             fieldError[_f.name]
                                 ? set(localErrors, _f.name, fieldError[_f.name])
                                 : unset(localErrors, _f.name);
-                                //Added to stop at first error
-                                //TODO: enhance as parameter 
-                                // if (Object.keys(_formState.errors).length == 1) break;
+                            //Added to stop at first error
+                            //TODO: enhance as parameter 
+                            // if (Object.keys(_formState.errors).length == 1) break;
                         }
                     }
                 }
@@ -338,7 +340,7 @@ export function createFormControlV4(props = {}) {
             const fieldState = updateTouchAndDirtyState(name, inputValue, isBlurEvent, false);
             const shouldRender = field._f.watch || !isEmptyObject(fieldState) || isWatched;
             // const shouldRender = !isEmptyObject(fieldState) || isWatched;
-            console.log("dyno ;)", shouldRender,`heyyyyyyyyyyy { ${name} } watch me or not?!`,field._f.watch, "shouldSkipValidation:", shouldSkipValidation, "isBlurEvent:", isBlurEvent, '------;)---- is watching hahaha:', isWatched)
+            console.log("dyno ;)", shouldRender, `heyyyyyyyyyyy { ${name} } watch me or not?!`, field._f.watch, "shouldSkipValidation:", shouldSkipValidation, "isBlurEvent:", isBlurEvent, '------;)---- is watching hahaha:', isWatched)
             if (shouldSkipValidation) {
                 !isBlurEvent &&
                     _subjects.watch.next({
@@ -553,6 +555,37 @@ export function createFormControlV4(props = {}) {
         _proxyFormState.isValid && _updateValid();
         return isValid;
     };
+    const triggerCustom = async (options = { triggerAll: false }, name) => {
+        const fieldNames = convertToArrayPayload(name);
+        let isValid;
+        _subjects.state.next({
+            isValidating: true,
+        });
+        if (formOptions.resolver) {
+            const schemaResult = await executeResolverValidation(isUndefined(name) ? name : fieldNames);
+            isValid = name
+                ? fieldNames.every((name) => !get(schemaResult, name))
+                : isEmptyObject(schemaResult);
+        }
+        else {
+            if (name) {
+                isValid = (await Promise.all(fieldNames.map(async (fieldName) => {
+                    const field = get(_fields, fieldName);
+                    return await validateForm(field._f ? { [fieldName]: field } : field);
+                }))).every(Boolean);
+            }
+            else {
+                await validateForm(_fields, false, { triggerAll: options.triggerAll });
+                isValid = isEmptyObject(_formState.errors);
+            }
+        }
+        _subjects.state.next(Object.assign(Object.assign({}, (isString(name) ? { name } : {})), { errors: _formState.errors, isValidating: false }));
+        if (options.shouldFocus && !isValid) {
+            focusFieldBy(_fields, (key) => get(_formState.errors, key), name ? fieldNames : _names.mount);
+        }
+        _proxyFormState.isValid && _updateValid();
+        return isValid;
+    };
     const triggerBackground = async (name, options = {}) => {
         const fieldNames = convertToArrayPayload(name);
         let isValid;
@@ -593,11 +626,11 @@ export function createFormControlV4(props = {}) {
         // _subjects.state.next({
         //     isValidating: true,
         // });
-        console.log("dyno ;)","triggerBackgroundtriggerBackground", _formState.errors);
+        console.log("dyno ;)", "triggerBackgroundtriggerBackground", _formState.errors);
         if (formOptions.resolver) {
             // const schemaResult = await executeResolverValidation(isUndefined(name) ? name : fieldNames);
             const schemaResult = await executeResolverValidation(fieldNames);
-            isValid = 
+            isValid =
                 // name
                 // ? fieldNames.every((name) => !get(schemaResult, name))
                 // :
@@ -612,17 +645,17 @@ export function createFormControlV4(props = {}) {
             //     }))).every(Boolean);
             // }
             // else {
-                if(list){
-                    isValid = await validateFormBackground(_fields, false,{
-                        valid: true,
-                    });
-                } else {
-                    isValid = await validateForm(_fields, true,{
-                        valid: true,
-                    }, formId);
-                }
-                
-                // isValid = isEmptyObject(_formState.errors);
+            if (list) {
+                isValid = await validateFormBackground(_fields, false, {
+                    valid: true,
+                });
+            } else {
+                isValid = await validateForm(_fields, true, {
+                    valid: true,
+                }, formId);
+            }
+
+            // isValid = isEmptyObject(_formState.errors);
             // }
         }
         // _subjects.state.next(Object.assign(Object.assign({}, (isString(name) ? { name } : {})), { errors: _formState.errors, isValidating: false }));
@@ -736,21 +769,21 @@ export function createFormControlV4(props = {}) {
             : Object.assign(Object.assign({ name }, (isUndefined(options.disabled)
                 ? {}
                 : { disabled: options.disabled })), {
-                    onChange: handleChange, onBlur: handleChange, ref: (ref) => {
-                        if (ref) {
-                            registerFieldRef(name, ref, options);
-                        }
-                        else {
-                            const field = get(_fields, name, {});
-                            const _shouldUnregister = formOptions.shouldUnregister || options.shouldUnregister;
-                            if (field._f) {
-                                field._f.mount = false;
-                            }
-                            _shouldUnregister &&
-                                !(isNameInFieldArray(_names.array, name) && _isInAction) &&
-                                _names.unMount.add(name);
-                        }
+                onChange: handleChange, onBlur: handleChange, ref: (ref) => {
+                    if (ref) {
+                        registerFieldRef(name, ref, options);
                     }
+                    else {
+                        const field = get(_fields, name, {});
+                        const _shouldUnregister = formOptions.shouldUnregister || options.shouldUnregister;
+                        if (field._f) {
+                            field._f.mount = false;
+                        }
+                        _shouldUnregister &&
+                            !(isNameInFieldArray(_names.array, name) && _isInAction) &&
+                            _names.unMount.add(name);
+                    }
+                }
             });
     };
     const handleSubmit = (onValid, onInvalid) => async (e) => {
@@ -928,6 +961,7 @@ export function createFormControlV4(props = {}) {
         trigger,
         triggerBackground,
         triggerBackgroundOptimised,
+        triggerCustom,
         register,
         handleSubmit,
         watch,

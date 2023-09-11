@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import './Button.css';
 import '../../index.css';
-import { useState } from 'react';
-import { useEffect } from 'react';
+// import { useState } from 'react';
+// import { useEffect } from 'react';
 const Button = (props) => {
   const { item, error, managedCallback, name, sharedItems } = props;
   const { label, action, disabled = false } = item || { label: "Submit" };
@@ -37,7 +37,7 @@ const Button = (props) => {
         onClick={onClick}
         className="button"
 
-        disabled={cd}
+        // disabled={!cd}
       >{label}</button>
     </div>
   );

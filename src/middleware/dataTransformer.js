@@ -12,8 +12,8 @@ const dataTransformer = (data, name, obj) => (local) => {
     // console.log("dyno ;)", data, values, 'getValues()()()')
     //
 
-    const { getValues, dataStore } = local.sharedItems || { getValues: undefined };
-    const values = { ...dataStore, ...(getValues && getValues() || {}) };
+    const { getValues, dataStore,  index = 1 } = local.sharedItems || { getValues: undefined };
+    const values = { ...dataStore, ...(getValues && getValues() || {}), index, displayIndex: index + 1 };
 
 
     //Need to check later ;)
@@ -32,12 +32,17 @@ const dataTransformer = (data, name, obj) => (local) => {
         if (matched) {
             console.log("dyno ;)", name, 'me getValues()()()')
             try {
-                const result = new Function('$root', `with($root) { return (${matched[1]}); }`)(
-                    {
-                        ...values,
-                        local
-                    }
-                )
+                const result = new Function('root', `return root.${matched[1]}`)({
+                    ...values,
+                    local,
+                });
+
+                // const result = new Function('$root', `with($root) { return (${matched[1]}); }`)(
+                //     {
+                //         ...values,
+                //         local
+                //     }
+                // )
                 return result;
             } catch (error) {
                 console.log(error, '{{ error transformer }}');
@@ -56,8 +61,13 @@ const dataTransformer = (data, name, obj) => (local) => {
         if (data !== undefined && data.includes("fx")) {
             console.log("dyno ;)", data.slice(2), 'sliceeeeeee')
             try {
-                // const result = eval(data.slice(2));
-                const result = eval(`local.${data.slice(2)}`);
+
+                // const result = eval(`local.${data.slice(2)}`);
+
+                const result = new Function('root', `return root.${data.slice(2)}`)({
+                    ...values,
+                    local,
+                });
 
                 if (typeof result === 'function') {
                     console.log("dyno ;)", result, 'rrrrrrrsulttttttttt function')

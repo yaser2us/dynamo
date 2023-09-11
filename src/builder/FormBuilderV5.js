@@ -57,7 +57,10 @@ const renderComponentInd = (name, data, { updateReference,
             }
             return dataTransformer(target[prop], prop, target)({
                 ...sharedItems.localFunction,
-                sharedItems: sharedItems,
+                sharedItems: {
+                    ...sharedItems,
+                    index
+                },
                 // ...sharedItems
             });
         }
@@ -197,7 +200,7 @@ const renderComponentForm = (
             key={item.isArray === true && `${name}container` || name}
             name={item.isArray === true && `${name}container` || name}
             control={control}
-            item={item}
+            item={{...item, index}}
             rules={{ ...item.rule } || validation}
             // eventBus={sharedItems?.eventBus}
             render={({ field }) => {
@@ -206,7 +209,8 @@ const renderComponentForm = (
                     console.log("dyno ;)", name, item.items, "useFieldArray")
                     const { fields, append, remove } = useFieldArray({
                         control,
-                        name: name
+                        name: name,
+                        rules: { ...item.rule } || validation
                     });
 
                     child =
@@ -221,7 +225,7 @@ const renderComponentForm = (
                                                 control={control}
                                                 render={({ field }) => {
                                                     console.log("dyno ;)", `${name}.${index}.${element}`, '`${name}.${index}.${element}`')
-                                                    return renderComponentInd(element, data, {
+                                                    return renderComponentInd(element, {...data, index}, {
                                                         updateReference,
                                                         myControl,
                                                         getValue,
@@ -230,7 +234,12 @@ const renderComponentForm = (
                                                         components,
                                                         managedCallback,
                                                         parentName: item?.items && name || undefined,
-                                                        sharedItems,
+                                                        sharedItems: {
+                                                            ...sharedItems,
+                                                            // fields,
+                                                            append,
+                                                            remove: () => remove(index)
+                                                        },
                                                         index: index,
                                                         data,
                                                         parent: { name: item.name, index, id: item.id },
@@ -710,7 +719,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         ...defaultValues
     }, proxyHandler);
 
-    console.log("dyno ;)", defaultValues, "defaultValues", {...proxyDefaultValues}, dataStore, proxyDefaultValues.whatsMyName)
+    console.log("dyno ;)", defaultValues, "defaultValues", { ...proxyDefaultValues }, dataStore)
 
 
     const {
@@ -725,6 +734,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         setValue,
         triggerBackground,
         triggerBackgroundOptimised,
+        triggerCustom,
         unregister,
         clearErrors,
         reset
@@ -751,7 +761,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         //     };
         // },,
         // criteriaMode: "firstError",
-        defaultValues: {...proxyDefaultValues}
+        defaultValues: { ...proxyDefaultValues }
     })
 
     React.useEffect(() => {
@@ -893,11 +903,11 @@ const FormBuilderNext = React.forwardRef(({ items,
         }
     }
 
-    const getValuesPOC = async () => {
+    const getValuesPOC = async (options = {triggerAll: false}) => {
         //TODO: hot fix for double validations
         if (Object.keys(errors).length > 0) return false;
-        const result = await trigger();
-        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors)
+        const result = await triggerCustom(options);
+        console.log("dyno ;)", "SUBMITFORM SUBMITFORM result trigger", result, errors, options)
         if (result === true) {
             return await getValues();
         } else {
@@ -919,7 +929,7 @@ const FormBuilderNext = React.forwardRef(({ items,
             return valid;
 
         },
-        getValues: getValuesPOC,
+        getValues: (options) => getValuesPOC(options),
         getGroupValuesBackground: async (props) => {
             console.log(props, 'getValuesBackgroundgetValuesBackgroundgetValuesBackground')
             if (Array.isArray(props)) {

@@ -9,6 +9,7 @@ const Text = (props) => {
   //Injected at runtime
   const { name, item, field, sharedItems } = props;
 
+  console.log(props,'yassssssserrrrerrrrr')
   //Always check to not render with error ;)
   if (item === undefined) return null;
   const { getValues } = sharedItems;
