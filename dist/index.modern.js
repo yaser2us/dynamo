@@ -1197,7 +1197,8 @@ var validateField = (function (field, inputValue, validateAllFieldCriteria, shou
       var _getValueAndMessage = getValueAndMessage(pattern),
         patternValue = _getValueAndMessage.value,
         _message = _getValueAndMessage.message;
-      if (isRegex(new RegExp(patternValue)) && !inputValue.match(patternValue)) {
+      var regExp = new RegExp(patternValue);
+      if (isRegex(regExp) && !regExp.test(inputValue)) {
         error[name] = Object.assign({
           type: INPUT_VALIDATION_RULES.pattern,
           message: _message,
