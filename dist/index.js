@@ -1160,10 +1160,10 @@ var validateField = (function (field, inputValue, validateAllFieldCriteria, shou
       var minOutput = getValueAndMessage(min);
       if (!isNaN(inputValue)) {
         var valueNumber = ref.valueAsNumber || parseFloat(inputValue);
-        if (!isNullOrUndefined(maxOutput.value)) {
+        if (!isNullOrUndefined(maxOutput.value) && maxOutput.value != '') {
           exceedMax = valueNumber > maxOutput.value;
         }
-        if (!isNullOrUndefined(minOutput.value)) {
+        if (!isNullOrUndefined(minOutput.value) && minOutput.value != '') {
           exceedMin = valueNumber < minOutput.value;
         }
       } else {
@@ -1200,8 +1200,7 @@ var validateField = (function (field, inputValue, validateAllFieldCriteria, shou
       var _getValueAndMessage = getValueAndMessage(pattern),
         patternValue = _getValueAndMessage.value,
         _message = _getValueAndMessage.message;
-      var regExp = new RegExp(patternValue);
-      if (isRegex(regExp) && !regExp.test(inputValue)) {
+      if (isRegex(new RegExp(patternValue)) && !inputValue.match(patternValue)) {
         error[name] = Object.assign({
           type: INPUT_VALIDATION_RULES.pattern,
           message: _message,

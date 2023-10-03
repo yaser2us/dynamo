@@ -63,10 +63,10 @@ export default async (field, inputValue, validateAllFieldCriteria, shouldUseNati
         const minOutput = getValueAndMessage(min);
         if (!isNaN(inputValue)) {
             const valueNumber = ref.valueAsNumber || parseFloat(inputValue);
-            if (!isNullOrUndefined(maxOutput.value)) {
+            if (!isNullOrUndefined(maxOutput.value) && maxOutput.value != '') {
                 exceedMax = valueNumber > maxOutput.value;
             }
-            if (!isNullOrUndefined(minOutput.value)) {
+            if (!isNullOrUndefined(minOutput.value) && minOutput.value != '') {
                 exceedMin = valueNumber < minOutput.value;
             }
         }
@@ -105,8 +105,7 @@ export default async (field, inputValue, validateAllFieldCriteria, shouldUseNati
     if (pattern && !isEmpty && isString(inputValue)) {
         const { value: patternValue, message } = getValueAndMessage(pattern);
         console.log("dyno ;)", isRegex(new RegExp(patternValue)), !inputValue.match(patternValue), patternValue, "patternValue")
-        const regExp = new RegExp(patternValue);
-        if (isRegex(regExp) && !regExp.test(inputValue)) {
+        if (isRegex(new RegExp(patternValue)) && !inputValue.match(patternValue)) {
             error[name] = Object.assign({ type: INPUT_VALIDATION_RULES.pattern, message,
                 ref }, appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message));
             if (!validateAllFieldCriteria) {
