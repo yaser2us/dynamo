@@ -93,6 +93,8 @@ const renderComponentInd = (name, data, { updateReference,
     )
 }
 
+let helper = {};
+
 const renderComponentForm = (
     item,
     updateReference,
@@ -191,6 +193,22 @@ const renderComponentForm = (
     }
 
 
+    // if (item.isArray) {
+    //     console.log("dyno ;)", name, item.items, "useFieldArray")
+    //     const { fields, append, remove } = useFieldArray({
+    //         control,
+    //         name: name,
+    //         rules: { ...item.rule } || validation
+    //     });
+
+    //     helper = {
+    //         fields, 
+    //         append, 
+    //         remove
+    //     }
+    // }
+
+
     // let rule = _.cloneDeep(item?.rule || {});
     // debugger;
     // rule.pattern?.value = new RegExp(item.rule?.pattern?.value);
@@ -206,25 +224,102 @@ const renderComponentForm = (
             render={({ field }) => {
 
                 if (item.isArray) {
-                    console.log("dyno ;)", name, item.items, "useFieldArray")
                     const { fields, append, remove } = useFieldArray({
                         control,
                         name: name,
                         rules: { ...item.rule } || validation
                     });
 
+                    console.log("dyno ;)", name, item.items, "useFieldArray", fields)
+
+                    
+                    helper = {
+                        fields, 
+                        append, 
+                        remove
+                    }
+
+                    // const removeMee = (ind) => {
+                    //     const id = ind;
+                    //     remove(parseInt(id));
+                    //     console.log(parseInt(id), ind, 'removelaaaaa',fields)
+
+                    //     // return function removelaaaaa(){
+                    //     //     console.log(parseInt(id), index, x, 'removelaaaaa',remove)
+                    //     //     remove(parseInt(id));
+                    //     // }
+                    // }
+
+                    // const appenddd = () => {
+                    //     console.log('removelaaaaa append',fields)
+                    //     append({});
+                    // }
+                   
+
                     child =
-                        <div>
-                            <ul>
+                        <React.Fragment>
+                            {/* <ul> */}
                                 {fields.map((el, index) => (
-                                    <li key={el.id}>
+                                    <React.Fragment key={el.id}>
                                         {item.items.map((element, indx) => (
                                             <Controller
                                                 key={`${name}.${index}.${data[element].name}`}
                                                 name={`${name}.${index}.${data[element].name}`}
                                                 control={control}
                                                 render={({ field }) => {
-                                                    console.log("dyno ;)", `${name}.${index}.${element}`, '`${name}.${index}.${element}`')
+                                                    console.log(field, "field dyno ;)", el.id, `${name}.${index}.${element}`, '`${name}.${index}.${element}`')
+                                                    // const help = {
+                                                    //     fields,
+                                                    //     append,
+                                                    //     remove
+                                                    // }
+                                                    // const removeMe = (idx) =>{
+                                                    //     console.log(idx, 'removeMeeeeee',`${name}.${index}.${element}`)
+                                                    //     remove(idx)   
+                                                    // }
+
+                                                    // const removeMe = () => {
+                                                    //     const id = index;
+                                                    //     console.log(parseInt(id), index, 'removelaaaaa',remove)
+                                                    //     removeMee(parseInt(id));
+
+                                                    //     // return function removelaaaaa(){
+                                                    //     //     console.log(parseInt(id), index, x, 'removelaaaaa',remove)
+                                                    //     //     remove(parseInt(id));
+                                                    //     // }
+                                                    // }
+                                                    // return (<div><button type="button" onClick={() => {
+                                                    //     console.log(index, 'insidecomponent ;)')
+                                                    //     removeMee(index)
+                                                        
+                                                    // }}>- from inside {index}</button>{
+                                                    //     renderComponentInd(element, {...data, index}, {
+                                                    //         updateReference,
+                                                    //         myControl,
+                                                    //         getValue,
+                                                    //         errors,
+                                                    //         ControlledComponents,
+                                                    //         components,
+                                                    //         managedCallback,
+                                                    //         parentName: item?.items && name || undefined,
+                                                    //         sharedItems: {
+                                                    //             ...sharedItems,
+                                                    //             localFunction: {
+                                                    //                 ...sharedItems.localFunction,
+                                                    //                 append: appenddd,
+                                                    //                 // append: (config) => a => b => append({}),
+                                                    //                 // remove: (index) => removeMe(index),
+                                                    //                 remove: () => removeMee(index)
+                                                    //             }
+                                                    //         },
+                                                    //         index: index,
+                                                    //         data,
+                                                    //         parent: { name: item.name, index, id: item.id },
+                                                    //         givenName: `${name}.${index}.${data[element].name}`,
+                                                    //         dataTransformer
+                                                    //     })
+                                                    // }</div>)
+                                                    
                                                     return renderComponentInd(element, {...data, index}, {
                                                         updateReference,
                                                         myControl,
@@ -236,9 +331,17 @@ const renderComponentForm = (
                                                         parentName: item?.items && name || undefined,
                                                         sharedItems: {
                                                             ...sharedItems,
-                                                            // fields,
-                                                            append,
-                                                            remove: () => remove(index)
+                                                            localFunction: {
+                                                                ...sharedItems.localFunction,
+                                                                append,
+                                                                // append: (config) => a => b => append({}),
+                                                                remove: (i) => remove(i),
+                                                                // remove: () => remove(index)
+                                                                // remove: (i) => {
+                                                                //     console.log(`${name}.${index}.${data[element].name}`,'oooooomaaaaa', parseInt(i), index);
+                                                                //     remove(index-1)
+                                                                // }
+                                                            }
                                                         },
                                                         index: index,
                                                         data,
@@ -247,39 +350,31 @@ const renderComponentForm = (
                                                         dataTransformer
                                                     })
 
-                                                    const Component = components(element.type, {
-                                                        field,
-                                                        item: element,
-                                                        name: `${name}.${index}.${element.name}`,
-                                                        indx,
-                                                        managedCallback,
-                                                        child,
-                                                        useFieldArray
-                                                    })
-                                                    return Component
+                                                    // const Component = components(element.type, {
+                                                    //     field,
+                                                    //     item: element,
+                                                    //     name: `${name}.${index}.${element.name}`,
+                                                    //     indx,
+                                                    //     managedCallback,
+                                                    //     child,
+                                                    //     useFieldArray
+                                                    // })
+                                                    // return Component
                                                 }}
                                             />
                                         ))}
-                                        <button type="button" onClick={() => remove(index)}>-</button>
-                                    </li>
+                                    </React.Fragment>
                                 ))}
 
-                            </ul>
+                            {/* </ul> */}
                             {/* <button type="button" onClick={() => {
                                         control.unregister("textbox-10")
                                         console.log("dyno ;)", getValue(), "unregisterrrr")
                                     }}> unregister 10 now ;) </button> */}
 
                             {/* <button type="button" onClick={() => setValue("textbox-9", { hi: "wowwwwww" })}> Change 9 now ;) </button> */}
-                            <button
-                                type="button"
-                                // onClick={() => append({ "actionURL": "" })}
-                                onClick={() => append({})}
-
-                            >
-                                +
-                            </button>
-                        </div>
+                            
+                        </React.Fragment>
                 }
 
                 // //proxy here ;)
@@ -306,6 +401,7 @@ const renderComponentForm = (
                 //end of proxy
 
 
+                console.log(name,helper,'hyyyayayyaya')
                 const Component = components(item.type, {
                     field,
                     // item: proxyItem,//item,
@@ -316,7 +412,17 @@ const renderComponentForm = (
                     child,
                     useFieldArray,
                     error: errors,
-                    sharedItems,
+                    // sharedItems: {...sharedItems, 
+                    //     // localFunction: { ...sharedItems.localFunction, ...helper}
+                    // },
+                    sharedItems: {
+                        ...sharedItems,
+                        localFunction: {
+                            ...sharedItems.localFunction,
+                            ...helper
+                        },
+                        ...helper
+                    },
                     parent
                 })
 
@@ -961,7 +1067,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         errors: errors,
         reset,
         clearErrors,
-        localFunction: sharedItems.localFunction
+        localFunction: {...sharedItems.localFunction, ...helper}
     }
 
     const validationOnce = async (name, value, result) => {

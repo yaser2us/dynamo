@@ -30,12 +30,15 @@ const dataTransformer = (data, name, obj) => (local) => {
         const ExpRE = /^\s*\{\{([\s\S]*)\}\}\s*$/
         const matched = data.match(ExpRE)
         if (matched) {
-            console.log("dyno ;)", name, 'me getValues()()()')
             try {
+                console.log("dyno ;)", name, 'me getValues()()()', matched[1])
+
                 const result = new Function('root', `return root.${matched[1]}`)({
                     ...values,
-                    local,
+                    ...local,
                 });
+
+                console.log("dyno ;)", result, 'me getValues()()() after', matched[1])
 
                 // const result = new Function('$root', `with($root) { return (${matched[1]}); }`)(
                 //     {
@@ -43,6 +46,12 @@ const dataTransformer = (data, name, obj) => (local) => {
                 //         local
                 //     }
                 // )
+                if (typeof result === 'function') {
+                    return result({
+                        ...values,
+                        ...local,
+                    });
+                }
                 return result;
             } catch (error) {
                 console.log(error, '{{ error transformer }}');
@@ -63,15 +72,19 @@ const dataTransformer = (data, name, obj) => (local) => {
             try {
 
                 // const result = eval(`local.${data.slice(2)}`);
+                console.log(local, '{{ local }}');
 
                 const result = new Function('root', `return root.${data.slice(2)}`)({
                     ...values,
-                    local,
+                    ...local
                 });
 
                 if (typeof result === 'function') {
                     console.log("dyno ;)", result, 'rrrrrrrsulttttttttt function')
-                    return result(values);
+                    return result({
+                        ...values,
+                        ...local
+                    });
                 }
                 if (result?.then) {
                     console.log("dyno ;)", result, 'rrrrrrrsulttttttttt function.then')
