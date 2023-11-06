@@ -843,6 +843,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         triggerCustom,
         unregister,
         clearErrors,
+        setError,
         reset
     } = useForm({
         mode: 'onChange',
@@ -927,7 +928,8 @@ const FormBuilderNext = React.forwardRef(({ items,
         },
         dataStore,
         // eventBus,
-        clearErrors
+        clearErrors,
+        setError
     }
     // console.log("dyno ;)", typeof errors, 'hereeeeeeeeeerroooooors')
 
@@ -1026,6 +1028,8 @@ const FormBuilderNext = React.forwardRef(({ items,
     }
 
     ref.current = {
+        clearErrors,
+        setError,
         getValuesByGroup: async (props) => {
             const valid = await sharedItems.localFunction.triggerGroup(props);
             if (valid) {
