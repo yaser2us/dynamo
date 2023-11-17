@@ -672,6 +672,34 @@ const convertArrayToObjectPOC = (array, key, value, isParent, original) => {
 }
 
 let renderCount = 0
+
+function keysWithDoubleDollar(obj) {
+    const result = [];
+
+    function checkForKey(obj, path) {
+        if (typeof obj === 'object') {
+            if (Array.isArray(obj)) {
+                obj.forEach((item, index) => {
+                    checkForKey(item, `${path}[${index}]`);
+                });
+            } else {
+                if(obj != undefined && obj != null){
+                    Object.keys(obj).forEach(key => {
+                        const newPath = path ? `${path}.${key}` : key;
+                        checkForKey(obj[key], newPath);
+                    });
+                }
+            }
+        } else if (typeof obj === 'string' && (obj.includes('$$') || obj.includes('{{') || obj.includes('${'))) {
+            result.push(path);
+        }
+    }
+
+    checkForKey(obj, '');
+
+    return result;
+}
+
 const FormBuilderNext = React.forwardRef(({ items,
     validationResolver,
     // = defaultValidationResolver,
@@ -700,18 +728,24 @@ const FormBuilderNext = React.forwardRef(({ items,
         })();
     }
 
+    const neededKeys = keysWithDoubleDollar(defaultValues);
+    console.log("dyno ;)", neededKeys, "[neededKeys]", defaultValues)
+
     //proxy here ;)
     const proxyHandler = {
         get(target, prop, receiver) {
-            if (typeof target[prop] === "object" && target[prop] !== null) {
-                console.log("dyno ;)", target[prop], "dddproxyHanlerrrrrrrr me ;)");
-                return new Proxy(target[prop], proxyHandler);
+            if (neededKeys.includes(prop)) {
+                if (typeof target[prop] === "object" && target[prop] !== null) {
+                    // console.log("dyno ;)", target[prop], "dddproxyHanlerrrrrrrr me ;)");
+                    return new Proxy(target[prop], proxyHandler);
+                }
+                return dataTransformer(target[prop], prop, target)({
+                    ...localFunction,
+                    sharedItems: { dataStore },
+                    // ...sharedItems
+                });
             }
-            return dataTransformer(target[prop], prop, target)({
-                ...localFunction,
-                sharedItems: { dataStore },
-                // ...sharedItems
-            });
+            return target[prop];
         }
     };
 

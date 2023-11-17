@@ -5161,6 +5161,29 @@ var convertArrayToObject$2 = function convertArrayToObject(array, key, value) {
     return _extends({}, obj, (_extends5 = {}, _extends5[item[key]] = value && item[value] || value === undefined && item || '', _extends5));
   }, initialValue);
 };
+function keysWithDoubleDollar(obj) {
+  var result = [];
+  function checkForKey(obj, path) {
+    if (typeof obj === 'object') {
+      if (Array.isArray(obj)) {
+        obj.forEach(function (item, index) {
+          checkForKey(item, path + "[" + index + "]");
+        });
+      } else {
+        if (obj != undefined && obj != null) {
+          Object.keys(obj).forEach(function (key) {
+            var newPath = path ? path + "." + key : key;
+            checkForKey(obj[key], newPath);
+          });
+        }
+      }
+    } else if (typeof obj === 'string' && (obj.includes('$$') || obj.includes('{{') || obj.includes('${'))) {
+      result.push(path);
+    }
+  }
+  checkForKey(obj, '');
+  return result;
+}
 var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
   var _data$root, _data$root$items;
   var items = _ref7.items,
@@ -5179,16 +5202,20 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
   if (!devMode) {
     console.log = function () {};
   }
+  var neededKeys = keysWithDoubleDollar(defaultValues);
   var proxyHandler = {
     get: function get(target, prop, receiver) {
-      if (typeof target[prop] === "object" && target[prop] !== null) {
-        return new Proxy(target[prop], proxyHandler);
-      }
-      return dataTransformer$1(target[prop], prop, target)(_extends({}, localFunction, {
-        sharedItems: {
-          dataStore: dataStore
+      if (neededKeys.includes(prop)) {
+        if (typeof target[prop] === "object" && target[prop] !== null) {
+          return new Proxy(target[prop], proxyHandler);
         }
-      }));
+        return dataTransformer$1(target[prop], prop, target)(_extends({}, localFunction, {
+          sharedItems: {
+            dataStore: dataStore
+          }
+        }));
+      }
+      return target[prop];
     }
   };
   var proxyDefaultValues = new Proxy(_extends({}, defaultValues), proxyHandler);
