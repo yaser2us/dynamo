@@ -4931,29 +4931,6 @@ function useForm$1(props) {
   return _formControl.current;
 }
 
-function keysWithDoubleDollar(obj) {
-  var result = [];
-  function checkForKey(obj, path) {
-    if (typeof obj === 'object') {
-      if (Array.isArray(obj)) {
-        obj.forEach(function (item, index) {
-          checkForKey(item, path + "[" + index + "]");
-        });
-      } else {
-        if (obj != undefined && obj != null) {
-          Object.keys(obj).forEach(function (key) {
-            var newPath = path ? path + "." + key : key;
-            checkForKey(obj[key], newPath);
-          });
-        }
-      }
-    } else if (typeof obj === 'string' && (obj.includes('$$') || obj.includes('{{') || obj.includes('${'))) {
-      result.push(path);
-    }
-  }
-  checkForKey(obj, '');
-  return result;
-}
 var renderComponentInd$1 = function renderComponentInd(name, data, _ref) {
   var updateReference = _ref.updateReference,
     myComponents = _ref.myComponents,
@@ -4973,20 +4950,16 @@ var renderComponentInd$1 = function renderComponentInd(name, data, _ref) {
     givenName: givenName
   });
   if (selectedComponent === undefined$1) return null;
-  var neededKeys = keysWithDoubleDollar(selectedComponent);
   var proxyHandler = {
     get: function get(target, prop, receiver) {
-      if (neededKeys.includes(prop)) {
-        if (typeof target[prop] === "object" && target[prop] !== null) {
-          return new Proxy(target[prop], proxyHandler);
-        }
-        return dataTransformer(target[prop], prop, target)(_extends({}, sharedItems.localFunction, {
-          sharedItems: _extends({}, sharedItems, {
-            index: index
-          })
-        }));
+      if (typeof target[prop] === "object" && target[prop] !== null) {
+        return new Proxy(target[prop], proxyHandler);
       }
-      return target[prop];
+      return dataTransformer(target[prop], prop, target)(_extends({}, sharedItems.localFunction, {
+        sharedItems: _extends({}, sharedItems, {
+          index: index
+        })
+      }));
     }
   };
   var proxyItem = new Proxy(_extends({}, selectedComponent, {
@@ -5191,6 +5164,29 @@ var convertArrayToObject$2 = function convertArrayToObject(array, key, value) {
     return _extends({}, obj, (_extends5 = {}, _extends5[item[key]] = value && item[value] || value === undefined && item || '', _extends5));
   }, initialValue);
 };
+function keysWithDoubleDollar(obj) {
+  var result = [];
+  function checkForKey(obj, path) {
+    if (typeof obj === 'object') {
+      if (Array.isArray(obj)) {
+        obj.forEach(function (item, index) {
+          checkForKey(item, path + "[" + index + "]");
+        });
+      } else {
+        if (obj != undefined && obj != null) {
+          Object.keys(obj).forEach(function (key) {
+            var newPath = path ? path + "." + key : key;
+            checkForKey(obj[key], newPath);
+          });
+        }
+      }
+    } else if (typeof obj === 'string' && (obj.includes('$$') || obj.includes('{{') || obj.includes('${'))) {
+      result.push(path);
+    }
+  }
+  checkForKey(obj, '');
+  return result;
+}
 var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
   var _data$root, _data$root$items;
   var items = _ref7.items,
