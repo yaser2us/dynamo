@@ -24,6 +24,33 @@ import { defaultValidationResolver } from "../utils/defaultValidationResolver"
 import { dataTransformer as defaultDataTransformer } from '../middleware/dataTransformer'
 // import { defaultValidationResolver } from "../dynamo/utils/defaultValidationResolver"
 
+function keysWithDoubleDollar(obj) {
+    const result = [];
+
+    function checkForKey(obj, path) {
+        if (typeof obj === 'object') {
+            if (Array.isArray(obj)) {
+                obj.forEach((item, index) => {
+                    checkForKey(item, `${path}[${index}]`);
+                });
+            } else {
+                if (obj != undefined && obj != null) {
+                    Object.keys(obj).forEach(key => {
+                        const newPath = path ? `${path}.${key}` : key;
+                        checkForKey(obj[key], newPath);
+                    });
+                }
+            }
+        } else if (typeof obj === 'string' && (obj.includes('$$') || obj.includes('{{') || obj.includes('${'))) {
+            result.push(path);
+        }
+    }
+
+    checkForKey(obj, '');
+
+    return result;
+}
+
 const renderComponentInd = (name, data, { updateReference,
     myComponents,
     getValues,
@@ -48,21 +75,27 @@ const renderComponentInd = (name, data, { updateReference,
     if (selectedComponent === undefined) return null;
     // if (proxyItem === undefined) return null;
 
+    const neededKeys = keysWithDoubleDollar(selectedComponent);
+    console.log("dyno ;)", neededKeys, "[neededKeys]", selectedComponent)
+
     //proxy here ;)
     const proxyHandler = {
         get(target, prop, receiver) {
-            if (typeof target[prop] === "object" && target[prop] !== null) {
-                console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
-                return new Proxy(target[prop], proxyHandler);
+            if (neededKeys.includes(prop)) {
+                if (typeof target[prop] === "object" && target[prop] !== null) {
+                    console.log("dyno ;)", target[prop], "proxyHanlerrrrrrrr me ;)");
+                    return new Proxy(target[prop], proxyHandler);
+                }
+                return dataTransformer(target[prop], prop, target)({
+                    ...sharedItems.localFunction,
+                    sharedItems: {
+                        ...sharedItems,
+                        index
+                    },
+                    // ...sharedItems
+                });
             }
-            return dataTransformer(target[prop], prop, target)({
-                ...sharedItems.localFunction,
-                sharedItems: {
-                    ...sharedItems,
-                    index
-                },
-                // ...sharedItems
-            });
+            return target[prop];
         }
     };
 
@@ -200,7 +233,7 @@ const renderComponentForm = (
             key={item.isArray === true && `${name}container` || name}
             name={item.isArray === true && `${name}container` || name}
             control={control}
-            item={{...item, index}}
+            item={{ ...item, index }}
             rules={{ ...item.rule } || validation}
             // eventBus={sharedItems?.eventBus}
             render={({ field }) => {
@@ -225,7 +258,7 @@ const renderComponentForm = (
                                                 control={control}
                                                 render={({ field }) => {
                                                     console.log("dyno ;)", `${name}.${index}.${element}`, '`${name}.${index}.${element}`')
-                                                    return renderComponentInd(element, {...data, index}, {
+                                                    return renderComponentInd(element, { ...data, index }, {
                                                         updateReference,
                                                         myControl,
                                                         getValue,
@@ -673,32 +706,7 @@ const convertArrayToObjectPOC = (array, key, value, isParent, original) => {
 
 let renderCount = 0
 
-function keysWithDoubleDollar(obj) {
-    const result = [];
 
-    function checkForKey(obj, path) {
-        if (typeof obj === 'object') {
-            if (Array.isArray(obj)) {
-                obj.forEach((item, index) => {
-                    checkForKey(item, `${path}[${index}]`);
-                });
-            } else {
-                if(obj != undefined && obj != null){
-                    Object.keys(obj).forEach(key => {
-                        const newPath = path ? `${path}.${key}` : key;
-                        checkForKey(obj[key], newPath);
-                    });
-                }
-            }
-        } else if (typeof obj === 'string' && (obj.includes('$$') || obj.includes('{{') || obj.includes('${'))) {
-            result.push(path);
-        }
-    }
-
-    checkForKey(obj, '');
-
-    return result;
-}
 
 const FormBuilderNext = React.forwardRef(({ items,
     validationResolver,
@@ -937,7 +945,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         }
     }
 
-    const getValuesPOC = async (options = {triggerAll: false}) => {
+    const getValuesPOC = async (options = { triggerAll: false }) => {
         //TODO: hot fix for double validations
         if (Object.keys(errors).length > 0) return false;
         const result = await triggerCustom(options);
