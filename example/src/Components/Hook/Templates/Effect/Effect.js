@@ -12,6 +12,7 @@ const Effect = (props) => {
 
     useEffect(() => {
         if (item === undefined) return null;
+        console.log("dynamo => init => hook => Effect => result");
 
         // if (isLoaded) return;
         if (item?.action) {
@@ -20,7 +21,7 @@ const Effect = (props) => {
                 updateLoading(true);
             });
         }
-    }, [value]);
+    }, []); //[value]
 
    
 

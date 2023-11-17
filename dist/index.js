@@ -240,9 +240,11 @@ function useController(props) {
     }
   }, [control]);
   React.useEffect(function () {
+    var t = get(control._formValues, name, get(control._defaultValues, name, props.defaultValue));
+    console.log('[register] [useEffect]', name, item === null || item === void 0 ? void 0 : item.isArray, item === null || item === void 0 ? void 0 : item.defaultValue, t);
     var controllerSubscription = control._subjects.control.subscribe({
       next: function next(data) {
-        return (!data.name || name === data.name) && setInputStateValue(get(data.values, name));
+        (!data.name || name === data.name) && setInputStateValue(get(data.values, name));
       }
     });
     updateMounted(name, true);
@@ -2827,11 +2829,13 @@ var dataTransformer = function dataTransformer(data, name, obj) {
       var ExpRE = /^\s*\{\{([\s\S]*)\}\}\s*$/;
       var matched = data.match(ExpRE);
       if (matched) {
-        console.log("dyno ;)", name, 'me getValues()()()');
         try {
-          var result = new Function('root', "return root." + matched[1])(_extends({}, values, {
-            local: local
-          }));
+          console.log("dyno ;)", name, 'me getValues()()()', matched[1]);
+          var result = new Function('root', "return root." + matched[1])(_extends({}, values, local));
+          console.log("dyno ;)", result, 'me getValues()()() after', matched[1]);
+          if (typeof result === 'function') {
+            return result(_extends({}, values, local));
+          }
           return result;
         } catch (error) {
           console.log(error, '{{ error transformer }}');
@@ -2845,12 +2849,11 @@ var dataTransformer = function dataTransformer(data, name, obj) {
       if (data !== undefined && data.includes("fx")) {
         console.log("dyno ;)", data.slice(2), 'sliceeeeeee');
         try {
-          var _result = new Function('root', "return root." + data.slice(2))(_extends({}, values, {
-            local: local
-          }));
+          console.log(local, '{{ local }}');
+          var _result = new Function('root', "return root." + data.slice(2))(_extends({}, values, local));
           if (typeof _result === 'function') {
             console.log("dyno ;)", _result, 'rrrrrrrsulttttttttt function');
-            return _result(values);
+            return _result(_extends({}, values, local));
           }
           if (_result !== null && _result !== void 0 && _result.then) {
             console.log("dyno ;)", _result, 'rrrrrrrsulttttttttt function.then');
@@ -4254,6 +4257,7 @@ function createFormControlV4(props) {
   };
   var _updateValidAndInputValue = function _updateValidAndInputValue(name, ref, shouldSkipValueAs) {
     var field = get(_fields, name);
+    console.log("dyno ;)", name, ref, '_updateValidAndInputValue', _defaultValues);
     if (field) {
       var fieldValue = get(_formValues, name);
       var isValueUndefined = isUndefined(fieldValue);
@@ -4712,6 +4716,7 @@ function createFormControlV4(props) {
       options = {};
     }
     var field = get(_fields, name);
+    console.log("dyno ;)", "registerRegister", field, name, _fields);
     set(_fields, name, {
       _f: Object.assign(Object.assign(Object.assign({}, field && field._f ? field._f : {
         ref: {
@@ -5069,6 +5074,7 @@ var renderComponentInd$1 = function renderComponentInd(name, data, _ref) {
   if ((proxyItem === null || proxyItem === void 0 ? void 0 : proxyItem.visible) === false) return null;
   return renderComponentForm$1(proxyItem, updateReference, myComponents, getValues, _extends({}, errors), ControlledComponents, components, managedCallback, undefined$1, sharedItems, index, data, parent, dataTransformer);
 };
+var helper = {};
 var renderComponentForm$1 = function renderComponentForm(item, updateReference, myControl, getValue, errorss, ControlledComponents, components, managedCallback, parentName, sharedItems, index, data, parent, dataTransformer) {
   console.log("dyno ;)", errorss, 'dataerrors');
   var errors = sharedItems.errors,
@@ -5138,7 +5144,6 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
     render: function render(_ref3) {
       var field = _ref3.field;
       if (item.isArray) {
-        console.log("dyno ;)", name, item.items, "useFieldArray");
         var _useFieldArray = useFieldArray({
             control: control,
             name: name,
@@ -5147,8 +5152,15 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
           fields = _useFieldArray.fields,
           append = _useFieldArray.append,
           _remove = _useFieldArray.remove;
-        child = /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement("ul", null, fields.map(function (el, index) {
-          return /*#__PURE__*/React__default.createElement("li", {
+        console.log("dyno ;)", name, item.items, "useFieldArray", fields);
+        helper = {
+          fields: fields,
+          append: append,
+          remove: _remove
+        };
+        child = /*#__PURE__*/React__default.createElement(React__default.Fragment, null, fields.map(function (el, index) {
+          return /*#__PURE__*/React__default.createElement("div", {
+            style: sharedItems.style,
             key: el.id
           }, item.items.map(function (element, indx) {
             return /*#__PURE__*/React__default.createElement(Controller, {
@@ -5156,7 +5168,8 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
               name: name + "." + index + "." + data[element].name,
               control: control,
               render: function render(_ref4) {
-                console.log("dyno ;)", name + "." + index + "." + element, '`${name}.${index}.${element}`');
+                var field = _ref4.field;
+                console.log(field, "field dyno ;)", el.id, name + "." + index + "." + element, '`${name}.${index}.${element}`');
                 return renderComponentInd$1(element, _extends({}, data, {
                   index: index
                 }), {
@@ -5169,10 +5182,12 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
                   managedCallback: managedCallback,
                   parentName: (item === null || item === void 0 ? void 0 : item.items) && name || undefined,
                   sharedItems: _extends({}, sharedItems, {
-                    append: append,
-                    remove: function remove() {
-                      return _remove(index);
-                    }
+                    localFunction: _extends({}, sharedItems.localFunction, {
+                      append: append,
+                      remove: function remove(i) {
+                        return _remove(i);
+                      }
+                    })
                   }),
                   index: index,
                   data: data,
@@ -5186,19 +5201,10 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
                 });
               }
             });
-          }), /*#__PURE__*/React__default.createElement("button", {
-            type: "button",
-            onClick: function onClick() {
-              return _remove(index);
-            }
-          }, "-"));
-        })), /*#__PURE__*/React__default.createElement("button", {
-          type: "button",
-          onClick: function onClick() {
-            return append({});
-          }
-        }, "+"));
+          }));
+        }));
       }
+      console.log(name, helper, 'hyyyayayyaya');
       var Component = components(item.type, {
         field: field,
         item: item,
@@ -5208,7 +5214,9 @@ var renderComponentForm$1 = function renderComponentForm(item, updateReference, 
         child: child,
         useFieldArray: useFieldArray,
         error: errors,
-        sharedItems: sharedItems,
+        sharedItems: _extends({}, sharedItems, {
+          localFunction: _extends({}, sharedItems.localFunction, helper)
+        }, helper),
         parent: parent
       });
       return Component;
@@ -5273,8 +5281,31 @@ var convertArrayToObject$2 = function convertArrayToObject(array, key, value) {
   }, initialValue);
 };
 var renderCount$2 = 0;
+function keysWithDoubleDollar(obj) {
+  var result = [];
+  function checkForKey(obj, path) {
+    if (typeof obj === 'object') {
+      if (Array.isArray(obj)) {
+        obj.forEach(function (item, index) {
+          checkForKey(item, path + "[" + index + "]");
+        });
+      } else {
+        if (obj != undefined && obj != null) {
+          Object.keys(obj).forEach(function (key) {
+            var newPath = path ? path + "." + key : key;
+            checkForKey(obj[key], newPath);
+          });
+        }
+      }
+    } else if (typeof obj === 'string' && obj.includes('$$')) {
+      result.push(path);
+    }
+  }
+  checkForKey(obj, '');
+  return result;
+}
 var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
-  var _data$root, _data$root$items;
+  var _ref$current, _data$root, _data$root$items;
   var items = _ref7.items,
     validationResolver = _ref7.validationResolver,
     ControlledComponents = _ref7.ControlledComponents,
@@ -5287,7 +5318,9 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     devMode = _ref7$devMode === void 0 ? false : _ref7$devMode,
     _ref7$dataTransformer = _ref7.dataTransformer,
     dataTransformer$1 = _ref7$dataTransformer === void 0 ? dataTransformer : _ref7$dataTransformer,
-    dataStore = _ref7.dataStore;
+    dataStore = _ref7.dataStore,
+    _ref7$style = _ref7.style,
+    style = _ref7$style === void 0 ? {} : _ref7$style;
   if (!devMode) {
     console.log = function () {
       var log = console.log;
@@ -5299,17 +5332,22 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       };
     }();
   }
+  var neededKeys = keysWithDoubleDollar(defaultValues);
+  console.log("dyno ;)", neededKeys, "[neededKeys]", defaultValues);
   var proxyHandler = {
     get: function get(target, prop, receiver) {
-      if (typeof target[prop] === "object" && target[prop] !== null) {
-        console.log("dyno ;)", target[prop], "dddproxyHanlerrrrrrrr me ;)");
-        return new Proxy(target[prop], proxyHandler);
-      }
-      return dataTransformer$1(target[prop], prop, target)(_extends({}, localFunction, {
-        sharedItems: {
-          dataStore: dataStore
+      if (neededKeys.includes(prop)) {
+        if (typeof target[prop] === "object" && target[prop] !== null) {
+          console.log("dyno ;)", target[prop], "dddproxyHanlerrrrrrrr me ;)");
+          return new Proxy(target[prop], proxyHandler);
         }
-      }));
+        return dataTransformer$1(target[prop], prop, target)(_extends({}, localFunction, {
+          sharedItems: {
+            dataStore: dataStore
+          }
+        }));
+      }
+      return target[prop];
     }
   };
   var proxyDefaultValues = new Proxy(_extends({}, defaultValues), proxyHandler);
@@ -5335,11 +5373,13 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     triggerCustom = _useForm.triggerCustom,
     unregister = _useForm.unregister,
     clearErrors = _useForm.clearErrors,
+    setError = _useForm.setError,
     reset = _useForm.reset;
   React__default.useEffect(function () {
     reset(_extends({}, proxyDefaultValues));
   }, [defaultValues]);
   var sharedItems = {
+    style: style,
     register: register,
     handleSubmit: handleSubmit,
     watch: watch,
@@ -5387,7 +5427,8 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       }
     }),
     dataStore: dataStore,
-    clearErrors: clearErrors
+    clearErrors: clearErrors,
+    setError: setError
   };
   var myComponents = React__default.useRef();
   var watchingComponents = React__default.useRef();
@@ -5454,8 +5495,10 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
       return Promise.reject(e);
     }
   };
-  ref.current = {
-    getValuesByGroup: function (props) {
+  ref.current = (_ref$current = {
+    clearErrors: clearErrors,
+    setError: setError,
+    getValuesByGroup: function getValuesByGroup(props) {
       try {
         return Promise.resolve(sharedItems.localFunction.triggerGroup(props)).then(function (valid) {
           var _exit = false;
@@ -5478,7 +5521,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     getValues: function getValues(options) {
       return getValuesPOC(options);
     },
-    getGroupValuesBackground: function (props) {
+    getGroupValuesBackground: function getGroupValuesBackground(props) {
       try {
         var _temp5 = function _temp5(_result3) {
           return _exit2 ? _result3 : getValuesPOC();
@@ -5511,7 +5554,7 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
         return Promise.reject(e);
       }
     },
-    getValuesBackground: function (validation) {
+    getValuesBackground: function getValuesBackground(validation) {
       if (validation === void 0) {
         validation = true;
       }
@@ -5548,10 +5591,8 @@ var FormBuilderNext$1 = React__default.forwardRef(function (_ref7, ref) {
     resetValues: resetValues,
     setValue: setValue,
     errors: errors,
-    reset: reset,
-    clearErrors: clearErrors,
-    localFunction: sharedItems.localFunction
-  };
+    reset: reset
+  }, _ref$current["clearErrors"] = clearErrors, _ref$current.localFunction = _extends({}, sharedItems.localFunction, helper), _ref$current);
   var validationOnce = function validationOnce(name, value, result) {
     try {
       var validatedItem = myComponents.current[name];

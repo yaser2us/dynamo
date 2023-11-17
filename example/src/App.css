@@ -2,7 +2,7 @@
 
 
 .inputContainer {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     margin-top: 1rem;
 }
@@ -24,6 +24,14 @@
         /* box-shadow: 0px 5px 10px 0px rgba(112, 136, 210, 0.1); */
         /* border-radius: 20px; */
         /* border: none; */
-        width: 50vw;
+        /* width: 50vw; */
         margin: auto;
 }    
+
+.divdivoneh {
+    width: 100%;		
+padding: 0 23px 5px;		
+margin-top: 1.2rem;	
+border-radius: 0.5rem !important;
+border: 1px solid #D7D7D7 !important;
+}

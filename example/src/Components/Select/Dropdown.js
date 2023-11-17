@@ -43,25 +43,25 @@ const Dropdown = (props) => {
 
   const { child, error, name, item, field, managedCallback, sharedItems } = props;
   const errorMsg = error && error[name] && error[name].message || ""
-  const { label, options, placeholder, description, disabled, theme } = item || { label: "" };
+  const { label, options = [], placeholder, description, disabled, theme } = item || { label: "" };
   const { getValues } = sharedItems;
-  const [ existingOptions, setExistingOptions] = useState(getValues(options));
+  // const [ existingOptions, setExistingOptions] = useState(getValues(options));
 
-  useEffect(()=> {
-    if (item === undefined) return null;
-    const newOptions = getValues(options);
-    setExistingOptions(newOptions);
-    customOnChange("")
+  // useEffect(()=> {
+  //   if (item === undefined) return null;
+  //   const newOptions = getValues(options);
+  //   // setExistingOptions(newOptions);
+  //   customOnChange("")
 
-    if(props.item?.action){
-      setTimeout(() => {
-        managedCallback({item: props.item}).then(result => {
-          console.log(props, result, 'hereeeeeeeeeeeeeeeeeeeee droppppppp');
-          setExistingOptions(result.options)
-        })       
-      }, 7000);
-    }
-  }, [getValues(options)])
+  //   if(props.item?.action){
+  //     setTimeout(() => {
+  //       managedCallback({item: props.item}).then(result => {
+  //         console.log(props, result, 'hereeeeeeeeeeeeeeeeeeeee droppppppp');
+  //         // setExistingOptions(result.options)
+  //       })       
+  //     }, 7000);
+  //   }
+  // }, [getValues(options)])
 
   const { value, onChange } = field;
 
@@ -110,7 +110,7 @@ const Dropdown = (props) => {
         placeholder={placeholder}
         // defaultValue={value}
         styles={customStyles}
-        options={existingOptions}
+        options={options}
         {...field}
         onChange={customOnChange}
         components={{ Option }}

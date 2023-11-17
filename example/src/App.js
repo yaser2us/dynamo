@@ -170,7 +170,7 @@ function App() {
   const sample110 = {
     root: {
       name: "root",
-      items: ["containerDynamic", "submitTrigger"],
+      items: ["containerDynamic", "submitTrigger", "whatsMyName", "didMountToGetSomething"],
       // items: ["didMountToGetSomething", "header", "whatsYourName", "whatsMyName", "container", "dataSource", "submitTrigger"],
       visible: true,
     },
@@ -180,10 +180,10 @@ function App() {
       name: "containerDynamic",
       label: "Fieldset",
       value: "",
-      visible: true,
+      visible: "{{ whatsMyName === 'yasser' }}",
       isArray: true,
-      items: ["wathchMei", "submitME3"],
-      defaultValue: [{}, {}, {}],
+      items: ["wathchMei", "submitME3", "howAreYouThen"],
+      defaultValue: [{ "wathchMei": "yasser" }, {}, {}],
       rule32: {
         required: "I dont know my name yet hmmmmm.",
         // minLength: {
@@ -245,7 +245,7 @@ function App() {
       name: "didMountToGetSomething",
       label: "",
       value: "$$whatsYourName",
-      visible: true,
+      visible: "{{ whatsMyName === 'yasser' }}",
       defaultValue: "",
       header: "",
       tooltip: "",
@@ -260,7 +260,7 @@ function App() {
       templateName: "",
       theme: "",
       action: {
-        isItReallySame: {
+        alertPopup: {
           compareFrom: "whatsMyName",
           compareTo: "whatsYourName",
           message: "A & B is not same",
@@ -272,13 +272,13 @@ function App() {
       id: "whatsMyName",
       type: "text",
       name: "whatsMyName",
-      label: "Hariiiiiii? ${wathchMei}",
+      label: "Hariiiiiii? ${wathchMei} 100",
       label1: "Whats my Name buddy? 313 and more ${cache.home.defaultValues.whatsMyName} basket ${basket.whatsMyName}",
       // label: (props) => (values) => `hi hi from f(x) ;)`,
       // value: "",
-      disabled: (props) => (values) => Valid('wathchMei', '==', '900')(values),
+      // disabled: (props) => (values) => Valid('wathchMei', '==', '900')(values),
       visible: true,
-      rule: {
+      rule333: {
         required: "I dont know my name yet hmmmmm.",
         min: {
           value: null,
@@ -333,7 +333,7 @@ function App() {
         ]
       },
       watch: true,
-      defaultValue: "$$lol"
+      defaultValue: "100"
     },
     whatsYourName: {
       id: "whatsYourName",
@@ -488,11 +488,11 @@ function App() {
       // disabled: false,
       disabled: "fxtriggerBackgroundOptimised()",
       action: {
-        append: "",
+        // append: "",
         // zublihere: {
         //   yasser: 110
         // },
-        // alertPopup: {},
+        alertPopup: {},
         // updateHistory: {}
       },
       actionlol: {
@@ -514,10 +514,10 @@ function App() {
       type: "select",
       name: "howAreYouThen",
       label: "wathchMei read from dataSource",
-      options: "dataSource",
-      // visible: true,
+      options: "fxfilterMePls('containerDynamic','country','howAreYouThen')",
+      visible: true,
       // visible: "$$bobo",
-      visible: "{{ whatsYourName == '300' && whatsMyName == '800' }}",
+      visible4: "{{ whatsYourName == '300' && whatsMyName == '800' }}",
       visible33: "{{whatsMyName === '909' && whatsYourName === '500'}}",
       visibled: "fxValid(\"{{whatsMyName === \'9009\'\\ && whatsYourName === '500'}}\")",
       disabled: "fxValid('whatsYourName','==','1900')",
@@ -711,7 +711,8 @@ function App() {
           }
         ]
       },
-      watch: true
+      watch: true,
+      defaultValue: "$$ffdfdfdfd"
     },
     whatsYourName: {
       id: "whatsYourName",
@@ -979,7 +980,25 @@ function App() {
   const [options, setOptions] = useState();
   const [dataStore, setDataStore] = useState({
     poh: false,
-    lol: 'yasser'
+    lol: 'yasser',
+    country: [
+      {
+        label: "iran",
+        value: "iran"
+      },
+      {
+        label: "india",
+        value: "india"
+      },
+      {
+        label: "malaysia",
+        value: "malaysia"
+      },
+      {
+        label: "indonesia",
+        value: "indonesia"
+      }
+    ]
   });
 
   const [shouldUnregister, setShouldUnregister] = useState(false);
@@ -1232,6 +1251,31 @@ function App() {
     console.log("prprprprpr", result);
   }
 
+  const selectedV = [
+    // {
+    //   country: {value: 'iran', label: 'iran'}
+    // },
+    // {
+    //   country: {value: 'india', label: 'india'}
+    // }
+  ]
+
+  const filterMePls = (a, b, c) => (values) => {
+    console.log(a, b, 'filtermeplsfiltermeplsfiltermepls', values);
+    try {
+      const chosenCountryValues = (values[a] || []).map((chosen) => {
+        console.log(chosen, 'filteredCountries item');
+        return chosen[c]?.value || '';
+      });
+      const filteredCountries = values[b].filter((country) => !chosenCountryValues.includes(country.value));
+      console.log(filteredCountries, 'filteredCountries', chosenCountryValues);
+      return filteredCountries;
+    } catch {
+      // return dataStore.country;
+    }
+  }
+
+  // filterMePls('','')()
 
   //fxValid
   const Valid = (a) => (values) => {
@@ -1382,10 +1426,10 @@ function App() {
       const formData = await myForm.current.getValuesBackground(false);
       const { wathcingField = "containerDynamic" } = config;
       // data.append({});
-        await data.sharedItems.setValue(wathcingField, [...formData[wathcingField], {}], {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true
+      await data.sharedItems.setValue(wathcingField, [...formData[wathcingField], {}], {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
       })
       // const formData = await myForm.current.getGroupValuesBackground(data.item?.action?.validations);
       console.log("getValuesgetValuesgetValues", data.item);
@@ -1406,22 +1450,36 @@ function App() {
   }
   const alertPopup = config => dataStore => async data => {
     return new Promise(async (resolve, reject) => {
-      // Async processing
-      const formData = await myForm.current.getValues({triggerAll: true});
-      console.log("getValuesgetValuesgetValues", formData);
-      if (formData) {
-        reject('helllooooo errrororo is there')
+
+      // didMountToGetSomething
+      const newValues = await myForm.current.setValue("containerDynamic", [{}, {}]);
+
+      // const r = await myForm.current.getValuesByGroup(['whatsMyName', 'whatsYourName']);
+      const r = await myForm.current.getValues();
+      console.log('yasssss3', r)
+      console.log(Object.keys(myForm.current.errors).length, 'Object.keys(myForm.current.errors)', r)
+      if (Object.keys(myForm.current.errors).length > 0) {
+        const formData = await myForm.current.clearErrors();
       } else {
-        alert("dsdsd")
-
-        if (!_.isEmpty(myForm.current.errors)) {
-          // alert(myForm.current.errors);
-          console.log(myForm.current.errors,'myForm.current.errors')
-
-          reject('helllooooo errrororo is there')
-        }
-        resolve({ ...data })
+        const formData = await myForm.current.setError('whatsYourName', { message: "wowowowowow" });
       }
+
+      // Async processing
+      // const formData = await myForm.current.getValues({triggerAll: true});
+      // console.log("getValuesgetValuesgetValues", formData);
+      // if (formData) {
+      //   reject('helllooooo errrororo is there')
+      // } else {
+      //   alert("dsdsd")
+
+      //   if (!_.isEmpty(myForm.current.errors)) {
+      //     // alert(myForm.current.errors);
+      //     console.log(myForm.current.errors,'myForm.current.errors')
+
+      //     reject('helllooooo errrororo is there')
+      //   }
+      //   resolve({ ...data })
+      // }
 
     });
   }
@@ -1858,6 +1916,7 @@ function App() {
 
   const localFunction = {
     // dxVValid: VValid,
+    filterMePls,
     VValid,
     Valid: Valid,
     amISame,
@@ -1925,7 +1984,7 @@ function App() {
 
 
   console.log(getDataStore(), 'getDataStore')
-
+  console.log(navigatableArray.current().defaultValues, 'defaultValuessss')
 
   return (
     <>
@@ -2010,6 +2069,13 @@ function App() {
         {sample110 && (
           <FormBuilderNext
             devMode={true}
+            style={{
+              width: '100%',
+              padding: ' 0 23px 5px',
+              marginTop: '1.2rem',
+              borderRadius: '0.5rem !important',
+              border: '10px solid #D7D7D7 !important'
+            }}
             // eventBus={eventBus}
             dataStore={{
               ...dataStore,
@@ -2028,8 +2094,9 @@ function App() {
             managedCallback={managedCallback}
             validationResolver={validationResolver}
             defaultValues={{
+              "whatsYourName": 100,
               "whatsMyName": "$$lol",
-              "containerDynamic": [{}, {}, {}]
+              "containerDynamic": [{ "wathchMei": "yasser" }, { "wathchMei": "nasser" }, {}]
             }}
           />
         )}

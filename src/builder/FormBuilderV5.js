@@ -218,7 +218,7 @@ const renderComponentForm = (
             key={item.isArray === true && `${name}container` || name}
             name={item.isArray === true && `${name}container` || name}
             control={control}
-            item={{...item, index}}
+            item={{ ...item, index }}
             rules={{ ...item.rule } || validation}
             // eventBus={sharedItems?.eventBus}
             render={({ field }) => {
@@ -232,10 +232,10 @@ const renderComponentForm = (
 
                     console.log("dyno ;)", name, item.items, "useFieldArray", fields)
 
-                    
+
                     helper = {
-                        fields, 
-                        append, 
+                        fields,
+                        append,
                         remove
                     }
 
@@ -254,117 +254,117 @@ const renderComponentForm = (
                     //     console.log('removelaaaaa append',fields)
                     //     append({});
                     // }
-                   
+
 
                     child =
                         <React.Fragment>
                             {/* <ul> */}
-                                {fields.map((el, index) => (
-                                    <React.Fragment key={el.id}>
-                                        {item.items.map((element, indx) => (
-                                            <Controller
-                                                key={`${name}.${index}.${data[element].name}`}
-                                                name={`${name}.${index}.${data[element].name}`}
-                                                control={control}
-                                                render={({ field }) => {
-                                                    console.log(field, "field dyno ;)", el.id, `${name}.${index}.${element}`, '`${name}.${index}.${element}`')
-                                                    // const help = {
-                                                    //     fields,
-                                                    //     append,
-                                                    //     remove
-                                                    // }
-                                                    // const removeMe = (idx) =>{
-                                                    //     console.log(idx, 'removeMeeeeee',`${name}.${index}.${element}`)
-                                                    //     remove(idx)   
-                                                    // }
+                            {fields.map((el, index) => (
+                                <div style={sharedItems.style} key={el.id}>
+                                    {item.items.map((element, indx) => (
+                                        <Controller
+                                            key={`${name}.${index}.${data[element].name}`}
+                                            name={`${name}.${index}.${data[element].name}`}
+                                            control={control}
+                                            render={({ field }) => {
+                                                console.log(field, "field dyno ;)", el.id, `${name}.${index}.${element}`, '`${name}.${index}.${element}`')
+                                                // const help = {
+                                                //     fields,
+                                                //     append,
+                                                //     remove
+                                                // }
+                                                // const removeMe = (idx) =>{
+                                                //     console.log(idx, 'removeMeeeeee',`${name}.${index}.${element}`)
+                                                //     remove(idx)   
+                                                // }
 
-                                                    // const removeMe = () => {
-                                                    //     const id = index;
-                                                    //     console.log(parseInt(id), index, 'removelaaaaa',remove)
-                                                    //     removeMee(parseInt(id));
+                                                // const removeMe = () => {
+                                                //     const id = index;
+                                                //     console.log(parseInt(id), index, 'removelaaaaa',remove)
+                                                //     removeMee(parseInt(id));
 
-                                                    //     // return function removelaaaaa(){
-                                                    //     //     console.log(parseInt(id), index, x, 'removelaaaaa',remove)
-                                                    //     //     remove(parseInt(id));
-                                                    //     // }
-                                                    // }
-                                                    // return (<div><button type="button" onClick={() => {
-                                                    //     console.log(index, 'insidecomponent ;)')
-                                                    //     removeMee(index)
-                                                        
-                                                    // }}>- from inside {index}</button>{
-                                                    //     renderComponentInd(element, {...data, index}, {
-                                                    //         updateReference,
-                                                    //         myControl,
-                                                    //         getValue,
-                                                    //         errors,
-                                                    //         ControlledComponents,
-                                                    //         components,
-                                                    //         managedCallback,
-                                                    //         parentName: item?.items && name || undefined,
-                                                    //         sharedItems: {
-                                                    //             ...sharedItems,
-                                                    //             localFunction: {
-                                                    //                 ...sharedItems.localFunction,
-                                                    //                 append: appenddd,
-                                                    //                 // append: (config) => a => b => append({}),
-                                                    //                 // remove: (index) => removeMe(index),
-                                                    //                 remove: () => removeMee(index)
-                                                    //             }
-                                                    //         },
-                                                    //         index: index,
-                                                    //         data,
-                                                    //         parent: { name: item.name, index, id: item.id },
-                                                    //         givenName: `${name}.${index}.${data[element].name}`,
-                                                    //         dataTransformer
-                                                    //     })
-                                                    // }</div>)
-                                                    
-                                                    return renderComponentInd(element, {...data, index}, {
-                                                        updateReference,
-                                                        myControl,
-                                                        getValue,
-                                                        errors,
-                                                        ControlledComponents,
-                                                        components,
-                                                        managedCallback,
-                                                        parentName: item?.items && name || undefined,
-                                                        sharedItems: {
-                                                            ...sharedItems,
-                                                            localFunction: {
-                                                                ...sharedItems.localFunction,
-                                                                append,
-                                                                // append: (config) => a => b => append({}),
-                                                                remove: (i) => remove(i),
-                                                                // remove: () => remove(index)
-                                                                // remove: (i) => {
-                                                                //     console.log(`${name}.${index}.${data[element].name}`,'oooooomaaaaa', parseInt(i), index);
-                                                                //     remove(index-1)
-                                                                // }
-                                                            }
-                                                        },
-                                                        index: index,
-                                                        data,
-                                                        parent: { name: item.name, index, id: item.id },
-                                                        givenName: `${name}.${index}.${data[element].name}`,
-                                                        dataTransformer
-                                                    })
+                                                //     // return function removelaaaaa(){
+                                                //     //     console.log(parseInt(id), index, x, 'removelaaaaa',remove)
+                                                //     //     remove(parseInt(id));
+                                                //     // }
+                                                // }
+                                                // return (<div><button type="button" onClick={() => {
+                                                //     console.log(index, 'insidecomponent ;)')
+                                                //     removeMee(index)
 
-                                                    // const Component = components(element.type, {
-                                                    //     field,
-                                                    //     item: element,
-                                                    //     name: `${name}.${index}.${element.name}`,
-                                                    //     indx,
-                                                    //     managedCallback,
-                                                    //     child,
-                                                    //     useFieldArray
-                                                    // })
-                                                    // return Component
-                                                }}
-                                            />
-                                        ))}
-                                    </React.Fragment>
-                                ))}
+                                                // }}>- from inside {index}</button>{
+                                                //     renderComponentInd(element, {...data, index}, {
+                                                //         updateReference,
+                                                //         myControl,
+                                                //         getValue,
+                                                //         errors,
+                                                //         ControlledComponents,
+                                                //         components,
+                                                //         managedCallback,
+                                                //         parentName: item?.items && name || undefined,
+                                                //         sharedItems: {
+                                                //             ...sharedItems,
+                                                //             localFunction: {
+                                                //                 ...sharedItems.localFunction,
+                                                //                 append: appenddd,
+                                                //                 // append: (config) => a => b => append({}),
+                                                //                 // remove: (index) => removeMe(index),
+                                                //                 remove: () => removeMee(index)
+                                                //             }
+                                                //         },
+                                                //         index: index,
+                                                //         data,
+                                                //         parent: { name: item.name, index, id: item.id },
+                                                //         givenName: `${name}.${index}.${data[element].name}`,
+                                                //         dataTransformer
+                                                //     })
+                                                // }</div>)
+
+                                                return renderComponentInd(element, { ...data, index }, {
+                                                    updateReference,
+                                                    myControl,
+                                                    getValue,
+                                                    errors,
+                                                    ControlledComponents,
+                                                    components,
+                                                    managedCallback,
+                                                    parentName: item?.items && name || undefined,
+                                                    sharedItems: {
+                                                        ...sharedItems,
+                                                        localFunction: {
+                                                            ...sharedItems.localFunction,
+                                                            append,
+                                                            // append: (config) => a => b => append({}),
+                                                            remove: (i) => remove(i),
+                                                            // remove: () => remove(index)
+                                                            // remove: (i) => {
+                                                            //     console.log(`${name}.${index}.${data[element].name}`,'oooooomaaaaa', parseInt(i), index);
+                                                            //     remove(index-1)
+                                                            // }
+                                                        }
+                                                    },
+                                                    index: index,
+                                                    data,
+                                                    parent: { name: item.name, index, id: item.id },
+                                                    givenName: `${name}.${index}.${data[element].name}`,
+                                                    dataTransformer
+                                                })
+
+                                                // const Component = components(element.type, {
+                                                //     field,
+                                                //     item: element,
+                                                //     name: `${name}.${index}.${element.name}`,
+                                                //     indx,
+                                                //     managedCallback,
+                                                //     child,
+                                                //     useFieldArray
+                                                // })
+                                                // return Component
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+                            ))}
 
                             {/* </ul> */}
                             {/* <button type="button" onClick={() => {
@@ -373,7 +373,7 @@ const renderComponentForm = (
                                     }}> unregister 10 now ;) </button> */}
 
                             {/* <button type="button" onClick={() => setValue("textbox-9", { hi: "wowwwwww" })}> Change 9 now ;) </button> */}
-                            
+
                         </React.Fragment>
                 }
 
@@ -401,7 +401,6 @@ const renderComponentForm = (
                 //end of proxy
 
 
-                console.log(name,helper,'hyyyayayyaya')
                 const Component = components(item.type, {
                     field,
                     // item: proxyItem,//item,
@@ -532,7 +531,7 @@ const renderForm = (
                             // });
                             // console.log("dyno ;)", myaCondition, "myaCondition", getValue("textbox-3"))
                             child =
-                                <div>
+                                <div className="divdiv">
                                     {/* <>
                                         {`${item.name}`}
                                         <br />
@@ -778,6 +777,38 @@ const convertArrayToObjectPOC = (array, key, value, isParent, original) => {
 }
 
 let renderCount = 0
+
+// function keysWithDoubleDollar(obj) {
+//     // Return an array of keys with values containing $$
+//     return Object.keys(obj).filter(key => obj[key].includes('$$'));
+// }
+function keysWithDoubleDollar(obj) {
+    const result = [];
+
+    function checkForKey(obj, path) {
+        if (typeof obj === 'object') {
+            if (Array.isArray(obj)) {
+                obj.forEach((item, index) => {
+                    checkForKey(item, `${path}[${index}]`);
+                });
+            } else {
+                if(obj != undefined && obj != null){
+                    Object.keys(obj).forEach(key => {
+                        const newPath = path ? `${path}.${key}` : key;
+                        checkForKey(obj[key], newPath);
+                    });
+                }
+            }
+        } else if (typeof obj === 'string' && obj.includes('$$')) {
+            result.push(path);
+        }
+    }
+
+    checkForKey(obj, '');
+
+    return result;
+}
+
 const FormBuilderNext = React.forwardRef(({ items,
     validationResolver,
     // = defaultValidationResolver,
@@ -789,7 +820,8 @@ const FormBuilderNext = React.forwardRef(({ items,
     defaultValues = {},
     devMode = false,
     dataTransformer = defaultDataTransformer,
-    dataStore
+    dataStore,
+    style = {}
     // eventBus
 }, ref) => {
 
@@ -806,24 +838,35 @@ const FormBuilderNext = React.forwardRef(({ items,
         })();
     }
 
+    const neededKeys = keysWithDoubleDollar(defaultValues);
+    console.log("dyno ;)", neededKeys, "[neededKeys]", defaultValues)
+
+
     //proxy here ;)
     const proxyHandler = {
         get(target, prop, receiver) {
-            if (typeof target[prop] === "object" && target[prop] !== null) {
-                console.log("dyno ;)", target[prop], "dddproxyHanlerrrrrrrr me ;)");
-                return new Proxy(target[prop], proxyHandler);
+            if (neededKeys.includes(prop)) {
+                if (typeof target[prop] === "object" && target[prop] !== null) {
+                    console.log("dyno ;)", target[prop], "dddproxyHanlerrrrrrrr me ;)");
+                    return new Proxy(target[prop], proxyHandler);
+                }
+                return dataTransformer(target[prop], prop, target)({
+                    ...localFunction,
+                    sharedItems: { dataStore },
+                    // ...sharedItems
+                });
             }
-            return dataTransformer(target[prop], prop, target)({
-                ...localFunction,
-                sharedItems: { dataStore },
-                // ...sharedItems
-            });
+            return target[prop];
         }
     };
 
     const proxyDefaultValues = new Proxy({
         ...defaultValues
     }, proxyHandler);
+
+    // const proxyDefaultValues = {
+    //     ...defaultValues
+    // };
 
     console.log("dyno ;)", defaultValues, "defaultValues", { ...proxyDefaultValues }, dataStore)
 
@@ -877,6 +920,7 @@ const FormBuilderNext = React.forwardRef(({ items,
 
     // Shared Items
     const sharedItems = {
+        style,
         register,
         handleSubmit,
         watch,
@@ -1011,7 +1055,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         }
     }
 
-    const getValuesPOC = async (options = {triggerAll: false}) => {
+    const getValuesPOC = async (options = { triggerAll: false }) => {
         //TODO: hot fix for double validations
         if (Object.keys(errors).length > 0) return false;
         const result = await triggerCustom(options);
@@ -1071,7 +1115,7 @@ const FormBuilderNext = React.forwardRef(({ items,
         errors: errors,
         reset,
         clearErrors,
-        localFunction: {...sharedItems.localFunction, ...helper}
+        localFunction: { ...sharedItems.localFunction, ...helper }
     }
 
     const validationOnce = async (name, value, result) => {

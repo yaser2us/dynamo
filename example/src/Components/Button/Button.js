@@ -19,7 +19,7 @@ const Button = (props) => {
   }, [disabled]);
 
   const onClick = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log(e, 'eeeeeeeee')
     managedCallback({ item: item, actionType: action?.actionURL });
   }
@@ -37,7 +37,7 @@ const Button = (props) => {
         onClick={onClick}
         className="button"
 
-        // disabled={!cd}
+        disabled={!cd}
       >{label}</button>
     </div>
   );
